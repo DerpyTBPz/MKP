@@ -77,6 +77,8 @@ void task2()
 void task3()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1;
+	DDRD &= ~BUT1;
+
 	while(1)
 	{
 		if (PIND & BUT1)
