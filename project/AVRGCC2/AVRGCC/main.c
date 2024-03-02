@@ -193,15 +193,9 @@ void task3()
 }
 
 ISR(TIMER0_COMP_vect)
-{
-	//PORTD = 0x80;
-// 	cnt++;
-// 	if (cnt == time)
-// 	{
-// 		PORTD ^= 0x80;
-// 		cnt = 0; 
-// 	}
-	
+{	
+	PORTC = 0x00;
+	PORTA = 0x00;
 	
 	PORTC = DecToDigit(arr[j]);
 	
