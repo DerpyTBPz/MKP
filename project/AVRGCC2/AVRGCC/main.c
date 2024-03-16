@@ -184,7 +184,7 @@ void task3()
 	PORTD = 0x0;
 	sei();
 	
-	NumToArr(1024);
+	NumToArr(8888);
 	
 	while(1)
 	{

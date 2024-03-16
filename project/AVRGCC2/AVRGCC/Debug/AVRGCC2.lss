@@ -276,7 +276,7 @@ void task2()
 }
 
 ISR(TIMER0_COMP_vect)
-{
+{	
  134:	1f 92       	push	r1
  136:	0f 92       	push	r0
  138:	0f b6       	in	r0, 0x3f	; 63
@@ -296,11 +296,6 @@ ISR(TIMER0_COMP_vect)
  154:	df 93       	push	r29
  156:	ef 93       	push	r30
  158:	ff 93       	push	r31
-// 	{
-// 		PORTD ^= 0x80;
-// 		cnt = 0; 
-// 	}
-	
 	PORTC = 0x00;
  15a:	15 ba       	out	0x15, r1	; 21
 	PORTA = 0x00;
@@ -447,9 +442,9 @@ void task3()
 	sei();
  218:	78 94       	sei
 	
-	NumToArr(1024);
- 21a:	80 e0       	ldi	r24, 0x00	; 0
- 21c:	94 e0       	ldi	r25, 0x04	; 4
+	NumToArr(8888);
+ 21a:	88 eb       	ldi	r24, 0xB8	; 184
+ 21c:	92 e2       	ldi	r25, 0x22	; 34
  21e:	0e 94 e6 00 	call	0x1cc	; 0x1cc <NumToArr>
  222:	ff cf       	rjmp	.-2      	; 0x222 <task3+0x2c>
 

@@ -13,7 +13,7 @@
 #define		GREEN	0x20
 #define		BLUE	0x10 
 #define		BUT1	0x04
-#define		BUT2	0x0
+#define		BUT2	0x08
 */
 
 #define		RED		0x80
@@ -37,23 +37,45 @@ void task6();
 
 void test();
 
+int flag1 = 0;
+int flag2 = 0;
+
 // BUT1 INT
 ISR(INT0_vect)
-{
-	PORTD ^= BLUE;	
+{	
+	flag1 = 1;	
+	if (flag1 == flag2)
+	{
+		PORTD ^= GREEN;	
+//		flag2 = 0; 		
+	}
+	else 
+	{
+		PORTD ^= BLUE; 		
+	}		
+	flag1 = 0;	
+		
 }
 
 // BUT2 INT
 ISR(INT1_vect)
 {
-	PORTD ^= RED;
+	flag2 = 1;	
+// 	if (flag1 == flag2)
+// 	{
+// 		PORTD ^= GREEN;
+// 		flag1 = 0;
+// 		flag2 = 0;	
+// 	}
+// 	else 
+// 	{
+// 		PORTD ^= RED;
+// 		flag2 = 0;		
+// 	}	
+	PORTD ^= RED;	
+	flag2 = 0;
+	
 }
-
-ISR_ALIASOF(INT1_vect, INT0_vect)
-{
-	PORTD ^= RED;
-};
-
 
 int main(void)
 {
@@ -62,9 +84,9 @@ int main(void)
 // 	task3();
 // 	task4();
 // 	task5();
-	task6();
+//	task6();
 	 
-//	test();
+	test();
 		
     while(1)
     {	
@@ -162,9 +184,9 @@ void task5()
 		}
 		else if (PIND & BUT2)
 		{
-			PORTD = GREEN;		
+			PORTD = GREEN;
 		}
-		else if (PIND & (BUT1 | BUT2))
+		else if ((PIND & BUT1) && (PIND & BUT2))
 		{
 			PORTD = RED;
 		}
@@ -188,22 +210,18 @@ void test()
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
 	PIND |= BUT1 | BUT2;
 	while(1)
-	{
+	{		
 		if (PIND & BUT1)
 		{
-			PORTD = BLUE;
-		}
+			PORTD ^= BLUE;
+		}		
 		else if (PIND & BUT2)
 		{
-			PORTD = GREEN;		
-		}
-		else if (PIND & (BUT1 | BUT2))
+			PORTD ^= GREEN;
+		}						
+		else if ((PIND & BUT1) && (PIND & BUT2))
 		{
-			PORTD = RED;
-		}
-		else
-		{
-			PORTD = 0x0;
-		}
+			PORTD ^= RED;
+		}		
 	}	
 }
