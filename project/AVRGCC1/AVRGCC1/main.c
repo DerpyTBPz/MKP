@@ -40,42 +40,53 @@ void test();
 int flag1 = 0;
 int flag2 = 0;
 
+
+
 // BUT1 INT
 ISR(INT0_vect)
 {	
-	flag1 = 1;	
-	if (flag1 == flag2)
+// 	flag1 = 1;	
+// 	if (flag1 == flag2)
+// 	{
+// 		PORTD ^= GREEN;	
+// 		flag2 = 0; 		
+// 	}
+// 	else 
+// 	{
+// 		PORTD ^= BLUE; 		
+// 	}		
+// 	flag1 = 0;
+	
+	if ((PIND & BUT1) && (PIND & BUT2))
 	{
-		PORTD ^= GREEN;	
-//		flag2 = 0; 		
+//		PORTD ^= 0x20;
+		PORTD ^= GREEN;
 	}
 	else 
 	{
 		PORTD ^= BLUE; 		
-	}		
-	flag1 = 0;	
-		
+	}
+//	PORTD ^= BLUE;	
 }
 
 // BUT2 INT
 ISR(INT1_vect)
 {
-	flag2 = 1;	
-// 	if (flag1 == flag2)
-// 	{
-// 		PORTD ^= GREEN;
-// 		flag1 = 0;
-// 		flag2 = 0;	
-// 	}
-// 	else 
-// 	{
-// 		PORTD ^= RED;
-// 		flag2 = 0;		
-// 	}	
-	PORTD ^= RED;	
-	flag2 = 0;
-	
+	if ((PIND & BUT1) && (PIND & BUT2))
+	{
+		
+	}
+	else 
+	{
+		PORTD ^= RED; 		
+	}
+//	PORTD ^= RED;
 }
+
+
+
+
+// MAIN ------------------------------------------------------------------
 
 int main(void)
 {
@@ -84,15 +95,20 @@ int main(void)
 // 	task3();
 // 	task4();
 // 	task5();
-//	task6();
+	task6();
 	 
-	test();
+//	test();
 		
     while(1)
     {	
         //TODO:: Please write your application code 
 	}
 }
+
+//------------------------------------------------------------------------
+
+
+
 
 void task1()
 {
@@ -200,6 +216,7 @@ void task5()
 void task6()
 {
 	DDRD = 0xB0;
+	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
 	MCUCR = 0x0F; //0x0F 0x03
 	GICR = 0xC0; //0xC0 0x40
 	sei();	
@@ -208,20 +225,26 @@ void task6()
 void test()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
-	PIND |= BUT1 | BUT2;
+//	PIND |= BUT1 | BUT2;
 	while(1)
-	{		
-		if (PIND & BUT1)
-		{
-			PORTD ^= BLUE;
-		}		
-		else if (PIND & BUT2)
-		{
-			PORTD ^= GREEN;
-		}						
-		else if ((PIND & BUT1) && (PIND & BUT2))
-		{
-			PORTD ^= RED;
-		}		
+	{
+		if (PIND != 0x0)
+		{	
+			if ((PIND & BUT1) && (PIND & ~BUT2))
+			{
+				_delay_ms(70);
+				PORTD ^= BLUE;
+			}		
+			else if ((PIND & BUT2) && (PIND & ~BUT1))
+			{
+				_delay_ms(70);
+				PORTD ^= GREEN;
+			}						
+			else if ((PIND & BUT1) && (PIND & BUT2))
+			{
+				_delay_ms(70);
+				PORTD ^= RED;
+			}		
+		}				
 	}	
 }
