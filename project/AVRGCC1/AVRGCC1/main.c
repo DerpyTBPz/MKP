@@ -139,7 +139,7 @@ void task2()
 void task3()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1;
-	DDRD &= ~BUT1;
+	/*DDRD &= ~BUT1;*/
 
 	while(1)
 	{
@@ -191,29 +191,28 @@ void task4()
 
 void task5()
 {
-	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
+	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;	
 	while(1)
 	{
-		if (PIND & BUT1)
+		if ((PIND & BUT1) && (PIND ^ BUT2))
 		{
-			PORTD = BLUE;
+			_delay_ms(70);
+			PORTD ^= BLUE;
 		}
-		else if (PIND & BUT2)
+		else if ((PIND & BUT2) && (PIND ^ BUT1))
 		{
-			PORTD = GREEN;
+			_delay_ms(70);
+			PORTD ^= GREEN;
 		}
 		else if ((PIND & BUT1) && (PIND & BUT2))
 		{
-			PORTD = RED;
-		}
-		else
-		{
-			PORTD = 0x0;
-		}
+			_delay_ms(70);
+			PORTD ^= RED;
+		}		
 	}	
 }
 
-void task6()
+void task7()
 {
 	DDRD = 0xB0;
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
