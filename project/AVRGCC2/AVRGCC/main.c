@@ -15,6 +15,8 @@
 
 
 ISR(TIMER0_COMP_vect);
+ISR(INT0_vect);
+ISR(INT1_vect);
 
 void task1();
 void task2();
@@ -23,14 +25,19 @@ void task3();
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int num);
 
+int num = 0;
+int wait = 0;
+
 int j = 0;
 int arr[DIGITS];
 
 int main(void)
 {
 	
-	task2();
+//	task2();
 // 	task3();
+	task4();
+	
 //  	DDRA = 0xF0;
 //  	DDRC = 0xFF;
 //  	DDRD |= BTN1 | BTN2;
@@ -237,20 +244,37 @@ void task4()
 {
 	DDRA = 0xF0;
 	DDRC = 0xFF;
+	DDRD |= BTN1 | BTN2;
+	MCUCR = 0x0F;
+	GICR = 0xC0;
+		
 	PORTA = 0x00;
 	PORTC = 0x00;
 	
 	TCCR0 |= (1 << WGM01) | (1 << CS01) | (1 << CS00);
 	OCR0 = 20;
 	TIMSK |= (1 << OCIE0);
-	DDRD = 0xB0;
 	PORTD = 0x0;
 	sei();	
 	
-	NumToArr(1024);
 	
 	while(1)
 	{
+		NumToArr(num);
+		
+		if ((PIND & BTN1) || (PIND & BTN2))
+		{
+			wait++;
+		}
+		else
+		{
+			wait = 0;
+		}
+		
+		if (wait >= 500)
+		{
+			num = 0;
+		}
 		
 	}	
 	
@@ -266,6 +290,19 @@ ISR(TIMER0_COMP_vect)
 	PORTA = (1 << (7 - j));
 	j++;
 	j %= 4;
+}
+
+ISR(INT0_vect)
+{
+	num++;	
+}
+
+ISR(INT1_vect)
+{
+	if (num != 0)
+	{
+		num--;
+	}
 }
 
 void NumToArr(int num)
