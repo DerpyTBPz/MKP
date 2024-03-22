@@ -117,6 +117,6 @@ int main(void)
 // 		OCR1AL = 200; //GREEN
 // 		OCR1BL = 0; //BLUE
 		
-        //TODO:: Please write your application code 
+        
     }
 }

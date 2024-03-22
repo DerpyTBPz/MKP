@@ -251,9 +251,18 @@ void task4()
 	PORTA = 0x00;
 	PORTC = 0x00;
 	
-	TCCR0 |= (1 << WGM01) | (1 << CS01) | (1 << CS00);
-	OCR0 = 20;
-	TIMSK |= (1 << OCIE0);
+	
+	//TIMER0
+// 	TCCR0 |= (1 << WGM01) | (1 << CS01) | (1 << CS00);
+// 	OCR0 = 20;
+// 	TIMSK |= (1 << OCIE0);
+	
+	//TIMER1
+	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
+	TCCR1B |= (1<<WGM12) | (1<<CS10);
+	OCR1A = 10;
+	TIMSK |= (1 << OCIE1A);	
+	
 	PORTD = 0x0;
 	sei();	
 	
@@ -271,7 +280,7 @@ void task4()
 			wait = 0;
 		}
 		
-		if (wait >= 500)
+		if (wait >= 50)
 		{
 			num = 0;
 		}
@@ -281,6 +290,18 @@ void task4()
 }
 
 ISR(TIMER0_COMP_vect)
+{	
+	PORTC = 0x00;
+	PORTA = 0x00;
+	
+	PORTC = DecToDigit(arr[j]);
+	
+	PORTA = (1 << (7 - j));
+	j++;
+	j %= 4;
+}
+
+ISR(TIMER1_COMPA_vect)
 {	
 	PORTC = 0x00;
 	PORTA = 0x00;
