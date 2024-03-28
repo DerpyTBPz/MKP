@@ -45,18 +45,6 @@ int flag2 = 0;
 // BUT1 INT
 ISR(INT0_vect)
 {	
-// 	flag1 = 1;	
-// 	if (flag1 == flag2)
-// 	{
-// 		PORTD ^= GREEN;	
-// 		flag2 = 0; 		
-// 	}
-// 	else 
-// 	{
-// 		PORTD ^= BLUE; 		
-// 	}		
-// 	flag1 = 0;
-	
 	if ((PIND & BUT1) && (PIND & BUT2))
 	{
 //		PORTD ^= 0x20;
@@ -153,36 +141,10 @@ void task3()
 	}	
 }
 
-// void task3(int flag)
-// {
-// 	while(1)
-// 	{		
-// 		if (flag == 1)
-// 		{
-// 			if (PIND & BUT1)
-// 			{			
-// 				flag = 0;
-// 				PORTD = RED;
-// 			}
-// 			else
-// 			{
-// 				PORTD = GREEN;			
-// 			}
-// 				
-// 		}
-// 		else
-// 		{
-// 			if (PIND & BUT1)
-// 			{			
-// 				flag = 1;
-// 			}			
-// 		}
-// 	}		
-// }
-
 void task4()
 {
-	DDRD = 0xB0;
+	//DDRD = 0xB0;
+	DDRD |= BLUE;
 	MCUCR = 0x03; //0x0F 0x03
 	GICR = 0x40; //0xC0 0x40
 	sei();	
@@ -223,7 +185,7 @@ void task5()
 // 			//_delay_ms(70);
 // 			PORTD ^= BLUE;
 // 		}
-// 		else if ((PIND & BUT2) && (PIND ^ BUT1))
+// 		else if ((PIND & BUT2) && !(PIND & BUT1))
 // 		{
 // 			//_delay_ms(70);
 // 			PORTD ^= GREEN;
@@ -254,7 +216,6 @@ void task6()
 void test()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
-//	PIND |= BUT1 | BUT2;
 	while(1)
 	{
 		if (PIND != 0x0)

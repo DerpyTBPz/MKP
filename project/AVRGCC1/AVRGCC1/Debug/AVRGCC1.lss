@@ -3,9 +3,9 @@ AVRGCC1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000278  00000000  00000000  00000074  2**1
+  0 .text         00000276  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .bss          00000004  00800060  00800060  000002ec  2**0
+  1 .bss          00000004  00800060  00800060  000002ea  2**0
                   ALLOC
   2 .stab         000006cc  00000000  00000000  000002ec  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   5 .debug_pubnames 00000092  00000000  00000000  00000a68  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000004b2  00000000  00000000  00000afa  2**0
+  6 .debug_info   000004af  00000000  00000000  00000afa  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000186  00000000  00000000  00000fac  2**0
+  7 .debug_abbrev 00000166  00000000  00000000  00000fa9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000472  00000000  00000000  00001132  2**0
+  8 .debug_line   00000472  00000000  00000000  0000110f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000b0  00000000  00000000  000015a4  2**2
+  9 .debug_frame  000000b0  00000000  00000000  00001584  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000146  00000000  00000000  00001654  2**0
+ 10 .debug_str    00000146  00000000  00000000  00001634  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000120  00000000  00000000  0000179a  2**0
+ 11 .debug_loc    00000120  00000000  00000000  0000177a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00000038  00000000  00000000  000018ba  2**0
+ 12 .debug_pubtypes 00000038  00000000  00000000  0000189a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -76,8 +76,8 @@ Disassembly of section .text:
   6a:	a4 36       	cpi	r26, 0x64	; 100
   6c:	b1 07       	cpc	r27, r17
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 03 01 	call	0x206	; 0x206 <main>
-  74:	0c 94 3a 01 	jmp	0x274	; 0x274 <_exit>
+  70:	0e 94 02 01 	call	0x204	; 0x204 <main>
+  74:	0c 94 39 01 	jmp	0x272	; 0x272 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -312,252 +312,251 @@ void task3()
  166:	fa cf       	rjmp	.-12     	; 0x15c <task3+0x8>
 
 00000168 <task4>:
-// 	}		
-// }
+}
 
 void task4()
 {
-	DDRD = 0xB0;
- 168:	80 eb       	ldi	r24, 0xB0	; 176
- 16a:	81 bb       	out	0x11, r24	; 17
+	//DDRD = 0xB0;
+	DDRD |= BLUE;
+ 168:	8f 9a       	sbi	0x11, 7	; 17
 	MCUCR = 0x03; //0x0F 0x03
- 16c:	83 e0       	ldi	r24, 0x03	; 3
- 16e:	85 bf       	out	0x35, r24	; 53
+ 16a:	83 e0       	ldi	r24, 0x03	; 3
+ 16c:	85 bf       	out	0x35, r24	; 53
 	GICR = 0x40; //0xC0 0x40
- 170:	80 e4       	ldi	r24, 0x40	; 64
- 172:	8b bf       	out	0x3b, r24	; 59
+ 16e:	80 e4       	ldi	r24, 0x40	; 64
+ 170:	8b bf       	out	0x3b, r24	; 59
 	sei();	
- 174:	78 94       	sei
+ 172:	78 94       	sei
 }
- 176:	08 95       	ret
+ 174:	08 95       	ret
 
-00000178 <task5>:
+00000176 <task5>:
 
 void task5()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;	
- 178:	81 b3       	in	r24, 0x11	; 17
- 17a:	8c 6b       	ori	r24, 0xBC	; 188
- 17c:	81 bb       	out	0x11, r24	; 17
+ 176:	81 b3       	in	r24, 0x11	; 17
+ 178:	8c 6b       	ori	r24, 0xBC	; 188
+ 17a:	81 bb       	out	0x11, r24	; 17
 				PORTD ^= RED;
 				_delay_ms(300);			
 			}
 			else if ((PIND & BUT2))
 			{
 				PORTD ^= GREEN;
- 17e:	90 e2       	ldi	r25, 0x20	; 32
+ 17c:	90 e2       	ldi	r25, 0x20	; 32
 	{		
 		if ((PIND & BUT1) || (PIND & BUT2) || ((PIND & BUT1) && (PIND & BUT2)))
  		{
 			if ((PIND & BUT1) && (PIND & BUT2)) 
 			{
 				PORTD ^= RED;
- 180:	20 e1       	ldi	r18, 0x10	; 16
+ 17e:	20 e1       	ldi	r18, 0x10	; 16
 void task5()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;	
 	while(1)
 	{		
 		if ((PIND & BUT1) || (PIND & BUT2) || ((PIND & BUT1) && (PIND & BUT2)))
- 182:	82 99       	sbic	0x10, 2	; 16
- 184:	06 c0       	rjmp	.+12     	; 0x192 <task5+0x1a>
- 186:	83 99       	sbic	0x10, 3	; 16
- 188:	04 c0       	rjmp	.+8      	; 0x192 <task5+0x1a>
- 18a:	82 9b       	sbis	0x10, 2	; 16
- 18c:	fa cf       	rjmp	.-12     	; 0x182 <task5+0xa>
- 18e:	83 9b       	sbis	0x10, 3	; 16
- 190:	f8 cf       	rjmp	.-16     	; 0x182 <task5+0xa>
+ 180:	82 99       	sbic	0x10, 2	; 16
+ 182:	06 c0       	rjmp	.+12     	; 0x190 <task5+0x1a>
+ 184:	83 99       	sbic	0x10, 3	; 16
+ 186:	04 c0       	rjmp	.+8      	; 0x190 <task5+0x1a>
+ 188:	82 9b       	sbis	0x10, 2	; 16
+ 18a:	fa cf       	rjmp	.-12     	; 0x180 <task5+0xa>
+ 18c:	83 9b       	sbis	0x10, 3	; 16
+ 18e:	f8 cf       	rjmp	.-16     	; 0x180 <task5+0xa>
  		{
 			if ((PIND & BUT1) && (PIND & BUT2)) 
- 192:	82 9b       	sbis	0x10, 2	; 16
- 194:	0f c0       	rjmp	.+30     	; 0x1b4 <task5+0x3c>
- 196:	83 9b       	sbis	0x10, 3	; 16
- 198:	0d c0       	rjmp	.+26     	; 0x1b4 <task5+0x3c>
+ 190:	82 9b       	sbis	0x10, 2	; 16
+ 192:	0f c0       	rjmp	.+30     	; 0x1b2 <task5+0x3c>
+ 194:	83 9b       	sbis	0x10, 3	; 16
+ 196:	0d c0       	rjmp	.+26     	; 0x1b2 <task5+0x3c>
 			{
 				PORTD ^= RED;
- 19a:	82 b3       	in	r24, 0x12	; 18
- 19c:	82 27       	eor	r24, r18
- 19e:	82 bb       	out	0x12, r24	; 18
- 1a0:	4f e5       	ldi	r20, 0x5F	; 95
- 1a2:	5a ee       	ldi	r21, 0xEA	; 234
- 1a4:	60 e0       	ldi	r22, 0x00	; 0
- 1a6:	41 50       	subi	r20, 0x01	; 1
- 1a8:	50 40       	sbci	r21, 0x00	; 0
- 1aa:	60 40       	sbci	r22, 0x00	; 0
- 1ac:	e1 f7       	brne	.-8      	; 0x1a6 <task5+0x2e>
- 1ae:	00 c0       	rjmp	.+0      	; 0x1b0 <task5+0x38>
- 1b0:	00 00       	nop
- 1b2:	e7 cf       	rjmp	.-50     	; 0x182 <task5+0xa>
+ 198:	82 b3       	in	r24, 0x12	; 18
+ 19a:	82 27       	eor	r24, r18
+ 19c:	82 bb       	out	0x12, r24	; 18
+ 19e:	4f e5       	ldi	r20, 0x5F	; 95
+ 1a0:	5a ee       	ldi	r21, 0xEA	; 234
+ 1a2:	60 e0       	ldi	r22, 0x00	; 0
+ 1a4:	41 50       	subi	r20, 0x01	; 1
+ 1a6:	50 40       	sbci	r21, 0x00	; 0
+ 1a8:	60 40       	sbci	r22, 0x00	; 0
+ 1aa:	e1 f7       	brne	.-8      	; 0x1a4 <task5+0x2e>
+ 1ac:	00 c0       	rjmp	.+0      	; 0x1ae <task5+0x38>
+ 1ae:	00 00       	nop
+ 1b0:	e7 cf       	rjmp	.-50     	; 0x180 <task5+0xa>
 				_delay_ms(300);			
 			}
 			else if ((PIND & BUT2))
- 1b4:	83 9b       	sbis	0x10, 3	; 16
- 1b6:	0d c0       	rjmp	.+26     	; 0x1d2 <task5+0x5a>
+ 1b2:	83 9b       	sbis	0x10, 3	; 16
+ 1b4:	0d c0       	rjmp	.+26     	; 0x1d0 <task5+0x5a>
 			{
 				PORTD ^= GREEN;
- 1b8:	82 b3       	in	r24, 0x12	; 18
- 1ba:	89 27       	eor	r24, r25
- 1bc:	82 bb       	out	0x12, r24	; 18
- 1be:	4f e5       	ldi	r20, 0x5F	; 95
- 1c0:	5a ee       	ldi	r21, 0xEA	; 234
- 1c2:	60 e0       	ldi	r22, 0x00	; 0
- 1c4:	41 50       	subi	r20, 0x01	; 1
- 1c6:	50 40       	sbci	r21, 0x00	; 0
- 1c8:	60 40       	sbci	r22, 0x00	; 0
- 1ca:	e1 f7       	brne	.-8      	; 0x1c4 <task5+0x4c>
- 1cc:	00 c0       	rjmp	.+0      	; 0x1ce <task5+0x56>
- 1ce:	00 00       	nop
- 1d0:	d8 cf       	rjmp	.-80     	; 0x182 <task5+0xa>
+ 1b6:	82 b3       	in	r24, 0x12	; 18
+ 1b8:	89 27       	eor	r24, r25
+ 1ba:	82 bb       	out	0x12, r24	; 18
+ 1bc:	4f e5       	ldi	r20, 0x5F	; 95
+ 1be:	5a ee       	ldi	r21, 0xEA	; 234
+ 1c0:	60 e0       	ldi	r22, 0x00	; 0
+ 1c2:	41 50       	subi	r20, 0x01	; 1
+ 1c4:	50 40       	sbci	r21, 0x00	; 0
+ 1c6:	60 40       	sbci	r22, 0x00	; 0
+ 1c8:	e1 f7       	brne	.-8      	; 0x1c2 <task5+0x4c>
+ 1ca:	00 c0       	rjmp	.+0      	; 0x1cc <task5+0x56>
+ 1cc:	00 00       	nop
+ 1ce:	d8 cf       	rjmp	.-80     	; 0x180 <task5+0xa>
 				_delay_ms(300);			
 			}
 			else if ((PIND & BUT1))
- 1d2:	82 9b       	sbis	0x10, 2	; 16
- 1d4:	d6 cf       	rjmp	.-84     	; 0x182 <task5+0xa>
+ 1d0:	82 9b       	sbis	0x10, 2	; 16
+ 1d2:	d6 cf       	rjmp	.-84     	; 0x180 <task5+0xa>
 			{
 				PORTD ^= BLUE;
- 1d6:	82 b3       	in	r24, 0x12	; 18
- 1d8:	80 58       	subi	r24, 0x80	; 128
- 1da:	82 bb       	out	0x12, r24	; 18
- 1dc:	4f e5       	ldi	r20, 0x5F	; 95
- 1de:	5a ee       	ldi	r21, 0xEA	; 234
- 1e0:	60 e0       	ldi	r22, 0x00	; 0
- 1e2:	41 50       	subi	r20, 0x01	; 1
- 1e4:	50 40       	sbci	r21, 0x00	; 0
- 1e6:	60 40       	sbci	r22, 0x00	; 0
- 1e8:	e1 f7       	brne	.-8      	; 0x1e2 <task5+0x6a>
- 1ea:	00 c0       	rjmp	.+0      	; 0x1ec <task5+0x74>
- 1ec:	00 00       	nop
- 1ee:	c9 cf       	rjmp	.-110    	; 0x182 <task5+0xa>
+ 1d4:	82 b3       	in	r24, 0x12	; 18
+ 1d6:	80 58       	subi	r24, 0x80	; 128
+ 1d8:	82 bb       	out	0x12, r24	; 18
+ 1da:	4f e5       	ldi	r20, 0x5F	; 95
+ 1dc:	5a ee       	ldi	r21, 0xEA	; 234
+ 1de:	60 e0       	ldi	r22, 0x00	; 0
+ 1e0:	41 50       	subi	r20, 0x01	; 1
+ 1e2:	50 40       	sbci	r21, 0x00	; 0
+ 1e4:	60 40       	sbci	r22, 0x00	; 0
+ 1e6:	e1 f7       	brne	.-8      	; 0x1e0 <task5+0x6a>
+ 1e8:	00 c0       	rjmp	.+0      	; 0x1ea <task5+0x74>
+ 1ea:	00 00       	nop
+ 1ec:	c9 cf       	rjmp	.-110    	; 0x180 <task5+0xa>
 
-000001f0 <task6>:
+000001ee <task6>:
 	}	
 }
 
 void task6()
 {
 	DDRD = 0xB0;
- 1f0:	80 eb       	ldi	r24, 0xB0	; 176
- 1f2:	81 bb       	out	0x11, r24	; 17
+ 1ee:	80 eb       	ldi	r24, 0xB0	; 176
+ 1f0:	81 bb       	out	0x11, r24	; 17
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
- 1f4:	81 b3       	in	r24, 0x11	; 17
- 1f6:	8c 6b       	ori	r24, 0xBC	; 188
- 1f8:	81 bb       	out	0x11, r24	; 17
+ 1f2:	81 b3       	in	r24, 0x11	; 17
+ 1f4:	8c 6b       	ori	r24, 0xBC	; 188
+ 1f6:	81 bb       	out	0x11, r24	; 17
 	MCUCR = 0x0F; //0x0F 0x03
- 1fa:	8f e0       	ldi	r24, 0x0F	; 15
- 1fc:	85 bf       	out	0x35, r24	; 53
+ 1f8:	8f e0       	ldi	r24, 0x0F	; 15
+ 1fa:	85 bf       	out	0x35, r24	; 53
 	GICR = 0xC0; //0xC0 0x40
- 1fe:	80 ec       	ldi	r24, 0xC0	; 192
- 200:	8b bf       	out	0x3b, r24	; 59
+ 1fc:	80 ec       	ldi	r24, 0xC0	; 192
+ 1fe:	8b bf       	out	0x3b, r24	; 59
 	sei();	
- 202:	78 94       	sei
+ 200:	78 94       	sei
 }
- 204:	08 95       	ret
+ 202:	08 95       	ret
 
-00000206 <main>:
+00000204 <main>:
 // 	task1();
 // 	task2();
 // 	task3();
 // 	task4();
 // 	task5();
 	task6();
- 206:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <task6>
- 20a:	ff cf       	rjmp	.-2      	; 0x20a <main+0x4>
+ 204:	0e 94 f7 00 	call	0x1ee	; 0x1ee <task6>
+ 208:	ff cf       	rjmp	.-2      	; 0x208 <main+0x4>
 
-0000020c <test>:
+0000020a <test>:
 
 
 
 void test()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
- 20c:	81 b3       	in	r24, 0x11	; 17
- 20e:	8c 6b       	ori	r24, 0xBC	; 188
- 210:	81 bb       	out	0x11, r24	; 17
+ 20a:	81 b3       	in	r24, 0x11	; 17
+ 20c:	8c 6b       	ori	r24, 0xBC	; 188
+ 20e:	81 bb       	out	0x11, r24	; 17
 				PORTD ^= GREEN;
 			}						
 			else if ((PIND & BUT1) && (PIND & BUT2))
 			{
 				_delay_ms(70);
 				PORTD ^= RED;
- 212:	90 e1       	ldi	r25, 0x10	; 16
+ 210:	90 e1       	ldi	r25, 0x10	; 16
 				PORTD ^= BLUE;
 			}		
 			else if ((PIND & BUT2) && (PIND & ~BUT1))
 			{
 				_delay_ms(70);
 				PORTD ^= GREEN;
- 214:	20 e2       	ldi	r18, 0x20	; 32
+ 212:	20 e2       	ldi	r18, 0x20	; 32
+void test()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2;
-//	PIND |= BUT1 | BUT2;
 	while(1)
 	{
 		if (PIND != 0x0)
- 216:	80 b3       	in	r24, 0x10	; 16
- 218:	88 23       	and	r24, r24
- 21a:	e9 f3       	breq	.-6      	; 0x216 <test+0xa>
+ 214:	80 b3       	in	r24, 0x10	; 16
+ 216:	88 23       	and	r24, r24
+ 218:	e9 f3       	breq	.-6      	; 0x214 <test+0xa>
 		{	
 			if ((PIND & BUT1) && (PIND & ~BUT2))
- 21c:	82 9b       	sbis	0x10, 2	; 16
- 21e:	0d c0       	rjmp	.+26     	; 0x23a <test+0x2e>
- 220:	80 b3       	in	r24, 0x10	; 16
- 222:	87 7f       	andi	r24, 0xF7	; 247
- 224:	51 f0       	breq	.+20     	; 0x23a <test+0x2e>
- 226:	eb e5       	ldi	r30, 0x5B	; 91
- 228:	f4 e4       	ldi	r31, 0x44	; 68
- 22a:	31 97       	sbiw	r30, 0x01	; 1
- 22c:	f1 f7       	brne	.-4      	; 0x22a <test+0x1e>
- 22e:	00 c0       	rjmp	.+0      	; 0x230 <test+0x24>
- 230:	00 00       	nop
+ 21a:	82 9b       	sbis	0x10, 2	; 16
+ 21c:	0d c0       	rjmp	.+26     	; 0x238 <test+0x2e>
+ 21e:	80 b3       	in	r24, 0x10	; 16
+ 220:	87 7f       	andi	r24, 0xF7	; 247
+ 222:	51 f0       	breq	.+20     	; 0x238 <test+0x2e>
+ 224:	eb e5       	ldi	r30, 0x5B	; 91
+ 226:	f4 e4       	ldi	r31, 0x44	; 68
+ 228:	31 97       	sbiw	r30, 0x01	; 1
+ 22a:	f1 f7       	brne	.-4      	; 0x228 <test+0x1e>
+ 22c:	00 c0       	rjmp	.+0      	; 0x22e <test+0x24>
+ 22e:	00 00       	nop
 			{
 				_delay_ms(70);
 				PORTD ^= BLUE;
- 232:	82 b3       	in	r24, 0x12	; 18
- 234:	80 58       	subi	r24, 0x80	; 128
- 236:	82 bb       	out	0x12, r24	; 18
- 238:	ee cf       	rjmp	.-36     	; 0x216 <test+0xa>
+ 230:	82 b3       	in	r24, 0x12	; 18
+ 232:	80 58       	subi	r24, 0x80	; 128
+ 234:	82 bb       	out	0x12, r24	; 18
+ 236:	ee cf       	rjmp	.-36     	; 0x214 <test+0xa>
 			}		
 			else if ((PIND & BUT2) && (PIND & ~BUT1))
- 23a:	83 9b       	sbis	0x10, 3	; 16
- 23c:	0d c0       	rjmp	.+26     	; 0x258 <test+0x4c>
- 23e:	80 b3       	in	r24, 0x10	; 16
- 240:	8b 7f       	andi	r24, 0xFB	; 251
- 242:	51 f0       	breq	.+20     	; 0x258 <test+0x4c>
- 244:	eb e5       	ldi	r30, 0x5B	; 91
- 246:	f4 e4       	ldi	r31, 0x44	; 68
- 248:	31 97       	sbiw	r30, 0x01	; 1
- 24a:	f1 f7       	brne	.-4      	; 0x248 <test+0x3c>
- 24c:	00 c0       	rjmp	.+0      	; 0x24e <test+0x42>
- 24e:	00 00       	nop
+ 238:	83 9b       	sbis	0x10, 3	; 16
+ 23a:	0d c0       	rjmp	.+26     	; 0x256 <test+0x4c>
+ 23c:	80 b3       	in	r24, 0x10	; 16
+ 23e:	8b 7f       	andi	r24, 0xFB	; 251
+ 240:	51 f0       	breq	.+20     	; 0x256 <test+0x4c>
+ 242:	eb e5       	ldi	r30, 0x5B	; 91
+ 244:	f4 e4       	ldi	r31, 0x44	; 68
+ 246:	31 97       	sbiw	r30, 0x01	; 1
+ 248:	f1 f7       	brne	.-4      	; 0x246 <test+0x3c>
+ 24a:	00 c0       	rjmp	.+0      	; 0x24c <test+0x42>
+ 24c:	00 00       	nop
 			{
 				_delay_ms(70);
 				PORTD ^= GREEN;
- 250:	82 b3       	in	r24, 0x12	; 18
- 252:	82 27       	eor	r24, r18
- 254:	82 bb       	out	0x12, r24	; 18
- 256:	df cf       	rjmp	.-66     	; 0x216 <test+0xa>
+ 24e:	82 b3       	in	r24, 0x12	; 18
+ 250:	82 27       	eor	r24, r18
+ 252:	82 bb       	out	0x12, r24	; 18
+ 254:	df cf       	rjmp	.-66     	; 0x214 <test+0xa>
 			}						
 			else if ((PIND & BUT1) && (PIND & BUT2))
- 258:	82 9b       	sbis	0x10, 2	; 16
- 25a:	dd cf       	rjmp	.-70     	; 0x216 <test+0xa>
- 25c:	83 9b       	sbis	0x10, 3	; 16
- 25e:	db cf       	rjmp	.-74     	; 0x216 <test+0xa>
- 260:	eb e5       	ldi	r30, 0x5B	; 91
- 262:	f4 e4       	ldi	r31, 0x44	; 68
- 264:	31 97       	sbiw	r30, 0x01	; 1
- 266:	f1 f7       	brne	.-4      	; 0x264 <test+0x58>
- 268:	00 c0       	rjmp	.+0      	; 0x26a <test+0x5e>
- 26a:	00 00       	nop
+ 256:	82 9b       	sbis	0x10, 2	; 16
+ 258:	dd cf       	rjmp	.-70     	; 0x214 <test+0xa>
+ 25a:	83 9b       	sbis	0x10, 3	; 16
+ 25c:	db cf       	rjmp	.-74     	; 0x214 <test+0xa>
+ 25e:	eb e5       	ldi	r30, 0x5B	; 91
+ 260:	f4 e4       	ldi	r31, 0x44	; 68
+ 262:	31 97       	sbiw	r30, 0x01	; 1
+ 264:	f1 f7       	brne	.-4      	; 0x262 <test+0x58>
+ 266:	00 c0       	rjmp	.+0      	; 0x268 <test+0x5e>
+ 268:	00 00       	nop
 			{
 				_delay_ms(70);
 				PORTD ^= RED;
- 26c:	82 b3       	in	r24, 0x12	; 18
- 26e:	89 27       	eor	r24, r25
- 270:	82 bb       	out	0x12, r24	; 18
- 272:	d1 cf       	rjmp	.-94     	; 0x216 <test+0xa>
+ 26a:	82 b3       	in	r24, 0x12	; 18
+ 26c:	89 27       	eor	r24, r25
+ 26e:	82 bb       	out	0x12, r24	; 18
+ 270:	d1 cf       	rjmp	.-94     	; 0x214 <test+0xa>
 
-00000274 <_exit>:
- 274:	f8 94       	cli
+00000272 <_exit>:
+ 272:	f8 94       	cli
 
-00000276 <__stop_program>:
- 276:	ff cf       	rjmp	.-2      	; 0x276 <__stop_program>
+00000274 <__stop_program>:
+ 274:	ff cf       	rjmp	.-2      	; 0x274 <__stop_program>
