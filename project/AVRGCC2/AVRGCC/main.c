@@ -21,9 +21,11 @@ ISR(INT1_vect);
 void task1();
 void task2();
 void task3();
+void task4();
 
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int num);
+void NumToArr8(int num);
 
 int num = 0;
 int wait = 0;
@@ -91,56 +93,19 @@ unsigned char DecToDigit(unsigned char Dec)
 {	
 	unsigned char Digit;
 	
-	switch(Dec)
-	{
-		case 0:
-			Digit = 0b01011111;				
-			break;
-		case 1:
-			Digit = 0b00000110;					
-			break;
-		case 2:
-			Digit = 0b00111011;					
-			break;
-		case 3:
-			Digit = 0b00101111;
-			break;
-		case 4:
-			Digit = 0b01100110;
-			break;
-		case 5:
-			Digit = 0b01101101;
-			break;
-		case 6:
-			Digit = 0b01111101;
-			break;
-		case 7:
-			Digit = 0b00000111;
-			break;
-		case 8:
-			Digit = 0b01111111;
-			break;		
-		case 9:
-			Digit = 0b01101111;
-			break;
-		default:
-			Digit = 0b00000000;
-			break;			
- 	}	
-
-//  switch(Dec)
+// 	switch(Dec)
 // 	{
 // 		case 0:
-// 			Digit = 0b00111111;				
+// 			Digit = 0b01011111;				
 // 			break;
 // 		case 1:
 // 			Digit = 0b00000110;					
 // 			break;
 // 		case 2:
-// 			Digit = 0b01011011;					
+// 			Digit = 0b00111011;					
 // 			break;
 // 		case 3:
-// 			Digit = 0b01001111;
+// 			Digit = 0b00101111;
 // 			break;
 // 		case 4:
 // 			Digit = 0b01100110;
@@ -164,6 +129,43 @@ unsigned char DecToDigit(unsigned char Dec)
 // 			Digit = 0b00000000;
 // 			break;			
 //  	}	
+
+ switch(Dec)
+	{
+		case 0:
+			Digit = 0b00111111;				
+			break;
+		case 1:
+			Digit = 0b00000110;					
+			break;
+		case 2:
+			Digit = 0b01011011;					
+			break;
+		case 3:
+			Digit = 0b01001111;
+			break;
+		case 4:
+			Digit = 0b01100110;
+			break;
+		case 5:
+			Digit = 0b01101101;
+			break;
+		case 6:
+			Digit = 0b01111101;
+			break;
+		case 7:
+			Digit = 0b00000111;
+			break;
+		case 8:
+			Digit = 0b01111111;
+			break;		
+		case 9:
+			Digit = 0b01101111;
+			break;
+		default:
+			Digit = 0b00000000;
+			break;			
+ 	}	
 
 
 	return Digit;
@@ -277,7 +279,8 @@ void task4()
 	
 	while(1)
 	{
-		NumTo8Arr(num);
+		//NumToArr(num);
+		NumToArr8(num);
 		
 		if ((PIND & BTN1) || (PIND & BTN2))
 		{			
@@ -288,7 +291,7 @@ void task4()
 			wait = 0;
 		}
 		
-		if (wait >= 10)
+		if (wait >= 50)
 		{
 			num = 0;
 		}		
@@ -316,7 +319,8 @@ ISR(TIMER1_COMPA_vect)
 	PORTC = 0x00;
 	PORTA = 0x00;
 	
-	PORTC = DecToDigit(arr8[j]);	
+	//PORTC = DecToDigit(arr[j]);	
+	PORTC = DecToDigit(arr8[j]);
 	
 	PORTA = (1 << (7 - j));
 	j++;
@@ -338,9 +342,7 @@ ISR(INT0_vect)
 	else 
 	{
 		num++;		
-	}		
-	
-	
+	}
 	flag0++;
 	
 				
@@ -358,16 +360,6 @@ ISR(INT1_vect)
 		{
 			num--;
 		}
-		
-		if (arr8[b] != 0)
-		{
-			arr8[b]--;	
-		}
-		else 
-		{
-			arr8[b] = 0;
-			arr8[b-1] = 8;		
-		}
 	}
 	
 	flag1++;		
@@ -383,66 +375,15 @@ void NumToArr(int num)
 	}
 }
 
-void NumTo8Arr(int num)
+void NumToArr8(int num)
 {
 	int k = 0;
 	int b = 0;
-	int numm = 0;
-// 	for (k = 0; k < DIGITS; k++)
-// 	{
-// 		if (num != 8)
-// 		{			
-// 			arr8[k-1] = num;
-// 		}
-// 		else if (num == 8)
-// 		{
-// 			b++;
-// 			arr8[k]++;
-// 			num = 0;
-// 		}
-// 	}
-// 	
-	for (k = 0; k <= b; k++)
-	{
-		if ((num % 8 * 10 ^ b) != 0)
-		{			
-			arr8[k] = num;
-		}
-		else if (num == 8)
-		{
-			b++;
-			arr8[k+1]++;
-			num = 0;
-		}
-	}
+	int tmp = num;
 	
 	for (k = 0; k < DIGITS; k++)
 	{
-		if (num % (8 ^ k) == 0)
-		{
-			
-		}
+		arr8[k] = num % 8;
+		num /= 8;
 	}
-	
-	if (num % 9 == 0)
-	{
-		b = 1;
-	}
-	if ((num % 9 ^ 2) == 0)
-	{
-		b = 2;
-	}
-	if ((num % 9 ^ 3) == 0)
-	{
-		b = 3;
-	}
-	if ((num % 9 ^ 4) == 0)
-	{
-		b = 4;
-	}
-	
-	
-	
-	
-	
 }
