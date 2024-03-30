@@ -26,6 +26,7 @@ void task4();
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int num);
 void NumToArr8(int num);
+void NumToArr16(int num);
 
 int num = 0;
 int wait = 0;
@@ -37,6 +38,7 @@ int j = 0;
 int b = 0;
 int arr[DIGITS];
 int arr8[DIGITS] = {0, 0, 0, 0};
+int arr16[DIGITS] = {0, 0, 0, 0};
 
 int main(void)
 {
@@ -162,6 +164,25 @@ unsigned char DecToDigit(unsigned char Dec)
 		case 9:
 			Digit = 0b01101111;
 			break;
+		case 10:
+			Digit = 0b01110111;
+			break;
+		case 11:
+			Digit = 0b01111100;
+			break;
+		case 12:
+			Digit = 0b00111001;
+			break;
+		case 13:
+			Digit = 0b01011110;
+			break;
+		case 14:
+			Digit = 0b01111001;
+			break;
+		case 15:
+			Digit = 0b01110001;
+			break;
+			
 		default:
 			Digit = 0b00000000;
 			break;			
@@ -281,6 +302,7 @@ void task4()
 	{
 		//NumToArr(num);
 		NumToArr8(num);
+		NumToArr16(num);
 		
 		if ((PIND & BTN1) || (PIND & BTN2))
 		{			
@@ -320,17 +342,12 @@ ISR(TIMER1_COMPA_vect)
 	PORTA = 0x00;
 	
 	//PORTC = DecToDigit(arr[j]);	
-	PORTC = DecToDigit(arr8[j]);
+	//PORTC = DecToDigit(arr8[j]);
+	PORTC = DecToDigit(arr16[j]);
 	
 	PORTA = (1 << (7 - j));
 	j++;
 	j %= 4;
-	
-// 	PORTC = DecToDigit(arr8[b]);
-// 	PORTA = (1 << (7 - b));
-// 	b++;
-// 	j %= 4;
-	
 }
 
 ISR(INT0_vect)
@@ -343,9 +360,7 @@ ISR(INT0_vect)
 	{
 		num++;		
 	}
-	flag0++;
-	
-				
+	flag0++;	
 }
 
 ISR(INT1_vect)
@@ -367,8 +382,7 @@ ISR(INT1_vect)
 
 void NumToArr(int num)
 {	
-	int k = 0;
-	for (k = 0; k < DIGITS; k++)
+	for (int k = 0; k < DIGITS; k++)
 	{		
 		arr[k] = num % 10;
 		num /= 10;
@@ -376,14 +390,35 @@ void NumToArr(int num)
 }
 
 void NumToArr8(int num)
-{
-	int k = 0;
-	int b = 0;
-	int tmp = num;
-	
-	for (k = 0; k < DIGITS; k++)
+{	
+	for (int k = 0; k < DIGITS; k++)
 	{
 		arr8[k] = num % 8;
 		num /= 8;
 	}
 }
+
+void NumToArr16(int num)
+{		
+	for (int k = 0; k < DIGITS; k++)
+	{
+		arr16[k] = num % 16;
+		num /= 16;
+	}
+}
+
+
+
+
+
+
+
+// ???????????????????
+// ??????????????????
+// ???????????????????
+// ??????????????????
+// ??????????????????
+// ??????????????????
+// ????????????????? 
+// ?????????????????
+// ?????????????????
