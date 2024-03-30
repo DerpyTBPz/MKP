@@ -357,14 +357,14 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
  .debug_pubnames
                 0x00000000       0xe2 main.o
 
-.debug_info     0x00000000      0x446
+.debug_info     0x00000000      0x453
  *(.debug_info)
- .debug_info    0x00000000      0x446 main.o
+ .debug_info    0x00000000      0x453 main.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x236
+.debug_abbrev   0x00000000      0x245
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x236 main.o
+ .debug_abbrev  0x00000000      0x245 main.o
 
 .debug_line     0x00000000      0x5d3
  *(.debug_line)
@@ -374,10 +374,10 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
  *(.debug_frame)
  .debug_frame   0x00000000       0xc0 main.o
 
-.debug_str      0x00000000      0x164
+.debug_str      0x00000000      0x169
  *(.debug_str)
- .debug_str     0x00000000      0x164 main.o
-                                0x1a3 (size before relaxing)
+ .debug_str     0x00000000      0x169 main.o
+                                0x1a8 (size before relaxing)
 
 .debug_loc      0x00000000      0x2a2
  *(.debug_loc)

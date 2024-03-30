@@ -387,6 +387,7 @@ void NumTo8Arr(int num)
 {
 	int k = 0;
 	int b = 0;
+	int numm = 0;
 // 	for (k = 0; k < DIGITS; k++)
 // 	{
 // 		if (num != 8)
@@ -414,4 +415,34 @@ void NumTo8Arr(int num)
 			num = 0;
 		}
 	}
+	
+	for (k = 0; k < DIGITS; k++)
+	{
+		if (num % (8 ^ k) == 0)
+		{
+			
+		}
+	}
+	
+	if (num % 9 == 0)
+	{
+		b = 1;
+	}
+	if ((num % 9 ^ 2) == 0)
+	{
+		b = 2;
+	}
+	if ((num % 9 ^ 3) == 0)
+	{
+		b = 3;
+	}
+	if ((num % 9 ^ 4) == 0)
+	{
+		b = 4;
+	}
+	
+	
+	
+	
+	
 }
