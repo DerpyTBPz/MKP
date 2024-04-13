@@ -173,13 +173,11 @@ int flag0 = 0;
 int flag1 = 0;
 
 int tmp = 0;
+float volt = 0;
 int res = 0;
 int j = 0;
 int b = 0;
 int arr[DIGITS];
-
-
-int kk=0;
 
 int main(void)
 {
@@ -215,7 +213,8 @@ int main(void)
 	while(1)
 	{	
 // 		tmp++;
- 		NumToArr(res);
+		volt = (float)((0.5 * res) / 1024) * 10000;
+ 		NumToArr(volt);
 		
 	}		
 
@@ -263,8 +262,7 @@ ISR(ADC_vect)
 	
 }
 
-
-ISR(TIMER1_COMPA_vect)
+ISR(TIMER2_COMP_vect)
 {	
 	PORTC = 0x00;
 	PORTA = 0x00;
@@ -284,6 +282,11 @@ void NumToArr(int numbr)
 		numbr /= 10;
 	}
 }
+
+// void ResToVolt(int numbr)
+// {
+// 	voit = ((5 * res) / 1024) * 1000;	
+// }
 
 unsigned char DecToDigit(unsigned char Dec)
 {	
