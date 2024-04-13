@@ -204,9 +204,14 @@ void buttonRainbow()
 
 void colorRGB(int R, int G, int B)
 {
-	OCR2 = R; //RED 		
-	OCR1AL = G; //GREEN
+// 	OCR2 = R; //RED 		
+// 	OCR1AL = G; //GREEN
+// 	OCR1BL = B; //BLUE
+
+	OCR2 = G; //RED 		
+	OCR1AL = R; //GREEN
 	OCR1BL = B; //BLUE
+
 }
 
 void rainbowColor(int number)

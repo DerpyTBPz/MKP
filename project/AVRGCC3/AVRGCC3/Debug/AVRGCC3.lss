@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   5 .debug_pubnames 00000082  00000000  00000000  00000acc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000002aa  00000000  00000000  00000b4e  2**0
+  6 .debug_info   000002ab  00000000  00000000  00000b4e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000001b6  00000000  00000000  00000df8  2**0
+  7 .debug_abbrev 000001cb  00000000  00000000  00000df9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003f5  00000000  00000000  00000fae  2**0
+  8 .debug_line   000003f5  00000000  00000000  00000fc4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000080  00000000  00000000  000013a4  2**2
+  9 .debug_frame  00000080  00000000  00000000  000013bc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000016d  00000000  00000000  00001424  2**0
+ 10 .debug_str    00000164  00000000  00000000  0000143c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002d5  00000000  00000000  00001591  2**0
+ 11 .debug_loc    000002d5  00000000  00000000  000015a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00000038  00000000  00000000  00001866  2**0
+ 12 .debug_pubtypes 00000038  00000000  00000000  00001875  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -83,27 +83,28 @@ Disassembly of section .text:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000007c <main>:
-// 	int flag_R = 1, flag_G = 1, flag_B = 0;
 // 	int red = 254, green = 0, blue = 0;	
 //	int color1 = 255, color2 = 0, flag_C = 0;
 
+//---------------------
 	//smGradient();
 	buttonRainbow();
   7c:	0e 94 13 01 	call	0x226	; 0x226 <buttonRainbow>
   80:	ff cf       	rjmp	.-2      	; 0x80 <main+0x4>
 
 00000082 <colorRGB>:
-	}
-}
-
-void colorRGB(int R, int G, int B)
 {
-	OCR2 = R; //RED 		
-  82:	83 bd       	out	0x23, r24	; 35
-	OCR1AL = G; //GREEN
-  84:	6a bd       	out	0x2a, r22	; 42
+// 	OCR2 = R; //RED 		
+// 	OCR1AL = G; //GREEN
+// 	OCR1BL = B; //BLUE
+
+	OCR2 = G; //RED 		
+  82:	63 bd       	out	0x23, r22	; 35
+	OCR1AL = R; //GREEN
+  84:	8a bd       	out	0x2a, r24	; 42
 	OCR1BL = B; //BLUE
   86:	48 bd       	out	0x28, r20	; 40
+
 }
   88:	08 95       	ret
 
@@ -307,7 +308,7 @@ void smGradient()
  160:	cc cf       	rjmp	.-104    	; 0xfa <smGradient+0x70>
 
 00000162 <rainbowColor>:
-	OCR1BL = B; //BLUE
+
 }
 
 void rainbowColor(int number)
