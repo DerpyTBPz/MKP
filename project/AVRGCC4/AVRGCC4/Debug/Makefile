@@ -35,7 +35,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../AVRGCC4.c
+../main.c
 
 
 PREPROCESSING_SRCS += 
@@ -45,19 +45,19 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-AVRGCC4.o
+main.o
 
 
 OBJS_AS_ARGS +=  \
-AVRGCC4.o
+main.o
 
 
 C_DEPS +=  \
-AVRGCC4.d
+main.d
 
 
 C_DEPS_AS_ARGS +=  \
-AVRGCC4.d
+main.d
 
 
 OUTPUT_FILE_PATH +=AVRGCC4.elf
