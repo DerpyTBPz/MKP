@@ -9,20 +9,29 @@
 #include <avr/delay.h>
 #include <avr/interrupt.h>
 
+#define		RED		0x80
+#define		GREEN	0x20
+#define		BLUE	0x10 
 #define		BTN1	0x04
 #define		BTN2	0x08
 #define		DIGITS	4
 
-
+ISR(TIMER1_COMPA_vect);
 ISR(TIMER2_COMP_vect);
 ISR(ADC_vect);
 ISR(INT0_vect);
+ISR(INT1_vect);
 
+int ToggleACP(int en);
+int SwitchACPMode(int mode);
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int numbr);
 
 /*int num = 0;*/
 int wait = 0;
+
+int enACP = 0;
+int modeACP = 0;
 
 float volt = 0;
 int res = 0;
@@ -32,16 +41,17 @@ int arr[DIGITS];
 int main(void)
 {
 	DDRA = 0xF0;
-	DDRC = 0xFF;
-			
+//	DDRC = 0xFF;
+	DDRD |= BTN1 | BTN2 | RED | GREEN;
+	
 	PORTA = 0x00;
 	PORTC = 0x00;
 	PORTD = 0x00;
 		
 	TimerINIT();
 	
-	ADMUX |= (1<<REFS0) | (1<<MUX1); 
-	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
+// 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
+// 	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
 
 	sei();
 	
@@ -49,8 +59,11 @@ int main(void)
 	{	
 		//NumToArr(res);
 		
-		volt = (float)((0.5 * res) / 1024) * 10000;
- 		NumToArr(volt);
+		ToggleACP(enACP);
+		SwitchACPMode(modeACP);		
+		
+// 		volt = (float)((0.5 * res) / 1024) * 10000;
+//  		NumToArr(volt);
 	}		
 
 }
@@ -78,7 +91,7 @@ void TimerINIT()
 }
 
 ISR(ADC_vect)
-{
+{	
 	res = ADCL;
 	res |= (ADCH << 8);
 }
@@ -87,7 +100,7 @@ ISR(TIMER2_COMP_vect)
 {	
 	PORTC = 0x00;
 	PORTA = 0x00;
-	DDRD = 0xB0;
+	//DDRD = 0xB0;
 	
 	PORTC = DecToDigit(arr[j]);
 	PORTA = (1 << (7 - j));	
@@ -99,6 +112,65 @@ ISR(TIMER2_COMP_vect)
 	
 	j++;
 	j %= 4;
+}
+
+ISR(INT0_vect)
+{
+	if (enACP >= 0)
+	{
+		enACP = 1;
+	}
+	else 
+	{
+		enACP = 0;
+	}
+}
+
+ISR(INT1_vect)
+{
+	if (enACP >= 2)
+	{
+		modeACP = 0;
+	}
+	else 
+	{
+		modeACP++;
+	}
+}
+
+int ToggleACP(int en)
+{
+	if (en >= 1)
+	{
+		ADMUX |= (1<<REFS0) | (1<<MUX1); 
+		ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
+	}
+	else
+	{
+		ADMUX = 0x0; 
+		ADCSRA = 0x0;
+	}
+}
+
+int SwitchACPMode(int mode)
+{
+	switch(mode)
+	{
+		case 0: 
+			DDRC = 0x0;
+			break;
+		case 1:		
+			DDRC = 0xFF;
+			NumToArr(res);	
+			break;
+			
+		case 2:
+			DDRC = 0xFF;
+			volt = (float)((0.5 * res) / 1024) * 10000;
+ 			NumToArr(volt);
+			break;
+			
+	}
 }
 
 void NumToArr(int numbr)
