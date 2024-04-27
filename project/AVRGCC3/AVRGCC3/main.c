@@ -33,8 +33,8 @@ int main(void)
 //	int color1 = 255, color2 = 0, flag_C = 0;
 
 //---------------------
-	//smGradient();
-	buttonRainbow();
+	smGradient();
+	//buttonRainbow();
 //---------------------
 	
     while(1)

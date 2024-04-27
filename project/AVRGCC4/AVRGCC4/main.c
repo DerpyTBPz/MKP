@@ -22,8 +22,9 @@ ISR(ADC_vect);
 ISR(INT0_vect);
 ISR(INT1_vect);
 
-int ToggleACP(int en);
-int SwitchACPMode(int mode);
+void TimerInit();
+void ToggleACP(int en);
+void SwitchACPMode(int mode);
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int numbr);
 
@@ -48,7 +49,8 @@ int main(void)
 	PORTC = 0x00;
 	PORTD = 0x00;
 		
-	TimerINIT();
+	TimerInit();
+	ACPInit();
 	
 // 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
 // 	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
@@ -68,7 +70,7 @@ int main(void)
 
 }
 
-void TimerINIT()
+void TimerInit()
 {
 	MCUCR = 0x0F;
 	GICR = 0xC0;
@@ -88,6 +90,14 @@ void TimerINIT()
 	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
 	OCR2 = 10;
 	TIMSK |= (1 << OCIE2);
+}
+
+void ACPInit()
+{
+	ADMUX |= (1<<REFS0) | (1<<MUX1); 
+	ADCSRA |= (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
+	
+	//ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
 }
 
 ISR(ADC_vect)
@@ -138,21 +148,16 @@ ISR(INT1_vect)
 	}
 }
 
-int ToggleACP(int en)
+void ToggleACP(int en)
 {
-	if (en >= 1)
-	{
-		ADMUX |= (1<<REFS0) | (1<<MUX1); 
-		ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
-	}
-	else
-	{
-		ADMUX = 0x0; 
-		ADCSRA = 0x0;
-	}
+	ADCSRA ^= (1<<ADEN);
+	
+	PORTC ^= RED;
+	PORTC ^= GREEN; 
 }
 
-int SwitchACPMode(int mode)
+
+void SwitchACPMode(int mode)
 {
 	switch(mode)
 	{
@@ -162,12 +167,14 @@ int SwitchACPMode(int mode)
 		case 1:		
 			DDRC = 0xFF;
 			NumToArr(res);	
-			break;
-			
+			break;			
 		case 2:
 			DDRC = 0xFF;
 			volt = (float)((0.5 * res) / 1024) * 10000;
  			NumToArr(volt);
+			break;
+		default:
+			DDRC = 0x0;
 			break;
 			
 	}

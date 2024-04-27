@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   5 .debug_pubnames 00000082  00000000  00000000  00000acc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000002ab  00000000  00000000  00000b4e  2**0
+  6 .debug_info   00000297  00000000  00000000  00000b4e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000001cb  00000000  00000000  00000df9  2**0
+  7 .debug_abbrev 000001b3  00000000  00000000  00000de5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003f5  00000000  00000000  00000fc4  2**0
+  8 .debug_line   000003f8  00000000  00000000  00000f98  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000080  00000000  00000000  000013bc  2**2
+  9 .debug_frame  00000080  00000000  00000000  00001390  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000164  00000000  00000000  0000143c  2**0
+ 10 .debug_str    00000164  00000000  00000000  00001410  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002d5  00000000  00000000  000015a0  2**0
+ 11 .debug_loc    000002d5  00000000  00000000  00001574  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00000038  00000000  00000000  00001875  2**0
+ 12 .debug_pubtypes 00000038  00000000  00000000  00001849  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -76,236 +76,236 @@ Disassembly of section .text:
   6a:	a2 36       	cpi	r26, 0x62	; 98
   6c:	b1 07       	cpc	r27, r17
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 3e 00 	call	0x7c	; 0x7c <main>
+  70:	0e 94 ae 00 	call	0x15c	; 0x15c <main>
   74:	0c 94 6c 01 	jmp	0x2d8	; 0x2d8 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000007c <main>:
-// 	int red = 254, green = 0, blue = 0;	
-//	int color1 = 255, color2 = 0, flag_C = 0;
-
-//---------------------
-	//smGradient();
-	buttonRainbow();
-  7c:	0e 94 13 01 	call	0x226	; 0x226 <buttonRainbow>
-  80:	ff cf       	rjmp	.-2      	; 0x80 <main+0x4>
-
-00000082 <colorRGB>:
+0000007c <colorRGB>:
 {
 // 	OCR2 = R; //RED 		
 // 	OCR1AL = G; //GREEN
 // 	OCR1BL = B; //BLUE
 
 	OCR2 = G; //RED 		
-  82:	63 bd       	out	0x23, r22	; 35
+  7c:	63 bd       	out	0x23, r22	; 35
 	OCR1AL = R; //GREEN
-  84:	8a bd       	out	0x2a, r24	; 42
+  7e:	8a bd       	out	0x2a, r24	; 42
 	OCR1BL = B; //BLUE
-  86:	48 bd       	out	0x28, r20	; 40
+  80:	48 bd       	out	0x28, r20	; 40
 
 }
-  88:	08 95       	ret
+  82:	08 95       	ret
 
-0000008a <smGradient>:
+00000084 <smGradient>:
         
     }
 }
 
 void smGradient()
 {
-  8a:	4f 92       	push	r4
-  8c:	5f 92       	push	r5
-  8e:	6f 92       	push	r6
-  90:	7f 92       	push	r7
-  92:	8f 92       	push	r8
-  94:	9f 92       	push	r9
-  96:	af 92       	push	r10
-  98:	bf 92       	push	r11
-  9a:	cf 92       	push	r12
-  9c:	df 92       	push	r13
-  9e:	ef 92       	push	r14
-  a0:	ff 92       	push	r15
-  a2:	0f 93       	push	r16
-  a4:	1f 93       	push	r17
-  a6:	cf 93       	push	r28
-  a8:	df 93       	push	r29
+  84:	4f 92       	push	r4
+  86:	5f 92       	push	r5
+  88:	6f 92       	push	r6
+  8a:	7f 92       	push	r7
+  8c:	8f 92       	push	r8
+  8e:	9f 92       	push	r9
+  90:	af 92       	push	r10
+  92:	bf 92       	push	r11
+  94:	cf 92       	push	r12
+  96:	df 92       	push	r13
+  98:	ef 92       	push	r14
+  9a:	ff 92       	push	r15
+  9c:	0f 93       	push	r16
+  9e:	1f 93       	push	r17
+  a0:	cf 93       	push	r28
+  a2:	df 93       	push	r29
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2; 
-  aa:	81 b3       	in	r24, 0x11	; 17
-  ac:	8c 6b       	ori	r24, 0xBC	; 188
-  ae:	81 bb       	out	0x11, r24	; 17
+  a4:	81 b3       	in	r24, 0x11	; 17
+  a6:	8c 6b       	ori	r24, 0xBC	; 188
+  a8:	81 bb       	out	0x11, r24	; 17
 	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS20);	
-  b0:	85 b5       	in	r24, 0x25	; 37
-  b2:	89 66       	ori	r24, 0x69	; 105
-  b4:	85 bd       	out	0x25, r24	; 37
+  aa:	85 b5       	in	r24, 0x25	; 37
+  ac:	89 66       	ori	r24, 0x69	; 105
+  ae:	85 bd       	out	0x25, r24	; 37
 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
-  b6:	8f b5       	in	r24, 0x2f	; 47
-  b8:	81 6a       	ori	r24, 0xA1	; 161
-  ba:	8f bd       	out	0x2f, r24	; 47
+  b0:	8f b5       	in	r24, 0x2f	; 47
+  b2:	81 6a       	ori	r24, 0xA1	; 161
+  b4:	8f bd       	out	0x2f, r24	; 47
 	TCCR1B |= (1<<WGM12) | (1<<CS10);
-  bc:	8e b5       	in	r24, 0x2e	; 46
-  be:	89 60       	ori	r24, 0x09	; 9
-  c0:	8e bd       	out	0x2e, r24	; 46
+  b6:	8e b5       	in	r24, 0x2e	; 46
+  b8:	89 60       	ori	r24, 0x09	; 9
+  ba:	8e bd       	out	0x2e, r24	; 46
 	
 	int flag_R = 1, flag_G = 1, flag_B = 0;
 	int red = 254, green = 0, blue = 0;
-  c2:	ee 24       	eor	r14, r14
-  c4:	ff 24       	eor	r15, r15
-  c6:	c0 e0       	ldi	r28, 0x00	; 0
-  c8:	d0 e0       	ldi	r29, 0x00	; 0
-  ca:	0e ef       	ldi	r16, 0xFE	; 254
-  cc:	10 e0       	ldi	r17, 0x00	; 0
+  bc:	ee 24       	eor	r14, r14
+  be:	ff 24       	eor	r15, r15
+  c0:	c0 e0       	ldi	r28, 0x00	; 0
+  c2:	d0 e0       	ldi	r29, 0x00	; 0
+  c4:	0e ef       	ldi	r16, 0xFE	; 254
+  c6:	10 e0       	ldi	r17, 0x00	; 0
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2; 
 	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS20);	
 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
 	TCCR1B |= (1<<WGM12) | (1<<CS10);
 	
 	int flag_R = 1, flag_G = 1, flag_B = 0;
-  ce:	88 24       	eor	r8, r8
-  d0:	99 24       	eor	r9, r9
-  d2:	aa 24       	eor	r10, r10
-  d4:	bb 24       	eor	r11, r11
-  d6:	a3 94       	inc	r10
-  d8:	cc 24       	eor	r12, r12
-  da:	dd 24       	eor	r13, r13
-  dc:	c3 94       	inc	r12
+  c8:	88 24       	eor	r8, r8
+  ca:	99 24       	eor	r9, r9
+  cc:	aa 24       	eor	r10, r10
+  ce:	bb 24       	eor	r11, r11
+  d0:	a3 94       	inc	r10
+  d2:	cc 24       	eor	r12, r12
+  d4:	dd 24       	eor	r13, r13
+  d6:	c3 94       	inc	r12
 			red--;
 			green++;
 			if (red == 0)
 			{
 				flag_R = 0;
 				flag_B = 1;
-  de:	66 24       	eor	r6, r6
-  e0:	77 24       	eor	r7, r7
-  e2:	63 94       	inc	r6
+  d8:	66 24       	eor	r6, r6
+  da:	77 24       	eor	r7, r7
+  dc:	63 94       	inc	r6
 		{
 			red--;
 			green++;
 			if (red == 0)
 			{
 				flag_R = 0;
-  e4:	44 24       	eor	r4, r4
-  e6:	55 24       	eor	r5, r5
-  e8:	08 c0       	rjmp	.+16     	; 0xfa <smGradient+0x70>
+  de:	44 24       	eor	r4, r4
+  e0:	55 24       	eor	r5, r5
+  e2:	08 c0       	rjmp	.+16     	; 0xf4 <smGradient+0x70>
 				flag_B = 1;
-  ea:	43 01       	movw	r8, r6
+  e4:	43 01       	movw	r8, r6
 		{
 			red--;
 			green++;
 			if (red == 0)
 			{
 				flag_R = 0;
-  ec:	62 01       	movw	r12, r4
-  ee:	05 c0       	rjmp	.+10     	; 0xfa <smGradient+0x70>
+  e6:	62 01       	movw	r12, r4
+  e8:	05 c0       	rjmp	.+10     	; 0xf4 <smGradient+0x70>
 		{
 			green--;
 			blue++;
 			if (green == 0)
 			{
 				flag_G = 0;
-  f0:	52 01       	movw	r10, r4
+  ea:	52 01       	movw	r10, r4
 				flag_R = 1;
-  f2:	63 01       	movw	r12, r6
-  f4:	02 c0       	rjmp	.+4      	; 0xfa <smGradient+0x70>
+  ec:	63 01       	movw	r12, r6
+  ee:	02 c0       	rjmp	.+4      	; 0xf4 <smGradient+0x70>
 		{			
 			blue--;
 			red++;
 			if (blue == 0)
 			{
 				flag_B = 0;
-  f6:	42 01       	movw	r8, r4
+  f0:	42 01       	movw	r8, r4
 				flag_G = 1;
-  f8:	53 01       	movw	r10, r6
+  f2:	53 01       	movw	r10, r6
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  fa:	81 ee       	ldi	r24, 0xE1	; 225
-  fc:	94 e0       	ldi	r25, 0x04	; 4
-  fe:	01 97       	sbiw	r24, 0x01	; 1
- 100:	f1 f7       	brne	.-4      	; 0xfe <smGradient+0x74>
- 102:	00 c0       	rjmp	.+0      	; 0x104 <smGradient+0x7a>
- 104:	00 00       	nop
+  f4:	81 ee       	ldi	r24, 0xE1	; 225
+  f6:	94 e0       	ldi	r25, 0x04	; 4
+  f8:	01 97       	sbiw	r24, 0x01	; 1
+  fa:	f1 f7       	brne	.-4      	; 0xf8 <smGradient+0x74>
+  fc:	00 c0       	rjmp	.+0      	; 0xfe <smGradient+0x7a>
+  fe:	00 00       	nop
 	{		
 		_delay_ms(5);
 // 		OCR2 = red; //RED 		
 // 		OCR1AL = green; //GREEN
 // 		OCR1BL = blue; //BLUE
 		colorRGB(red, green, blue);
- 106:	c8 01       	movw	r24, r16
- 108:	be 01       	movw	r22, r28
- 10a:	a7 01       	movw	r20, r14
- 10c:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 100:	c8 01       	movw	r24, r16
+ 102:	be 01       	movw	r22, r28
+ 104:	a7 01       	movw	r20, r14
+ 106:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 		
 		if (flag_R && flag_G)
- 110:	c1 14       	cp	r12, r1
- 112:	d1 04       	cpc	r13, r1
- 114:	51 f0       	breq	.+20     	; 0x12a <smGradient+0xa0>
- 116:	a1 14       	cp	r10, r1
- 118:	b1 04       	cpc	r11, r1
- 11a:	a1 f0       	breq	.+40     	; 0x144 <smGradient+0xba>
+ 10a:	c1 14       	cp	r12, r1
+ 10c:	d1 04       	cpc	r13, r1
+ 10e:	51 f0       	breq	.+20     	; 0x124 <smGradient+0xa0>
+ 110:	a1 14       	cp	r10, r1
+ 112:	b1 04       	cpc	r11, r1
+ 114:	a1 f0       	breq	.+40     	; 0x13e <smGradient+0xba>
 		{
 			red--;
- 11c:	01 50       	subi	r16, 0x01	; 1
- 11e:	10 40       	sbci	r17, 0x00	; 0
+ 116:	01 50       	subi	r16, 0x01	; 1
+ 118:	10 40       	sbci	r17, 0x00	; 0
 			green++;
- 120:	21 96       	adiw	r28, 0x01	; 1
+ 11a:	21 96       	adiw	r28, 0x01	; 1
 			if (red == 0)
- 122:	01 15       	cp	r16, r1
- 124:	11 05       	cpc	r17, r1
- 126:	09 f3       	breq	.-62     	; 0xea <smGradient+0x60>
- 128:	e8 cf       	rjmp	.-48     	; 0xfa <smGradient+0x70>
+ 11c:	01 15       	cp	r16, r1
+ 11e:	11 05       	cpc	r17, r1
+ 120:	09 f3       	breq	.-62     	; 0xe4 <smGradient+0x60>
+ 122:	e8 cf       	rjmp	.-48     	; 0xf4 <smGradient+0x70>
 			{
 				flag_R = 0;
 				flag_B = 1;
 			}
 		}
 		else if (flag_G && flag_B)
- 12a:	a1 14       	cp	r10, r1
- 12c:	b1 04       	cpc	r11, r1
- 12e:	51 f0       	breq	.+20     	; 0x144 <smGradient+0xba>
- 130:	81 14       	cp	r8, r1
- 132:	91 04       	cpc	r9, r1
- 134:	11 f3       	breq	.-60     	; 0xfa <smGradient+0x70>
+ 124:	a1 14       	cp	r10, r1
+ 126:	b1 04       	cpc	r11, r1
+ 128:	51 f0       	breq	.+20     	; 0x13e <smGradient+0xba>
+ 12a:	81 14       	cp	r8, r1
+ 12c:	91 04       	cpc	r9, r1
+ 12e:	11 f3       	breq	.-60     	; 0xf4 <smGradient+0x70>
 		{
 			green--;
- 136:	21 97       	sbiw	r28, 0x01	; 1
+ 130:	21 97       	sbiw	r28, 0x01	; 1
 			blue++;
- 138:	08 94       	sec
- 13a:	e1 1c       	adc	r14, r1
- 13c:	f1 1c       	adc	r15, r1
+ 132:	08 94       	sec
+ 134:	e1 1c       	adc	r14, r1
+ 136:	f1 1c       	adc	r15, r1
 			if (green == 0)
- 13e:	20 97       	sbiw	r28, 0x00	; 0
- 140:	b9 f2       	breq	.-82     	; 0xf0 <smGradient+0x66>
- 142:	db cf       	rjmp	.-74     	; 0xfa <smGradient+0x70>
+ 138:	20 97       	sbiw	r28, 0x00	; 0
+ 13a:	b9 f2       	breq	.-82     	; 0xea <smGradient+0x66>
+ 13c:	db cf       	rjmp	.-74     	; 0xf4 <smGradient+0x70>
 			{
 				flag_G = 0;
 				flag_R = 1;
 			}
 		}
 		else if (flag_B && flag_R)
- 144:	81 14       	cp	r8, r1
- 146:	91 04       	cpc	r9, r1
- 148:	c1 f2       	breq	.-80     	; 0xfa <smGradient+0x70>
- 14a:	c1 14       	cp	r12, r1
- 14c:	d1 04       	cpc	r13, r1
- 14e:	a9 f2       	breq	.-86     	; 0xfa <smGradient+0x70>
+ 13e:	81 14       	cp	r8, r1
+ 140:	91 04       	cpc	r9, r1
+ 142:	c1 f2       	breq	.-80     	; 0xf4 <smGradient+0x70>
+ 144:	c1 14       	cp	r12, r1
+ 146:	d1 04       	cpc	r13, r1
+ 148:	a9 f2       	breq	.-86     	; 0xf4 <smGradient+0x70>
 		{			
 			blue--;
- 150:	08 94       	sec
- 152:	e1 08       	sbc	r14, r1
- 154:	f1 08       	sbc	r15, r1
+ 14a:	08 94       	sec
+ 14c:	e1 08       	sbc	r14, r1
+ 14e:	f1 08       	sbc	r15, r1
 			red++;
- 156:	0f 5f       	subi	r16, 0xFF	; 255
- 158:	1f 4f       	sbci	r17, 0xFF	; 255
+ 150:	0f 5f       	subi	r16, 0xFF	; 255
+ 152:	1f 4f       	sbci	r17, 0xFF	; 255
 			if (blue == 0)
- 15a:	e1 14       	cp	r14, r1
- 15c:	f1 04       	cpc	r15, r1
- 15e:	59 f2       	breq	.-106    	; 0xf6 <smGradient+0x6c>
- 160:	cc cf       	rjmp	.-104    	; 0xfa <smGradient+0x70>
+ 154:	e1 14       	cp	r14, r1
+ 156:	f1 04       	cpc	r15, r1
+ 158:	59 f2       	breq	.-106    	; 0xf0 <smGradient+0x6c>
+ 15a:	cc cf       	rjmp	.-104    	; 0xf4 <smGradient+0x70>
+
+0000015c <main>:
+// 	int flag_R = 1, flag_G = 1, flag_B = 0;
+// 	int red = 254, green = 0, blue = 0;	
+//	int color1 = 255, color2 = 0, flag_C = 0;
+
+//---------------------
+	smGradient();
+ 15c:	0e 94 42 00 	call	0x84	; 0x84 <smGradient>
+ 160:	ff cf       	rjmp	.-2      	; 0x160 <main+0x4>
 
 00000162 <rainbowColor>:
 
@@ -349,7 +349,7 @@ void rainbowColor(int number)
  19c:	70 e0       	ldi	r23, 0x00	; 0
  19e:	40 e0       	ldi	r20, 0x00	; 0
  1a0:	50 e0       	ldi	r21, 0x00	; 0
- 1a2:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 1a2:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
  1a6:	08 95       	ret
 		case 1:
@@ -360,7 +360,7 @@ void rainbowColor(int number)
  1ae:	70 e0       	ldi	r23, 0x00	; 0
  1b0:	40 e0       	ldi	r20, 0x00	; 0
  1b2:	50 e0       	ldi	r21, 0x00	; 0
- 1b4:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 1b4:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
  1b8:	08 95       	ret
 		case 2:
@@ -371,7 +371,7 @@ void rainbowColor(int number)
  1c0:	70 e0       	ldi	r23, 0x00	; 0
  1c2:	40 e0       	ldi	r20, 0x00	; 0
  1c4:	50 e0       	ldi	r21, 0x00	; 0
- 1c6:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 1c6:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
  1ca:	08 95       	ret
 		case 3:
@@ -382,7 +382,7 @@ void rainbowColor(int number)
  1d2:	70 e0       	ldi	r23, 0x00	; 0
  1d4:	40 e0       	ldi	r20, 0x00	; 0
  1d6:	50 e0       	ldi	r21, 0x00	; 0
- 1d8:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 1d8:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
  1dc:	08 95       	ret
 		case 4:
@@ -393,7 +393,7 @@ void rainbowColor(int number)
  1e4:	70 e0       	ldi	r23, 0x00	; 0
  1e6:	4f ef       	ldi	r20, 0xFF	; 255
  1e8:	50 e0       	ldi	r21, 0x00	; 0
- 1ea:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 1ea:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
  1ee:	08 95       	ret
 		case 5:
@@ -404,7 +404,7 @@ void rainbowColor(int number)
  1f6:	70 e0       	ldi	r23, 0x00	; 0
  1f8:	4f ef       	ldi	r20, 0xFF	; 255
  1fa:	50 e0       	ldi	r21, 0x00	; 0
- 1fc:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 1fc:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;			
  200:	08 95       	ret
 		case 6:
@@ -415,7 +415,7 @@ void rainbowColor(int number)
  208:	70 e0       	ldi	r23, 0x00	; 0
  20a:	40 e8       	ldi	r20, 0x80	; 128
  20c:	50 e0       	ldi	r21, 0x00	; 0
- 20e:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 20e:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
  212:	08 95       	ret
 		default:
@@ -426,7 +426,7 @@ void rainbowColor(int number)
  21a:	70 e0       	ldi	r23, 0x00	; 0
  21c:	40 e0       	ldi	r20, 0x00	; 0
  21e:	50 e0       	ldi	r21, 0x00	; 0
- 220:	0e 94 41 00 	call	0x82	; 0x82 <colorRGB>
+ 220:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
  224:	08 95       	ret
 
 00000226 <buttonRainbow>:

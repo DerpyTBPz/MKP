@@ -189,9 +189,9 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
                 0x00000078                __vector_18
                 0x00000078                __vector_20
  .text          0x0000007c      0x25c main.o
-                0x0000007c                main
-                0x00000082                colorRGB
-                0x0000008a                smGradient
+                0x0000007c                colorRGB
+                0x00000084                smGradient
+                0x0000015c                main
                 0x00000162                rainbowColor
                 0x00000226                buttonRainbow
                 0x00000256                __vector_1
@@ -327,18 +327,18 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
  .debug_pubnames
                 0x00000000       0x82 main.o
 
-.debug_info     0x00000000      0x2ab
+.debug_info     0x00000000      0x297
  *(.debug_info)
- .debug_info    0x00000000      0x2ab main.o
+ .debug_info    0x00000000      0x297 main.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x1cb
+.debug_abbrev   0x00000000      0x1b3
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x1cb main.o
+ .debug_abbrev  0x00000000      0x1b3 main.o
 
-.debug_line     0x00000000      0x3f5
+.debug_line     0x00000000      0x3f8
  *(.debug_line)
- .debug_line    0x00000000      0x3f5 main.o
+ .debug_line    0x00000000      0x3f8 main.o
 
 .debug_frame    0x00000000       0x80
  *(.debug_frame)
