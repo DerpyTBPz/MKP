@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000000e0  00000000  00000000  00001b48  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000017e  00000000  00000000  00001c28  2**0
+ 10 .debug_str    0000018f  00000000  00000000  00001c28  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000028e  00000000  00000000  00001da6  2**0
+ 11 .debug_loc    0000028e  00000000  00000000  00001db7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00000038  00000000  00000000  00002034  2**0
+ 12 .debug_pubtypes 00000038  00000000  00000000  00002045  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -849,8 +849,8 @@ void task4()
 			wait = 0;
 		}
 		
-		if (wait >= 50)
- 458:	82 33       	cpi	r24, 0x32	; 50
+		if (wait >= 25)
+ 458:	89 31       	cpi	r24, 0x19	; 25
  45a:	91 05       	cpc	r25, r1
  45c:	34 f4       	brge	.+12     	; 0x46a <__stack+0xb>
  45e:	09 c0       	rjmp	.+18     	; 0x472 <__stack+0x13>
@@ -865,7 +865,7 @@ void task4()
  468:	04 c0       	rjmp	.+8      	; 0x472 <__stack+0x13>
 		}
 		
-		if (wait >= 50)
+		if (wait >= 25)
 		{
 			num = 0;
  46a:	10 92 61 00 	sts	0x0061, r1

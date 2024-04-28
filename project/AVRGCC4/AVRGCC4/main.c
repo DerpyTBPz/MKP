@@ -48,9 +48,11 @@ int main(void)
 	PORTA = 0x00;
 	PORTC = 0x00;
 	PORTD = 0x00;
+	
+//	PORTD |= RED;
 		
-	TimerInit();
-	ACPInit();
+ 	TimerInit();
+// 	ACPInit();
 	
 // 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
 // 	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
@@ -126,11 +128,8 @@ ISR(TIMER2_COMP_vect)
 
 ISR(INT0_vect)
 {
-	if (enACP >= 0)
-	{
-		enACP = 1;
-	}
-	else 
+	enACP++;
+	if (enACP >= 2)
 	{
 		enACP = 0;
 	}
@@ -138,22 +137,25 @@ ISR(INT0_vect)
 
 ISR(INT1_vect)
 {
-	if (enACP >= 2)
+	modeACP++;
+	if (modeACP >= 3)
 	{
 		modeACP = 0;
-	}
-	else 
-	{
-		modeACP++;
 	}
 }
 
 void ToggleACP(int en)
 {
-	ADCSRA ^= (1<<ADEN);
+	//ADCSRA ^= (1<<ADEN);
 	
-	PORTC ^= RED;
-	PORTC ^= GREEN; 
+	if (en == 0)
+	{
+		PORTD = RED;	
+	}
+	else if (en == 1)
+	{
+		PORTD = GREEN;	
+	}		 
 }
 
 

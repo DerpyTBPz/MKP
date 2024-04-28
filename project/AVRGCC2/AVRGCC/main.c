@@ -315,7 +315,7 @@ void task4()
 			wait = 0;
 		}
 		
-		if (wait >= 50)
+		if (wait >= 25)
 		{
 			num = 0;
 		}		
