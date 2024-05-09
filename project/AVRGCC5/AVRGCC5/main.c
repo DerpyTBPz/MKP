@@ -9,6 +9,7 @@
 #include <avr/interrupt.h>
 #include <avr/delay.h>
 
+
 #define		RED		0x80
 #define		GREEN	0x20
 #define		BLUE	0x10 
@@ -41,8 +42,7 @@ int main(void)
 		//PORTD ^= RED;
 		
 		//UARTSend(UARTReceive());	
-		//itoa(num, string, 10);
-		
+		//itoa(num, string, 10);	
 		
 // 		SendString(string);
 // 		UARTSend('\r');
@@ -55,8 +55,10 @@ int main(void)
 // 			_delay_ms(100);
 // 		}					
 		
-		//_delay_ms(1000);
-        //TODO:: Please write your application code 
+		//_delay_ms(1000);	
+		
+        //TODO:: Please write your application code 	
+		
     }
 }
 
