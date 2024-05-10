@@ -1,19 +1,2 @@
 Service , Message , Max , Min , Average , Count , frequency , TimedOut
 
-Tool,setupTool,66.1594,66.1594,66.1594,1,0
-Tool,getContext,3.043,1.4519,0.485680575396825,7,0
-Tool,connect,9.1986,9.1986,9.1986,1,0
-Tool,setProperties,32.8331,4.5428,4.904825,4,0
-Device,getContext,2.9918,1.9694,1.82406666666667,3,0
-Device,startSession,133.8784,133.8784,133.8784,1,0
-Tool,getTargetVoltage,4.1857,4.1857,4.1857,1,0
-Device,erase,22.9726,22.9726,22.9726,1,0
-Modules,getChildren,12.6686,0.9985,6.83355,2,0
-Modules,add,8.5644,3.4998,6.0321,2,0
-Modules,getBinaryContentInfo,2.3726,1.9946,2.1836,2,0
-Memory,getContext,2.5162,0.9972,0.220165873015873,8,0
-Modules,writeToMemory,268.4583,268.4583,268.4583,1,0
-Modules,remove,1.9953,1.8708,1.93305,2,0
-Modules,verifyMemory,207.324,207.324,207.324,1,0
-Device,endSession,5.4031,5.4031,5.4031,1,0
-Tool,tearDownTool,0.9981,0.9981,0.9981,1,0

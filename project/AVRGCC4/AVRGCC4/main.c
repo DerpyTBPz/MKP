@@ -50,7 +50,7 @@ int main(void)
 	PORTC = 0x00;
 	PORTD = 0x00;
 	
-	PORTD |= RED;
+	PORTD = RED;
 		
  	TimerInit();
  	ACPInit();
