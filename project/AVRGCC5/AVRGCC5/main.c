@@ -24,6 +24,11 @@ char text[] = "Baba s bebe ";
 char string[128];
 int num = 2048;
 
+int iterations;
+int threshold;
+int workMode;
+int bitMode;
+
 int main(void)
 {
 	DDRD |= 0xFF;
@@ -35,13 +40,42 @@ int main(void)
 	UCSRC |= (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
 	UBRRL = 25;   
 	
-	sei();	
+	//sei();	
 	
     while(1)
     {
 		//PORTD ^= RED;
 		
-		//UARTSend(UARTReceive());	
+		UARTSend(UARTReceive());
+		
+		string = UARTReceive();
+		
+		if (string == "Get\0")
+		{
+			iterations = atoi(UARTReceive());
+			threshold = atoi(UARTReceive());
+			workMode = atoi(UARTReceive());
+			bitMode = atoi(UARTReceive());
+			
+			itoa(iterations, string, 10);
+			UARTSend("\nIterations: ");
+			UARTSend(string);
+			
+			itoa(threshold, string, 10);
+			UARTSend("\nThreshold: ");
+			UARTSend(string);
+			
+			itoa(workMode, string, 10);
+			UARTSend("\nWorkMode: ");
+			UARTSend(string);
+			
+			itoa(bitMode, string, 10);
+			UARTSend("\nBitMode: ");
+			UARTSend(string);
+		}
+		
+		
+		
 		//itoa(num, string, 10);	
 		
 // 		SendString(string);
