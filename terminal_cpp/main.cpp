@@ -1,7 +1,7 @@
 #include <iostream>
 #include "./lib/serialib.h"
 
-#define     COM    "\\\\.\\COM5"
+#define     COM    "\\\\.\\COM3"
 
 int main()
 {

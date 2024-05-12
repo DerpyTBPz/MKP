@@ -9,8 +9,8 @@
 #include <avr/delay.h>
 #include <avr/interrupt.h>
 
-#define		RED		0x20
-#define		GREEN	0x80
+#define		RED		0x80
+#define		GREEN	0x20
 #define		BLUE	0x10 
 #define		BTN1	0x04
 #define		BTN2	0x08
@@ -148,16 +148,16 @@ ISR(TIMER2_COMP_vect)
 		}
 		else if (modeACP == 2)
 		{
-			volt = (float)((0.5 * res) / 1024) * 10000;
+			volt = (float)((0.5 * res) / 1024) * 100;
 			NumToArr(volt);
 		}
 		
 		PORTC = DecToDigit(arr[j]);
 		PORTA = (1 << (7 - j));	
 	
-		if (j == 3)
-		{
-			PINC |= 0b10000000;	
+		if (j == 1)
+		{			
+			PORTC |= 0b10000000;	
 		}	
 	
 		j++;
@@ -244,18 +244,18 @@ void SwitchACPMode(int mode)
 			
 	}
 	
-	if (mode == 0)
-	{
-		PORTC = 0x0;
-	}
-	else if (mode == 1)
-	{
-		
-	}
-	else if (mode == 1)
-	{
-		
-	}
+// 	if (mode == 0)
+// 	{
+// 		PORTC = 0x0;
+// 	}
+// 	else if (mode == 1)
+// 	{
+// 		
+// 	}
+// 	else if (mode == 1)
+// 	{
+// 		
+// 	}
 }
 
 void NumToArr(int numbr)
