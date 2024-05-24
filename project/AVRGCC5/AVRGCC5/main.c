@@ -1,209 +1,3 @@
-// /*
-//  * AVRGCC5.c
-//  *
-//  * Created: 27.04.2024 10:03:31
-//  *  Author: student
-//  */ 
-// 
-// #include <avr/io.h>
-// #include <avr/interrupt.h>
-// #include <avr/delay.h>
-// 
-// 
-// #define		RED		0x80
-// #define		GREEN	0x20
-// #define		BLUE	0x10 
-// #define		BUT1	0x04
-// #define		BUT2	0x08
-// 
-// void UARTSend(char x);
-// char UARTReceive();
-// void SendString(char * str);
-// void ACPInit();
-// void TimerInit();
-// 
-// 
-// char text[] = "Baba s bebe ";
-// char string[128];
-// char tst;
-// int num = 2048;
-// 
-// int res;
-// double volt;
-// 
-// int iterations;
-// int threshold;
-// int workMode;
-// int bitMode;
-// 
-// int main(void)
-// {
-// 	DDRA = 0xF0;
-// 	DDRD |= 0xFF;
-// 	MCUCR = 0x0F;
-// 	GICR = 0xC0;
-// 	
-// 	UCSRA = 0x00;
-// 	UCSRB |= (1 << RXEN) | (1 << TXEN);
-// 	UCSRC |= (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
-// 	UBRRL = 25;  
-// 	
-// 	TimerInit(); 
-// 	
-// 	sei();	
-// 	
-//     while(1)
-//     {
-// 		itoa(res, string, 10);
-// 		UARTSend(string);		
-// 		
-// 		//PORTD ^= RED;
-// 		
-// 		//UARTSend(UARTReceive());
-// // 		tst = UARTReceive();
-// // 		UARTSend(tst);
-// // 		
-// // 		//string = UARTReceive();
-// // 		
-// // 		if (UARTReceive() == "bu")
-// // 		{
-// // 			PORTD ^= RED;			
-// // 		}
-// 		
-// // 		if (string == "Get\0")
-// // 		{
-// // 			iterations = atoi(UARTReceive());
-// // 			threshold = atoi(UARTReceive());
-// // 			workMode = atoi(UARTReceive());
-// // 			bitMode = atoi(UARTReceive());
-// // 			
-// // 			itoa(iterations, string, 10);
-// // 			UARTSend("\nIterations: ");
-// // 			UARTSend(string);
-// // 			
-// // 			itoa(threshold, string, 10);
-// // 			UARTSend("\nThreshold: ");
-// // 			UARTSend(string);
-// // 			
-// // 			itoa(workMode, string, 10);
-// // 			UARTSend("\nWorkMode: ");
-// // 			UARTSend(string);
-// // 			
-// // 			itoa(bitMode, string, 10);
-// // 			UARTSend("\nBitMode: ");
-// // 			UARTSend(string);
-// // 		}
-// 		
-// 		
-// 		
-// 		//itoa(num, string, 10);	
-// 		
-// // 		SendString(string);
-// // 		UARTSend('\r');
-// // 		UARTSend('\n');
-// // 		_delay_ms(1000);		
-// 		
-// // 		for (int i = 0; i < sizeof(text) - 1; i++)
-// // 		{
-// // 			UARTSend(text[i]);			
-// // 			_delay_ms(100);
-// // 		}					
-// 		
-// 		//_delay_ms(1000);	
-// 		
-//         //TODO:: Please write your application code 	
-// 		
-//     }
-// }
-// 
-// void ACPInit()
-// {
-// 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
-// 	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
-// //	SFIOR |= (1<<ADTS2) | (1<<ADTS1);
-// 	
-// 	//ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
-// }
-// 
-// void TimerInit()
-// {
-// 	MCUCR = 0x0F;
-// 	GICR = 0xC0;
-// 	
-// 	//TIMER0
-// // 	TCCR0 |= (1 << WGM01) | (1 << CS01) | (1 << CS00);
-// // 	OCR0 = 20;
-// //  TIMSK |= (1 << OCIE0);
-// 
-// 	//TIMER1
-// 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
-// 	TCCR1B |= (1<<WGM12) | (1<<CS10);
-// 	OCR1A = 4;
-// //	TIMSK |= (1 << OCIE1A);	
-// //	TIMSK |= (1 << TOIE1);
-// 	TIFR |= (1 << TOV1);
-// 	
-// 	//TIMER2
-// // 	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
-// // 	OCR2 = 10;
-// // 	TIMSK |= (1 << OCIE2);
-// }
-// 
-// ISR(ADC_vect)
-// {		
-// 	res = ADCL;
-// 	res |= (ADCH << 8);
-// 	
-// }
-// 
-// void UARTSend(char Value)
-// {
-// 	while (!(UCSRA & (1 << UDRE)))
-// 	{
-// 		;
-// 	}		
-// 	UDR = Value;
-// }
-// 
-// char UARTReceive()
-// {
-// 	while (!(UCSRA & (1 << RXC)))
-// 	{
-// 		;
-// 	}		
-// 	return UDR; 
-// }
-// 
-// void SendString(char* str)
-// {
-// 	while(*str != '\0')
-// 	{
-// 		UARTSend(*str);
-// 		str++;
-// 	}
-// 	//UARTSend(*str);
-// 	UARTSend('\r');
-// 	UARTSend('\n');
-// }
-// 
-// ISR(INT0_vect)
-// {
-// 	num++;
-// 	itoa(num, string, 10);	
-// 	SendString(string);
-// }
-// 
-// ISR(INT1_vect)
-// {
-// 	if (num != 0)
-// 	{
-// 		num--;
-// 		itoa(num, string, 10);
-// 		SendString(string);
-// 	}
-// }
-// 
-
 /*
  * AVRGCC4.c
  *
@@ -215,8 +9,8 @@
 #include <avr/delay.h>
 #include <avr/interrupt.h>
 
-#define		RED		0x20
-#define		GREEN	0x80
+#define		RED		0x80
+#define		GREEN	0x20
 #define		BLUE	0x10 
 #define		BTN1	0x04
 #define		BTN2	0x08
@@ -230,34 +24,48 @@ ISR(INT1_vect);
 
 void UARTSend(char x);
 char UARTReceive();
-void SendString(char * str);
+void SendString(char* str);
+void ReceiveString(char* str);
+void Start();
 
 void TimerInit();
 void ACPInit();
+
 void ToggleACP(int en);
 void SwitchACPMode(int mode);
+
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int numbr);
 
-/*int num = 0;*/
-int wait = 0;
-
 int enACP = 0;
-int modeACP = 0;
+int modeACP = 1;
 
 float volt = 25;
 int res = 0;
+
 int j = 0;
 int arr[DIGITS];
 char string[128];
+char text;
+
+int trigger = 0;
+
+char type = '\0';
+char resc[6];
+
+int numOfSamp = 0;
+int treshold = 0;
+char acpMode = '0';
+char workingMode = '0';
+char command = '0';
+
 
 int main(void)
 {
 	DDRA = 0xF0;
 	DDRC = 0xFF;
 	DDRD |= BTN1 | BTN2 | RED | GREEN;
-	
-// 	DDRA = 0xF0;
+
  	DDRD |= 0xFF;
  	MCUCR = 0x0F;
  	GICR = 0xC0;
@@ -270,31 +78,75 @@ int main(void)
 	UCSRB |= (1 << RXEN) | (1 << TXEN);
 	UCSRC |= (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
 	UBRRL = 25;  
-	
-	PORTD = RED;
 		
- 	TimerInit();
+// 	TimerInit();
  	ACPInit();
-	
-// 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
-// 	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
 
 	sei();
 	
 	while(1)
 	{	
-// 		itoa(volt, string, 10);
-// 		SendString(string);
-		
-//		NumToArr(res);
-		
-//		ToggleACP(enACP);
-//		SwitchACPMode(modeACP);		
-		
-//  		volt = (float)((0.5 * res) / 1024) * 10000;
-//   		NumToArr(volt);
-	}		
+		if (command == '1')
+		{
+			ADCSRA |= (1<<ADSC);
+			command = UARTReceive();						
+		}
+		else if (command == '2')
+		{
+			command = UARTReceive();
+		}
+		else if (command == '0')
+		{
+			type = UARTReceive();
+			if (type == 'n') // NUMBER OF SAMPLES (1 - 9999)
+			{								
+				for (int i = 0; i < 4; i++)
+				{					
+					resc[i] = UARTReceive();
+				}
+				numOfSamp = atoi(resc);				
+				
+				itoa(numOfSamp, string, 10);
+				SendString(string);
+			}
+			else if (type == 't') // THESHOLD (1 - 1022)
+			{
+				for (int i = 0; i < 4; i++)
+				{					
+					resc[i] = UARTReceive();
+				}
+				treshold = atoi(resc);
+				
+				itoa(treshold, string, 10);
+				SendString(string);
+			}
+			else if (type == 'a') // ACP MODE (1 - 8BIT; 2 - 10BIT)
+			{
+				acpMode = UARTReceive();
+				UARTSend(acpMode);				
+			}
+			else if (type == 'w') // WORKING MODE (1 - HIGHER THEN TRESHOLD; 2 - ALL; 3 - LOWER THEN TRESHOLD)
+			{
+				workingMode = UARTReceive();
+				UARTSend(workingMode);
+				
+			}
+			else if (type == 'c') // COMMAND (1 - START; 2 - PAUSE; 3 - STOP)
+			{							
+				command = UARTReceive();
+			}
+			
+			type = '\0';
+		}		
+	}			
+}
 
+void Start()
+{
+	while (UARTReceive() != '3')
+	{
+		ADCSRA |= (1<<ADSC);
+	}	
 }
 
 void TimerInit()
@@ -308,148 +160,195 @@ void TimerInit()
 //  TIMSK |= (1 << OCIE0);
 
 	//TIMER1
-	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
-	TCCR1B |= (1<<WGM12) | (1<<CS10);
-	OCR1A = 20;
-//	TIMSK |= (1 << OCIE1A);	
-//	TIMSK |= (1 << TOIE1);
-	TIFR |= (1 << TOV1);
-	
+// 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
+// 	TCCR1B |= (1<<WGM12) | (1<<CS10);
+// 	OCR1A = 4;
+// //	TIMSK |= (1 << OCIE1A);	
+// //	TIMSK |= (1 << TOIE1);
+// 	TIFR |= (1 << TOV1);
+
 	//TIMER2
-	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
-	OCR2 = 10;
-	TIMSK |= (1 << OCIE2);
+// 	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
+// 	OCR2 = 10;
+// 	TIMSK |= (1 << OCIE2);
 }
 
 void ACPInit()
 {
 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
-	ADCSRA |= (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
-//	SFIOR |= (1<<ADTS2) | (1<<ADTS1);
-	
-	//ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
+//	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
+	ADCSRA |= (1<<ADEN) | (1<<ADIE);
 }
 
 ISR(ADC_vect)
 {	
-	if (enACP == 0)
-	{
-		res = 0;
-		volt = 0;
-	}
-	else 
-	{
-		res = ADCL;
-		res |= (ADCH << 8);
-	}
+	res = ADCL;
+	res |= (ADCH << 8);
 	itoa(res, string, 10);
- 	SendString(string);	
-}
-
-// ISR(TIMER1_OVF_vect)
-// {
+	SendString(string);
+// 	
+// 	PORTC = 0x00;
+// 	PORTA = 0x00;
+// 	_delay_ms(100);
+// 		
 // 	if (enACP == 0)
 // 	{
 // 		res = 0;
 // 		volt = 0;
+// 		
+// 		itoa(res, string, 10);
+//  		SendString(string);	
 // 	}
 // 	else 
 // 	{
 // 		res = ADCL;
 // 		res |= (ADCH << 8);
-// 	}
-// }
-
-ISR(TIMER2_COMP_vect)
-{	
-	PORTC = 0x00;
-	PORTA = 0x00;
-	//DDRD = 0xB0;
-	
-// 	itoa(volt, string, 10);
-// 	SendString(string);
-	
-	if (modeACP != 0)
-	{
-		if (modeACP == 1)
-		{
-			NumToArr(res);
-		}
-		else if (modeACP == 2)
-		{
-			volt = (float)((0.5 * res) / 1024) * 10000;
-			NumToArr(volt);
-		}
-		
-		PORTC = DecToDigit(arr[j]);
-		PORTA = (1 << (7 - j));	
-	
-		if (j == 3)
-		{
-			PINC |= 0b10000000;	
-		}	
-	
-		j++;
-		j %= 4;
-	}
-	
+// 		
+// 		itoa(res, string, 10);
+//  		SendString(string);	
+//  	}
 }
+
+// ISR(TIMER2_COMP_vect)
+// {	
+// // 	if (trigger == 1)
+// // 	{
+// // 		ADCSRA |= (1 << ADATE);
+// // // 		if (count >= 20)
+// // // 		{
+// // // 			ADCSRA |= (1 >> ADATE);
+// // // 			trigger = 0;
+// // // 			count = 0;
+// // // 		}		
+// // 	}
+// 	
+// 	PORTC = 0x00;
+// 	PORTA = 0x00;
+// 	
+// 	if (modeACP != 0)
+// 	{
+// // 		if (modeACP == 1)
+// // 		{
+// // 			NumToArr(res);
+// // 		}
+// // 		else if (modeACP == 2)
+// // 		{
+// // 			volt = (float)((0.5 * res) / 1024) * 10000;
+// // 			NumToArr(volt);
+// // 		}
+// 		NumToArr(trigger);
+// 		
+// 		PORTC = DecToDigit(arr[j]);
+// 		PORTA = (1 << (7 - j));	
+// 	
+// 		if (j == 3)
+// 		{
+// 			PINC |= 0b10000000;	
+// 		}	
+// 	
+// 		j++;
+// 		j %= 4;
+// 	}	
+// }
 
 ISR(INT0_vect)
 {
-	enACP++;
-	if (enACP >= 2)
-	{
-		enACP = 0;
-	}
+	SendString(string);
+	ADCSRA |= (1<<ADSC);
 	
-	ToggleACP(enACP);
+// 	enACP++;
+// 	if (enACP >= 2)
+// 	{
+// 		enACP = 0;
+// 	}
+// 	ToggleACP(enACP);
 }
 
 ISR(INT1_vect)
 {
-	modeACP++;
-	if (modeACP >= 3)
+// 	modeACP++;
+// 	if (modeACP >= 3)
+// 	{
+// 		modeACP = 0;
+// 	}
+}
+
+
+void UARTSend(char Value)
+{
+	while (!(UCSRA & (1 << UDRE)))
 	{
-		modeACP = 0;
+				
+	}		
+	UDR = Value;
+}
+
+char UARTReceive()
+{
+	while (!(UCSRA & (1 << RXC)))
+	{
+		
+	}		
+	return UDR; 
+}
+
+void SendString(char* str)
+{
+	while(*str != '\0')
+	{
+		UARTSend(*str);
+		str++;
 	}
+	//UARTSend(*str);
+	UARTSend('\r');
+	UARTSend('\n');
+}
+
+
+
+
+
+
+void NumToArr(int numbr)
+{	
+	for (int k = 0; k < DIGITS; k++)
+	{		
+		arr[k] = numbr % 10;
+		numbr /= 10;
+	}
+}
+
+void ReceiveString(char* str)
+{
+	char ret[64];
+	int i = 0;
+	while(1)
+	{
+		char tmp = UARTReceive();
+		if (tmp != '\0')
+		{
+			ret[i] = tmp;
+			i++;
+		}
+		else 
+		{
+			break;
+		}
+	}
+	str = *ret;
 }
 
 void ToggleACP(int en)
 {
-	//ADCSRA ^= (1<<ADEN);
-	
 	if (en == 0)
 	{
 		PORTD = RED;
-// 		res = 0;
-// 		volt = 0;
-		ADCSRA = (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
 	}
 	else if (en == 1)
 	{
 		PORTD = GREEN;	
-		ADCSRA = (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
-	}
-
-// 	if (res != 0)
-// 	{
-// 		PORTD ^= RED;
-// 		PORTD ^= GREEN;
-// 	
-// 		ADCSRA ^= (1<<ADEN);
-// 	}
-// 	else 
-// 	{
-// 		ADCSRA |= (1<<ADEN);	
-// 	}
-	
-// 	PORTD ^= RED;
-// 	PORTD ^= GREEN;
-// 	
-// 	ADCSRA ^= (1<<ADEN);		 
+	} 
 }
-
 
 void SwitchACPMode(int mode)
 {
@@ -470,61 +369,9 @@ void SwitchACPMode(int mode)
 		default:
 			DDRC = 0x0;
 			break;
-			
-	}
-	
-// 	if (mode == 0)
-// 	{
-// 		PORTC = 0x0;
-// 	}
-// 	else if (mode == 1)
-// 	{
-// 		
-// 	}
-// 	else if (mode == 1)
-// 	{
-// 		
-// 	}
+	}	
 }
 
-void NumToArr(int numbr)
-{	
-	for (int k = 0; k < DIGITS; k++)
-	{		
-		arr[k] = numbr % 10;
-		numbr /= 10;
-	}
-}
-
-void UARTSend(char Value)
-{
-	while (!(UCSRA & (1 << UDRE)))
-	{
-		;
-	}		
-	UDR = Value;
-}
-
-char UARTReceive()
-{
-	while (!(UCSRA & (1 << RXC)))
-	{
-		;
-	}		
-	return UDR; 
-}
-
-void SendString(char* str)
-{
-	while(*str != '\0')
-	{
-		UARTSend(*str);
-		str++;
-	}
-	//UARTSend(*str);
-	UARTSend('\r');
-	UARTSend('\n');
-}
 
 unsigned char DecToDigit(unsigned char Dec)
 {	
@@ -569,7 +416,3 @@ unsigned char DecToDigit(unsigned char Dec)
 	 
 	return Digit;
 }
-
-
-
-

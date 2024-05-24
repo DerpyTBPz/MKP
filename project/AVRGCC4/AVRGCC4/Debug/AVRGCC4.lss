@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000000c0  00000000  00000000  00002da4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000013a  00000000  00000000  00002e64  2**0
+ 10 .debug_str    00000132  00000000  00000000  00002e64  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000001a3  00000000  00000000  00002f9e  2**0
+ 11 .debug_loc    000001a3  00000000  00000000  00002f96  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 0000002b  00000000  00000000  00003141  2**0
+ 12 .debug_pubtypes 0000002b  00000000  00000000  00003139  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -680,7 +680,7 @@ ISR(TIMER2_COMP_vect)
  38c:	91 05       	cpc	r25, r1
  38e:	71 f5       	brne	.+92     	; 0x3ec <__vector_3+0xae>
 		{
-			volt = (float)((0.5 * res) / 1024) * 100;
+			volt = (float)((0.5 * res) / 1024) * 10000;
  390:	60 91 6a 00 	lds	r22, 0x006A
  394:	70 91 6b 00 	lds	r23, 0x006B
  398:	88 27       	eor	r24, r24
@@ -699,9 +699,9 @@ ISR(TIMER2_COMP_vect)
  3b6:	5a e3       	ldi	r21, 0x3A	; 58
  3b8:	0e 94 cb 02 	call	0x596	; 0x596 <__mulsf3>
  3bc:	20 e0       	ldi	r18, 0x00	; 0
- 3be:	30 e0       	ldi	r19, 0x00	; 0
- 3c0:	48 ec       	ldi	r20, 0xC8	; 200
- 3c2:	52 e4       	ldi	r21, 0x42	; 66
+ 3be:	30 e4       	ldi	r19, 0x40	; 64
+ 3c0:	4c e1       	ldi	r20, 0x1C	; 28
+ 3c2:	56 e4       	ldi	r21, 0x46	; 70
  3c4:	0e 94 cb 02 	call	0x596	; 0x596 <__mulsf3>
  3c8:	26 2f       	mov	r18, r22
  3ca:	37 2f       	mov	r19, r23
@@ -752,7 +752,7 @@ ISR(TIMER2_COMP_vect)
 			PORTC |= 0b10000000;	
  426:	af 9a       	sbi	0x15, 7	; 21
 		}	
-	
+				
 		j++;
  428:	80 91 6c 00 	lds	r24, 0x006C
  42c:	90 91 6d 00 	lds	r25, 0x006D

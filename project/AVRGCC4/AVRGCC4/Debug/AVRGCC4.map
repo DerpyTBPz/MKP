@@ -497,10 +497,10 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
  *(.debug_frame)
  .debug_frame   0x00000000       0xc0 main.o
 
-.debug_str      0x00000000      0x13a
+.debug_str      0x00000000      0x132
  *(.debug_str)
- .debug_str     0x00000000      0x13a main.o
-                                0x174 (size before relaxing)
+ .debug_str     0x00000000      0x132 main.o
+                                0x16c (size before relaxing)
 
 .debug_loc      0x00000000      0x1a3
  *(.debug_loc)

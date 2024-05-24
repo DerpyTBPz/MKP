@@ -148,7 +148,7 @@ ISR(TIMER2_COMP_vect)
 		}
 		else if (modeACP == 2)
 		{
-			volt = (float)((0.5 * res) / 1024) * 100;
+			volt = (float)((0.5 * res) / 1024) * 10000;
 			NumToArr(volt);
 		}
 		
@@ -159,7 +159,7 @@ ISR(TIMER2_COMP_vect)
 		{			
 			PORTC |= 0b10000000;	
 		}	
-	
+				
 		j++;
 		j %= 4;
 	}

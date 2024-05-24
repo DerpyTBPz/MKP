@@ -1,7 +1,7 @@
 clear;
 close all;
 
-com = serialport("COM4", 2400);
+com = serialport("COM9", 2400);
 
 N = 250;
 signal = zeros(1,N);
@@ -12,6 +12,11 @@ for i = 1:10000
     drawnow;
     %pause(0.01);
     signal = circshift(signal, -1);
+    % if readline(com) ~= "0"
+    %     signal(end) = readline(com); 
+    % else
+    %     signal(end) = 0;
+    % end
     signal(end) = readline(com);
 end
 

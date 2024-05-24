@@ -140,6 +140,11 @@ void smGradient()
 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
 	TCCR1B |= (1<<WGM12) | (1<<CS10);
 	
+	while (1)
+	{
+		colorRGB(88, 0, 77);
+	}
+	
 	int flag_R = 1, flag_G = 1, flag_B = 0;
 	int red = 254, green = 0, blue = 0;
 	
