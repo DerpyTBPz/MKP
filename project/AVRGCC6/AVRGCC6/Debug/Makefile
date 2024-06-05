@@ -37,7 +37,8 @@ SUBDIRS :=
 C_SRCS +=  \
 ../i2clib.c \
 ../lcdlib.c \
-../main.c
+../main.c \
+../uartlib.c
 
 
 PREPROCESSING_SRCS += 
@@ -49,25 +50,29 @@ ASM_SRCS +=
 OBJS +=  \
 i2clib.o \
 lcdlib.o \
-main.o
+main.o \
+uartlib.o
 
 
 OBJS_AS_ARGS +=  \
 i2clib.o \
 lcdlib.o \
-main.o
+main.o \
+uartlib.o
 
 
 C_DEPS +=  \
 i2clib.d \
 lcdlib.d \
-main.d
+main.d \
+uartlib.d
 
 
 C_DEPS_AS_ARGS +=  \
 i2clib.d \
 lcdlib.d \
-main.d
+main.d \
+uartlib.d
 
 
 OUTPUT_FILE_PATH +=AVRGCC6.elf
@@ -79,6 +84,8 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 # AVR32/GNU C Compiler
+
+
 
 
 

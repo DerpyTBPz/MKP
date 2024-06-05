@@ -9,39 +9,209 @@
 #include "main.h"
 #include "lcdlib.h"
 
+void ColorToLCD();
+void UARTtoLCD();
+void Test();
+
+void colorRGB(int R, int G, int B);
+void color(int num);
+ISR(INT0_vect);
+ISR(INT1_vect);
+
 #define		RED		0x80
 #define		GREEN	0x20
 #define		BLUE	0x10 
 #define		BTN1	0x04
 #define		BTN2	0x08
 
+int count = 0;
+int flag = 0;
+char string[128];
+char txt;
+
 int main(void) 
 { 
-	DDRC |= (1<<PC0) | (1<<PC1); 
+	DDRD |= 0xFF;
+	UARTInit();
+	
+//----------------------	
+//	ColorToLCD();
+//	UARTtoLCD();
+//----------------------
+	
+//	LCD_clear();
  
+// 	_delay_ms(1000); 
+	LCD_clear(); 
+	LCD_setPosition(0,0);
+	for (int i = 0; i < 5; i++)
+	{
+		string[i] = UARTReceive();
+	} 
+		
+ 	LCD_sendString(string); 
+// 	// sendByte(0xC0,0); 
+// 	LCD_setPosition(1,1); 
+// 	LCD_sendString("bebebe"); 
+// 	// sendByte(0x90,0); 
+// 	LCD_setPosition(0,2); 
+// 	LCD_sendString("Soft that works!"); 
+// 	LCD_setPosition(1,3); 
+// 	LCD_sendString("codecranch.com "); 
+  
+	while (1) 
+	{ 
+		Test();
+	} 
+ 
+	return 0; 
+}
+
+void ColorToLCD()
+{
+	DDRD |= RED | GREEN | BLUE | BTN1 | BTN2;
+	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS20);	
+	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
+	TCCR1B |= (1<<WGM12) | (1<<CS10); 
+	
+	DDRC |= (1<<PC0) | (1<<PC1);
 	I2C_Init(); 
 	_delay_ms(50); 
-	LCD_Init(); 
- 
-	_delay_ms(1000); 
-	LCD_clear(); 
-	LCD_setPosition(0,0); 
-	LCD_sendString("<< Codecranch >>"); 
-	// sendByte(0xC0,0); 
-	LCD_setPosition(1,1); 
-	LCD_sendString(">>          <<"); 
-	// sendByte(0x90,0); 
-	LCD_setPosition(0,2); 
-	LCD_sendString("Soft that works!"); 
-	LCD_setPosition(1,3); 
-	LCD_sendString("codecranch.com "); 
-  
- while (1) { 
-  // _delay_ms(5000); 
-  // LCD_BackLight(0); 
-  // _delay_ms(5000); 
-  // LCD_BackLight(1); 
- } 
- 
- return 0; 
+	LCD_Init();
+	
+	LCD_clear();
+		
+	MCUCR = 0x0F;
+	GICR = 0xC0; 
+	sei();
 }
+
+void UARTtoLCD()
+{
+	DDRC |= (1<<PC0) | (1<<PC1);
+	I2C_Init(); 
+	_delay_ms(50); 
+	LCD_Init();
+	
+	LCD_clear();
+	
+	while (1)
+	{		
+		txt = UARTReceive();
+		count++;
+		if ((count == 15) && (flag != 1))
+		{
+			count = 0;
+			flag = 1;
+			sendByte(txt, 1);
+		}
+		else if ((count == 15) && (flag = 1))
+		{
+			LCD_clear();
+			flag = 0;
+			count = 0;
+			sendByte(txt, 1);
+		}
+	}
+	
+}
+
+void Test()
+{
+	LCD_setPosition(0,0);
+	//LCD_sendString(UARTReceive(), 1);
+}
+
+void colorRGB(int R, int G, int B)
+{
+	OCR2 = R; //RED 		
+	OCR1AL = G; //GREEN
+	OCR1BL = B; //BLUE
+// 
+// 	OCR2 = G; //RED 		
+// 	OCR1AL = R; //GREEN
+// 	OCR1BL = B; //BLUE
+
+}
+
+ISR(INT0_vect)
+{
+	count++;
+	if (count >= 8)
+	{
+		count = 1;
+	}
+	LCD_clear();
+	color(count);
+}
+
+ISR(INT1_vect)
+{
+	count--;
+	if (count <= 0)
+	{
+		count = 7;
+	}
+	LCD_clear();
+	color(count);
+}
+
+void color(int num)
+{
+	switch (num)
+		{
+			case 1:
+				colorRGB(255,0,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 0, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Red");
+				break;
+			case 2:
+				colorRGB(255,165,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 165, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Orange");
+				break;
+			case 3:
+				colorRGB(255,255,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 255, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Yellow");
+				break;
+			case 4:
+				colorRGB(0,255,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 255, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Green");
+				break;
+			case 5:
+				colorRGB(0,255,255);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 0, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Cyan");
+				break;
+			case 6:
+				colorRGB(0,0,255);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(0, 0, 255)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Blue");
+				break;			
+			case 7:
+				colorRGB(128,0,128);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(128, 0, 128)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Violet");
+				break;
+			default:
+				colorRGB(0,0,0);
+				break;
+		}
+}
+

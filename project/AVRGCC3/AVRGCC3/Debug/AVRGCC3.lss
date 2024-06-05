@@ -3,39 +3,39 @@ AVRGCC3.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000022e  00000000  00000000  00000074  2**1
+  0 .text         000002dc  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .bss          00000002  00800060  00800060  000002a2  2**0
+  1 .bss          00000002  00800060  00800060  00000350  2**0
                   ALLOC
-  2 .stab         000006cc  00000000  00000000  000002a4  2**2
+  2 .stab         000006cc  00000000  00000000  00000350  2**2
                   CONTENTS, READONLY, DEBUGGING
-  3 .stabstr      00000090  00000000  00000000  00000970  2**0
+  3 .stabstr      00000090  00000000  00000000  00000a1c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_aranges 00000020  00000000  00000000  00000a00  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000aac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_pubnames 00000082  00000000  00000000  00000a20  2**0
+  5 .debug_pubnames 00000082  00000000  00000000  00000acc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000001ae  00000000  00000000  00000aa2  2**0
+  6 .debug_info   00000297  00000000  00000000  00000b4e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000111  00000000  00000000  00000c50  2**0
+  7 .debug_abbrev 000001b3  00000000  00000000  00000de5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000274  00000000  00000000  00000d61  2**0
+  8 .debug_line   000003f8  00000000  00000000  00000f98  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000080  00000000  00000000  00000fd8  2**2
+  9 .debug_frame  00000080  00000000  00000000  00001390  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000107  00000000  00000000  00001058  2**0
+ 10 .debug_str    00000175  00000000  00000000  00001410  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000088  00000000  00000000  0000115f  2**0
+ 11 .debug_loc    000002d5  00000000  00000000  00001585  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 0000001e  00000000  00000000  000011e7  2**0
+ 12 .debug_pubtypes 00000038  00000000  00000000  0000185a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 d4 00 	jmp	0x1a8	; 0x1a8 <__vector_1>
-   8:	0c 94 f2 00 	jmp	0x1e4	; 0x1e4 <__vector_2>
+   4:	0c 94 2b 01 	jmp	0x256	; 0x256 <__vector_1>
+   8:	0c 94 49 01 	jmp	0x292	; 0x292 <__vector_2>
    c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
@@ -76,8 +76,8 @@ Disassembly of section .text:
   6a:	a2 36       	cpi	r26, 0x62	; 98
   6c:	b1 07       	cpc	r27, r17
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 57 00 	call	0xae	; 0xae <main>
-  74:	0c 94 15 01 	jmp	0x22a	; 0x22a <_exit>
+  70:	0e 94 ae 00 	call	0x15c	; 0x15c <main>
+  74:	0c 94 6c 01 	jmp	0x2d8	; 0x2d8 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -99,292 +99,456 @@ Disassembly of section .text:
   82:	08 95       	ret
 
 00000084 <smGradient>:
+        
     }
 }
 
 void smGradient()
 {
+  84:	4f 92       	push	r4
+  86:	5f 92       	push	r5
+  88:	6f 92       	push	r6
+  8a:	7f 92       	push	r7
+  8c:	8f 92       	push	r8
+  8e:	9f 92       	push	r9
+  90:	af 92       	push	r10
+  92:	bf 92       	push	r11
+  94:	cf 92       	push	r12
+  96:	df 92       	push	r13
+  98:	ef 92       	push	r14
+  9a:	ff 92       	push	r15
+  9c:	0f 93       	push	r16
+  9e:	1f 93       	push	r17
+  a0:	cf 93       	push	r28
+  a2:	df 93       	push	r29
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2; 
-  84:	81 b3       	in	r24, 0x11	; 17
-  86:	8c 6b       	ori	r24, 0xBC	; 188
-  88:	81 bb       	out	0x11, r24	; 17
+  a4:	81 b3       	in	r24, 0x11	; 17
+  a6:	8c 6b       	ori	r24, 0xBC	; 188
+  a8:	81 bb       	out	0x11, r24	; 17
 	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS20);	
-  8a:	85 b5       	in	r24, 0x25	; 37
-  8c:	89 66       	ori	r24, 0x69	; 105
-  8e:	85 bd       	out	0x25, r24	; 37
+  aa:	85 b5       	in	r24, 0x25	; 37
+  ac:	89 66       	ori	r24, 0x69	; 105
+  ae:	85 bd       	out	0x25, r24	; 37
 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
-  90:	8f b5       	in	r24, 0x2f	; 47
-  92:	81 6a       	ori	r24, 0xA1	; 161
-  94:	8f bd       	out	0x2f, r24	; 47
+  b0:	8f b5       	in	r24, 0x2f	; 47
+  b2:	81 6a       	ori	r24, 0xA1	; 161
+  b4:	8f bd       	out	0x2f, r24	; 47
 	TCCR1B |= (1<<WGM12) | (1<<CS10);
-  96:	8e b5       	in	r24, 0x2e	; 46
-  98:	89 60       	ori	r24, 0x09	; 9
-  9a:	8e bd       	out	0x2e, r24	; 46
-	
-	while (1)
-	{
-		colorRGB(88, 0, 77);
-  9c:	88 e5       	ldi	r24, 0x58	; 88
-  9e:	90 e0       	ldi	r25, 0x00	; 0
-  a0:	60 e0       	ldi	r22, 0x00	; 0
-  a2:	70 e0       	ldi	r23, 0x00	; 0
-  a4:	4d e4       	ldi	r20, 0x4D	; 77
-  a6:	50 e0       	ldi	r21, 0x00	; 0
-  a8:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
-  ac:	f7 cf       	rjmp	.-18     	; 0x9c <smGradient+0x18>
+  b6:	8e b5       	in	r24, 0x2e	; 46
+  b8:	89 60       	ori	r24, 0x09	; 9
+  ba:	8e bd       	out	0x2e, r24	; 46
 
-000000ae <main>:
+	int flag_R = 1, flag_G = 1, flag_B = 0;
+	int red = 254, green = 0, blue = 0;
+  bc:	ee 24       	eor	r14, r14
+  be:	ff 24       	eor	r15, r15
+  c0:	c0 e0       	ldi	r28, 0x00	; 0
+  c2:	d0 e0       	ldi	r29, 0x00	; 0
+  c4:	0e ef       	ldi	r16, 0xFE	; 254
+  c6:	10 e0       	ldi	r17, 0x00	; 0
+	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2; 
+	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS20);	
+	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
+	TCCR1B |= (1<<WGM12) | (1<<CS10);
+
+	int flag_R = 1, flag_G = 1, flag_B = 0;
+  c8:	88 24       	eor	r8, r8
+  ca:	99 24       	eor	r9, r9
+  cc:	aa 24       	eor	r10, r10
+  ce:	bb 24       	eor	r11, r11
+  d0:	a3 94       	inc	r10
+  d2:	cc 24       	eor	r12, r12
+  d4:	dd 24       	eor	r13, r13
+  d6:	c3 94       	inc	r12
+			red--;
+			green++;
+			if (red == 0)
+			{
+				flag_R = 0;
+				flag_B = 1;
+  d8:	66 24       	eor	r6, r6
+  da:	77 24       	eor	r7, r7
+  dc:	63 94       	inc	r6
+		{
+			red--;
+			green++;
+			if (red == 0)
+			{
+				flag_R = 0;
+  de:	44 24       	eor	r4, r4
+  e0:	55 24       	eor	r5, r5
+  e2:	08 c0       	rjmp	.+16     	; 0xf4 <smGradient+0x70>
+				flag_B = 1;
+  e4:	43 01       	movw	r8, r6
+		{
+			red--;
+			green++;
+			if (red == 0)
+			{
+				flag_R = 0;
+  e6:	62 01       	movw	r12, r4
+  e8:	05 c0       	rjmp	.+10     	; 0xf4 <smGradient+0x70>
+		{
+			green--;
+			blue++;
+			if (green == 0)
+			{
+				flag_G = 0;
+  ea:	52 01       	movw	r10, r4
+				flag_R = 1;
+  ec:	63 01       	movw	r12, r6
+  ee:	02 c0       	rjmp	.+4      	; 0xf4 <smGradient+0x70>
+		{			
+			blue--;
+			red++;
+			if (blue == 0)
+			{
+				flag_B = 0;
+  f0:	42 01       	movw	r8, r4
+				flag_G = 1;
+  f2:	53 01       	movw	r10, r6
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  f4:	81 ee       	ldi	r24, 0xE1	; 225
+  f6:	94 e0       	ldi	r25, 0x04	; 4
+  f8:	01 97       	sbiw	r24, 0x01	; 1
+  fa:	f1 f7       	brne	.-4      	; 0xf8 <smGradient+0x74>
+  fc:	00 c0       	rjmp	.+0      	; 0xfe <smGradient+0x7a>
+  fe:	00 00       	nop
+	{		
+		_delay_ms(5);
+// 		OCR2 = red; //RED 		
+// 		OCR1AL = green; //GREEN
+// 		OCR1BL = blue; //BLUE
+		colorRGB(red, green, blue);
+ 100:	c8 01       	movw	r24, r16
+ 102:	be 01       	movw	r22, r28
+ 104:	a7 01       	movw	r20, r14
+ 106:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+		
+		if (flag_R && flag_G)
+ 10a:	c1 14       	cp	r12, r1
+ 10c:	d1 04       	cpc	r13, r1
+ 10e:	51 f0       	breq	.+20     	; 0x124 <smGradient+0xa0>
+ 110:	a1 14       	cp	r10, r1
+ 112:	b1 04       	cpc	r11, r1
+ 114:	a1 f0       	breq	.+40     	; 0x13e <smGradient+0xba>
+		{
+			red--;
+ 116:	01 50       	subi	r16, 0x01	; 1
+ 118:	10 40       	sbci	r17, 0x00	; 0
+			green++;
+ 11a:	21 96       	adiw	r28, 0x01	; 1
+			if (red == 0)
+ 11c:	01 15       	cp	r16, r1
+ 11e:	11 05       	cpc	r17, r1
+ 120:	09 f3       	breq	.-62     	; 0xe4 <smGradient+0x60>
+ 122:	e8 cf       	rjmp	.-48     	; 0xf4 <smGradient+0x70>
+			{
+				flag_R = 0;
+				flag_B = 1;
+			}
+		}
+		else if (flag_G && flag_B)
+ 124:	a1 14       	cp	r10, r1
+ 126:	b1 04       	cpc	r11, r1
+ 128:	51 f0       	breq	.+20     	; 0x13e <smGradient+0xba>
+ 12a:	81 14       	cp	r8, r1
+ 12c:	91 04       	cpc	r9, r1
+ 12e:	11 f3       	breq	.-60     	; 0xf4 <smGradient+0x70>
+		{
+			green--;
+ 130:	21 97       	sbiw	r28, 0x01	; 1
+			blue++;
+ 132:	08 94       	sec
+ 134:	e1 1c       	adc	r14, r1
+ 136:	f1 1c       	adc	r15, r1
+			if (green == 0)
+ 138:	20 97       	sbiw	r28, 0x00	; 0
+ 13a:	b9 f2       	breq	.-82     	; 0xea <smGradient+0x66>
+ 13c:	db cf       	rjmp	.-74     	; 0xf4 <smGradient+0x70>
+			{
+				flag_G = 0;
+				flag_R = 1;
+			}
+		}
+		else if (flag_B && flag_R)
+ 13e:	81 14       	cp	r8, r1
+ 140:	91 04       	cpc	r9, r1
+ 142:	c1 f2       	breq	.-80     	; 0xf4 <smGradient+0x70>
+ 144:	c1 14       	cp	r12, r1
+ 146:	d1 04       	cpc	r13, r1
+ 148:	a9 f2       	breq	.-86     	; 0xf4 <smGradient+0x70>
+		{			
+			blue--;
+ 14a:	08 94       	sec
+ 14c:	e1 08       	sbc	r14, r1
+ 14e:	f1 08       	sbc	r15, r1
+			red++;
+ 150:	0f 5f       	subi	r16, 0xFF	; 255
+ 152:	1f 4f       	sbci	r17, 0xFF	; 255
+			if (blue == 0)
+ 154:	e1 14       	cp	r14, r1
+ 156:	f1 04       	cpc	r15, r1
+ 158:	59 f2       	breq	.-106    	; 0xf0 <smGradient+0x6c>
+ 15a:	cc cf       	rjmp	.-104    	; 0xf4 <smGradient+0x70>
+
+0000015c <main>:
 // 	int flag_R = 1, flag_G = 1, flag_B = 0;
 // 	int red = 254, green = 0, blue = 0;	
 //	int color1 = 255, color2 = 0, flag_C = 0;
 
 //---------------------
 	smGradient();
-  ae:	0e 94 42 00 	call	0x84	; 0x84 <smGradient>
-  b2:	ff cf       	rjmp	.-2      	; 0xb2 <main+0x4>
+ 15c:	0e 94 42 00 	call	0x84	; 0x84 <smGradient>
+ 160:	ff cf       	rjmp	.-2      	; 0x160 <main+0x4>
 
-000000b4 <rainbowColor>:
+00000162 <rainbowColor>:
 
 }
 
 void rainbowColor(int number)
 {
 	switch (number)
-  b4:	83 30       	cpi	r24, 0x03	; 3
-  b6:	91 05       	cpc	r25, r1
-  b8:	91 f1       	breq	.+100    	; 0x11e <rainbowColor+0x6a>
-  ba:	84 30       	cpi	r24, 0x04	; 4
-  bc:	91 05       	cpc	r25, r1
-  be:	4c f4       	brge	.+18     	; 0xd2 <rainbowColor+0x1e>
-  c0:	81 30       	cpi	r24, 0x01	; 1
-  c2:	91 05       	cpc	r25, r1
-  c4:	d1 f0       	breq	.+52     	; 0xfa <rainbowColor+0x46>
-  c6:	82 30       	cpi	r24, 0x02	; 2
-  c8:	91 05       	cpc	r25, r1
-  ca:	04 f5       	brge	.+64     	; 0x10c <rainbowColor+0x58>
-  cc:	00 97       	sbiw	r24, 0x00	; 0
-  ce:	61 f0       	breq	.+24     	; 0xe8 <rainbowColor+0x34>
-  d0:	4a c0       	rjmp	.+148    	; 0x166 <rainbowColor+0xb2>
-  d2:	85 30       	cpi	r24, 0x05	; 5
-  d4:	91 05       	cpc	r25, r1
-  d6:	a9 f1       	breq	.+106    	; 0x142 <rainbowColor+0x8e>
-  d8:	85 30       	cpi	r24, 0x05	; 5
-  da:	91 05       	cpc	r25, r1
-  dc:	4c f1       	brlt	.+82     	; 0x130 <rainbowColor+0x7c>
-  de:	86 30       	cpi	r24, 0x06	; 6
-  e0:	91 05       	cpc	r25, r1
-  e2:	09 f0       	breq	.+2      	; 0xe6 <rainbowColor+0x32>
-  e4:	40 c0       	rjmp	.+128    	; 0x166 <rainbowColor+0xb2>
-  e6:	36 c0       	rjmp	.+108    	; 0x154 <rainbowColor+0xa0>
+ 162:	83 30       	cpi	r24, 0x03	; 3
+ 164:	91 05       	cpc	r25, r1
+ 166:	91 f1       	breq	.+100    	; 0x1cc <rainbowColor+0x6a>
+ 168:	84 30       	cpi	r24, 0x04	; 4
+ 16a:	91 05       	cpc	r25, r1
+ 16c:	4c f4       	brge	.+18     	; 0x180 <rainbowColor+0x1e>
+ 16e:	81 30       	cpi	r24, 0x01	; 1
+ 170:	91 05       	cpc	r25, r1
+ 172:	d1 f0       	breq	.+52     	; 0x1a8 <rainbowColor+0x46>
+ 174:	82 30       	cpi	r24, 0x02	; 2
+ 176:	91 05       	cpc	r25, r1
+ 178:	04 f5       	brge	.+64     	; 0x1ba <rainbowColor+0x58>
+ 17a:	00 97       	sbiw	r24, 0x00	; 0
+ 17c:	61 f0       	breq	.+24     	; 0x196 <rainbowColor+0x34>
+ 17e:	4a c0       	rjmp	.+148    	; 0x214 <rainbowColor+0xb2>
+ 180:	85 30       	cpi	r24, 0x05	; 5
+ 182:	91 05       	cpc	r25, r1
+ 184:	a9 f1       	breq	.+106    	; 0x1f0 <rainbowColor+0x8e>
+ 186:	85 30       	cpi	r24, 0x05	; 5
+ 188:	91 05       	cpc	r25, r1
+ 18a:	4c f1       	brlt	.+82     	; 0x1de <rainbowColor+0x7c>
+ 18c:	86 30       	cpi	r24, 0x06	; 6
+ 18e:	91 05       	cpc	r25, r1
+ 190:	09 f0       	breq	.+2      	; 0x194 <rainbowColor+0x32>
+ 192:	40 c0       	rjmp	.+128    	; 0x214 <rainbowColor+0xb2>
+ 194:	36 c0       	rjmp	.+108    	; 0x202 <rainbowColor+0xa0>
 	{
 		case 0:
 			colorRGB(255,0,0);
-  e8:	8f ef       	ldi	r24, 0xFF	; 255
-  ea:	90 e0       	ldi	r25, 0x00	; 0
-  ec:	60 e0       	ldi	r22, 0x00	; 0
-  ee:	70 e0       	ldi	r23, 0x00	; 0
-  f0:	40 e0       	ldi	r20, 0x00	; 0
-  f2:	50 e0       	ldi	r21, 0x00	; 0
-  f4:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 196:	8f ef       	ldi	r24, 0xFF	; 255
+ 198:	90 e0       	ldi	r25, 0x00	; 0
+ 19a:	60 e0       	ldi	r22, 0x00	; 0
+ 19c:	70 e0       	ldi	r23, 0x00	; 0
+ 19e:	40 e0       	ldi	r20, 0x00	; 0
+ 1a0:	50 e0       	ldi	r21, 0x00	; 0
+ 1a2:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
-  f8:	08 95       	ret
+ 1a6:	08 95       	ret
 		case 1:
 			colorRGB(255,165,0);
-  fa:	8f ef       	ldi	r24, 0xFF	; 255
-  fc:	90 e0       	ldi	r25, 0x00	; 0
-  fe:	65 ea       	ldi	r22, 0xA5	; 165
- 100:	70 e0       	ldi	r23, 0x00	; 0
- 102:	40 e0       	ldi	r20, 0x00	; 0
- 104:	50 e0       	ldi	r21, 0x00	; 0
- 106:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 1a8:	8f ef       	ldi	r24, 0xFF	; 255
+ 1aa:	90 e0       	ldi	r25, 0x00	; 0
+ 1ac:	65 ea       	ldi	r22, 0xA5	; 165
+ 1ae:	70 e0       	ldi	r23, 0x00	; 0
+ 1b0:	40 e0       	ldi	r20, 0x00	; 0
+ 1b2:	50 e0       	ldi	r21, 0x00	; 0
+ 1b4:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
- 10a:	08 95       	ret
+ 1b8:	08 95       	ret
 		case 2:
 			colorRGB(255,255,0);
- 10c:	8f ef       	ldi	r24, 0xFF	; 255
- 10e:	90 e0       	ldi	r25, 0x00	; 0
- 110:	6f ef       	ldi	r22, 0xFF	; 255
- 112:	70 e0       	ldi	r23, 0x00	; 0
- 114:	40 e0       	ldi	r20, 0x00	; 0
- 116:	50 e0       	ldi	r21, 0x00	; 0
- 118:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 1ba:	8f ef       	ldi	r24, 0xFF	; 255
+ 1bc:	90 e0       	ldi	r25, 0x00	; 0
+ 1be:	6f ef       	ldi	r22, 0xFF	; 255
+ 1c0:	70 e0       	ldi	r23, 0x00	; 0
+ 1c2:	40 e0       	ldi	r20, 0x00	; 0
+ 1c4:	50 e0       	ldi	r21, 0x00	; 0
+ 1c6:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
- 11c:	08 95       	ret
+ 1ca:	08 95       	ret
 		case 3:
 			colorRGB(0,255,0);
- 11e:	80 e0       	ldi	r24, 0x00	; 0
- 120:	90 e0       	ldi	r25, 0x00	; 0
- 122:	6f ef       	ldi	r22, 0xFF	; 255
- 124:	70 e0       	ldi	r23, 0x00	; 0
- 126:	40 e0       	ldi	r20, 0x00	; 0
- 128:	50 e0       	ldi	r21, 0x00	; 0
- 12a:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 1cc:	80 e0       	ldi	r24, 0x00	; 0
+ 1ce:	90 e0       	ldi	r25, 0x00	; 0
+ 1d0:	6f ef       	ldi	r22, 0xFF	; 255
+ 1d2:	70 e0       	ldi	r23, 0x00	; 0
+ 1d4:	40 e0       	ldi	r20, 0x00	; 0
+ 1d6:	50 e0       	ldi	r21, 0x00	; 0
+ 1d8:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
- 12e:	08 95       	ret
+ 1dc:	08 95       	ret
 		case 4:
 			colorRGB(0,255,255);
- 130:	80 e0       	ldi	r24, 0x00	; 0
- 132:	90 e0       	ldi	r25, 0x00	; 0
- 134:	6f ef       	ldi	r22, 0xFF	; 255
- 136:	70 e0       	ldi	r23, 0x00	; 0
- 138:	4f ef       	ldi	r20, 0xFF	; 255
- 13a:	50 e0       	ldi	r21, 0x00	; 0
- 13c:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 1de:	80 e0       	ldi	r24, 0x00	; 0
+ 1e0:	90 e0       	ldi	r25, 0x00	; 0
+ 1e2:	6f ef       	ldi	r22, 0xFF	; 255
+ 1e4:	70 e0       	ldi	r23, 0x00	; 0
+ 1e6:	4f ef       	ldi	r20, 0xFF	; 255
+ 1e8:	50 e0       	ldi	r21, 0x00	; 0
+ 1ea:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
- 140:	08 95       	ret
+ 1ee:	08 95       	ret
 		case 5:
 			colorRGB(0,0,255);
- 142:	80 e0       	ldi	r24, 0x00	; 0
- 144:	90 e0       	ldi	r25, 0x00	; 0
- 146:	60 e0       	ldi	r22, 0x00	; 0
- 148:	70 e0       	ldi	r23, 0x00	; 0
- 14a:	4f ef       	ldi	r20, 0xFF	; 255
- 14c:	50 e0       	ldi	r21, 0x00	; 0
- 14e:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 1f0:	80 e0       	ldi	r24, 0x00	; 0
+ 1f2:	90 e0       	ldi	r25, 0x00	; 0
+ 1f4:	60 e0       	ldi	r22, 0x00	; 0
+ 1f6:	70 e0       	ldi	r23, 0x00	; 0
+ 1f8:	4f ef       	ldi	r20, 0xFF	; 255
+ 1fa:	50 e0       	ldi	r21, 0x00	; 0
+ 1fc:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;			
- 152:	08 95       	ret
+ 200:	08 95       	ret
 		case 6:
 			colorRGB(128,0,128);
- 154:	80 e8       	ldi	r24, 0x80	; 128
- 156:	90 e0       	ldi	r25, 0x00	; 0
- 158:	60 e0       	ldi	r22, 0x00	; 0
- 15a:	70 e0       	ldi	r23, 0x00	; 0
- 15c:	40 e8       	ldi	r20, 0x80	; 128
- 15e:	50 e0       	ldi	r21, 0x00	; 0
- 160:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 202:	80 e8       	ldi	r24, 0x80	; 128
+ 204:	90 e0       	ldi	r25, 0x00	; 0
+ 206:	60 e0       	ldi	r22, 0x00	; 0
+ 208:	70 e0       	ldi	r23, 0x00	; 0
+ 20a:	40 e8       	ldi	r20, 0x80	; 128
+ 20c:	50 e0       	ldi	r21, 0x00	; 0
+ 20e:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
 			break;
- 164:	08 95       	ret
+ 212:	08 95       	ret
 		default:
 			colorRGB(0,0,0);
- 166:	80 e0       	ldi	r24, 0x00	; 0
- 168:	90 e0       	ldi	r25, 0x00	; 0
- 16a:	60 e0       	ldi	r22, 0x00	; 0
- 16c:	70 e0       	ldi	r23, 0x00	; 0
- 16e:	40 e0       	ldi	r20, 0x00	; 0
- 170:	50 e0       	ldi	r21, 0x00	; 0
- 172:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
- 176:	08 95       	ret
+ 214:	80 e0       	ldi	r24, 0x00	; 0
+ 216:	90 e0       	ldi	r25, 0x00	; 0
+ 218:	60 e0       	ldi	r22, 0x00	; 0
+ 21a:	70 e0       	ldi	r23, 0x00	; 0
+ 21c:	40 e0       	ldi	r20, 0x00	; 0
+ 21e:	50 e0       	ldi	r21, 0x00	; 0
+ 220:	0e 94 3e 00 	call	0x7c	; 0x7c <colorRGB>
+ 224:	08 95       	ret
 
-00000178 <buttonRainbow>:
+00000226 <buttonRainbow>:
 }
 
 
 void buttonRainbow()
 {
 	DDRD |= RED | GREEN | BLUE | BUT1 | BUT2; 
- 178:	81 b3       	in	r24, 0x11	; 17
- 17a:	8c 6b       	ori	r24, 0xBC	; 188
- 17c:	81 bb       	out	0x11, r24	; 17
+ 226:	81 b3       	in	r24, 0x11	; 17
+ 228:	8c 6b       	ori	r24, 0xBC	; 188
+ 22a:	81 bb       	out	0x11, r24	; 17
 	TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<CS20);	
- 17e:	85 b5       	in	r24, 0x25	; 37
- 180:	89 66       	ori	r24, 0x69	; 105
- 182:	85 bd       	out	0x25, r24	; 37
+ 22c:	85 b5       	in	r24, 0x25	; 37
+ 22e:	89 66       	ori	r24, 0x69	; 105
+ 230:	85 bd       	out	0x25, r24	; 37
 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
- 184:	8f b5       	in	r24, 0x2f	; 47
- 186:	81 6a       	ori	r24, 0xA1	; 161
- 188:	8f bd       	out	0x2f, r24	; 47
+ 232:	8f b5       	in	r24, 0x2f	; 47
+ 234:	81 6a       	ori	r24, 0xA1	; 161
+ 236:	8f bd       	out	0x2f, r24	; 47
 	TCCR1B |= (1<<WGM12) | (1<<CS10);
- 18a:	8e b5       	in	r24, 0x2e	; 46
- 18c:	89 60       	ori	r24, 0x09	; 9
- 18e:	8e bd       	out	0x2e, r24	; 46
+ 238:	8e b5       	in	r24, 0x2e	; 46
+ 23a:	89 60       	ori	r24, 0x09	; 9
+ 23c:	8e bd       	out	0x2e, r24	; 46
 	
 	MCUCR = 0x0F; //0x0F 0x03
- 190:	8f e0       	ldi	r24, 0x0F	; 15
- 192:	85 bf       	out	0x35, r24	; 53
+ 23e:	8f e0       	ldi	r24, 0x0F	; 15
+ 240:	85 bf       	out	0x35, r24	; 53
 	GICR = 0xC0; //0xC0 0x40
- 194:	80 ec       	ldi	r24, 0xC0	; 192
- 196:	8b bf       	out	0x3b, r24	; 59
+ 242:	80 ec       	ldi	r24, 0xC0	; 192
+ 244:	8b bf       	out	0x3b, r24	; 59
 	sei();
- 198:	78 94       	sei
+ 246:	78 94       	sei
 		
 	while(1)
 	{	
 		rainbowColor(count);
- 19a:	80 91 60 00 	lds	r24, 0x0060
- 19e:	90 91 61 00 	lds	r25, 0x0061
- 1a2:	0e 94 5a 00 	call	0xb4	; 0xb4 <rainbowColor>
- 1a6:	f9 cf       	rjmp	.-14     	; 0x19a <buttonRainbow+0x22>
+ 248:	80 91 60 00 	lds	r24, 0x0060
+ 24c:	90 91 61 00 	lds	r25, 0x0061
+ 250:	0e 94 b1 00 	call	0x162	; 0x162 <rainbowColor>
+ 254:	f9 cf       	rjmp	.-14     	; 0x248 <buttonRainbow+0x22>
 
-000001a8 <__vector_1>:
+00000256 <__vector_1>:
 			break;
 	}
 }
 
 ISR(INT0_vect)
 {
- 1a8:	1f 92       	push	r1
- 1aa:	0f 92       	push	r0
- 1ac:	0f b6       	in	r0, 0x3f	; 63
- 1ae:	0f 92       	push	r0
- 1b0:	11 24       	eor	r1, r1
- 1b2:	8f 93       	push	r24
- 1b4:	9f 93       	push	r25
+ 256:	1f 92       	push	r1
+ 258:	0f 92       	push	r0
+ 25a:	0f b6       	in	r0, 0x3f	; 63
+ 25c:	0f 92       	push	r0
+ 25e:	11 24       	eor	r1, r1
+ 260:	8f 93       	push	r24
+ 262:	9f 93       	push	r25
 	count++;
- 1b6:	80 91 60 00 	lds	r24, 0x0060
- 1ba:	90 91 61 00 	lds	r25, 0x0061
- 1be:	01 96       	adiw	r24, 0x01	; 1
- 1c0:	90 93 61 00 	sts	0x0061, r25
- 1c4:	80 93 60 00 	sts	0x0060, r24
+ 264:	80 91 60 00 	lds	r24, 0x0060
+ 268:	90 91 61 00 	lds	r25, 0x0061
+ 26c:	01 96       	adiw	r24, 0x01	; 1
+ 26e:	90 93 61 00 	sts	0x0061, r25
+ 272:	80 93 60 00 	sts	0x0060, r24
 	if (count == 7)
- 1c8:	87 30       	cpi	r24, 0x07	; 7
- 1ca:	91 05       	cpc	r25, r1
- 1cc:	21 f4       	brne	.+8      	; 0x1d6 <__vector_1+0x2e>
+ 276:	87 30       	cpi	r24, 0x07	; 7
+ 278:	91 05       	cpc	r25, r1
+ 27a:	21 f4       	brne	.+8      	; 0x284 <__vector_1+0x2e>
 	{
 		count = 0;
- 1ce:	10 92 61 00 	sts	0x0061, r1
- 1d2:	10 92 60 00 	sts	0x0060, r1
+ 27c:	10 92 61 00 	sts	0x0061, r1
+ 280:	10 92 60 00 	sts	0x0060, r1
 	}
 }
- 1d6:	9f 91       	pop	r25
- 1d8:	8f 91       	pop	r24
- 1da:	0f 90       	pop	r0
- 1dc:	0f be       	out	0x3f, r0	; 63
- 1de:	0f 90       	pop	r0
- 1e0:	1f 90       	pop	r1
- 1e2:	18 95       	reti
+ 284:	9f 91       	pop	r25
+ 286:	8f 91       	pop	r24
+ 288:	0f 90       	pop	r0
+ 28a:	0f be       	out	0x3f, r0	; 63
+ 28c:	0f 90       	pop	r0
+ 28e:	1f 90       	pop	r1
+ 290:	18 95       	reti
 
-000001e4 <__vector_2>:
+00000292 <__vector_2>:
 
 ISR(INT1_vect)
 {
- 1e4:	1f 92       	push	r1
- 1e6:	0f 92       	push	r0
- 1e8:	0f b6       	in	r0, 0x3f	; 63
- 1ea:	0f 92       	push	r0
- 1ec:	11 24       	eor	r1, r1
- 1ee:	2f 93       	push	r18
- 1f0:	8f 93       	push	r24
- 1f2:	9f 93       	push	r25
+ 292:	1f 92       	push	r1
+ 294:	0f 92       	push	r0
+ 296:	0f b6       	in	r0, 0x3f	; 63
+ 298:	0f 92       	push	r0
+ 29a:	11 24       	eor	r1, r1
+ 29c:	2f 93       	push	r18
+ 29e:	8f 93       	push	r24
+ 2a0:	9f 93       	push	r25
 	count--;
- 1f4:	80 91 60 00 	lds	r24, 0x0060
- 1f8:	90 91 61 00 	lds	r25, 0x0061
- 1fc:	01 97       	sbiw	r24, 0x01	; 1
- 1fe:	90 93 61 00 	sts	0x0061, r25
- 202:	80 93 60 00 	sts	0x0060, r24
+ 2a2:	80 91 60 00 	lds	r24, 0x0060
+ 2a6:	90 91 61 00 	lds	r25, 0x0061
+ 2aa:	01 97       	sbiw	r24, 0x01	; 1
+ 2ac:	90 93 61 00 	sts	0x0061, r25
+ 2b0:	80 93 60 00 	sts	0x0060, r24
 	if (count == -1)
- 206:	2f ef       	ldi	r18, 0xFF	; 255
- 208:	8f 3f       	cpi	r24, 0xFF	; 255
- 20a:	92 07       	cpc	r25, r18
- 20c:	31 f4       	brne	.+12     	; 0x21a <__vector_2+0x36>
+ 2b4:	2f ef       	ldi	r18, 0xFF	; 255
+ 2b6:	8f 3f       	cpi	r24, 0xFF	; 255
+ 2b8:	92 07       	cpc	r25, r18
+ 2ba:	31 f4       	brne	.+12     	; 0x2c8 <__vector_2+0x36>
 	{
 		count = 6;
- 20e:	86 e0       	ldi	r24, 0x06	; 6
- 210:	90 e0       	ldi	r25, 0x00	; 0
- 212:	90 93 61 00 	sts	0x0061, r25
- 216:	80 93 60 00 	sts	0x0060, r24
+ 2bc:	86 e0       	ldi	r24, 0x06	; 6
+ 2be:	90 e0       	ldi	r25, 0x00	; 0
+ 2c0:	90 93 61 00 	sts	0x0061, r25
+ 2c4:	80 93 60 00 	sts	0x0060, r24
 	}
 }
- 21a:	9f 91       	pop	r25
- 21c:	8f 91       	pop	r24
- 21e:	2f 91       	pop	r18
- 220:	0f 90       	pop	r0
- 222:	0f be       	out	0x3f, r0	; 63
- 224:	0f 90       	pop	r0
- 226:	1f 90       	pop	r1
- 228:	18 95       	reti
+ 2c8:	9f 91       	pop	r25
+ 2ca:	8f 91       	pop	r24
+ 2cc:	2f 91       	pop	r18
+ 2ce:	0f 90       	pop	r0
+ 2d0:	0f be       	out	0x3f, r0	; 63
+ 2d2:	0f 90       	pop	r0
+ 2d4:	1f 90       	pop	r1
+ 2d6:	18 95       	reti
 
-0000022a <_exit>:
- 22a:	f8 94       	cli
+000002d8 <_exit>:
+ 2d8:	f8 94       	cli
 
-0000022c <__stop_program>:
- 22c:	ff cf       	rjmp	.-2      	; 0x22c <__stop_program>
+000002da <__stop_program>:
+ 2da:	ff cf       	rjmp	.-2      	; 0x2da <__stop_program>
