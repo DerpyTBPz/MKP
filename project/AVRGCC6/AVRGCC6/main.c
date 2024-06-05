@@ -108,88 +108,43 @@ void UARTtoLCD()
 	_delay_ms(250); 
 	
 	LCD_clear();
-	
-// 	txt = UARTReceive();
-// 	for (int i = 0; i < 5; i++)
-// 	{
-// 		string[i] = txt;
-// 	}
-//	LCD_sendString(string);
-	
 	while (1)
-	{	
-// /*		char string[128];*/
+	{
 		while (1)
 		{
 			txt = UARTReceive();
 			if (txt == '\r')
 			{
-				txt = 0;	
-				SendString(string);	
-				LCD_sendString(string);
-				for (int j = 0; j < i; j++)
-				{
-					string[j] = '\0';
-				}
-				i = 0;
+				count = 0;
 				break;
 			}
 			else
 			{
-				string[i] = txt;
-				i++;
-				txt = 0;
-			}					
-			PORTD ^= RED;		
-			_delay_ms(10);
-			PORTD ^= RED;
+				string[count++] = txt;
+			}
 		}
-
-		UARTSend(UARTReceive());
+				
+//		SendString(string);
+		if (flag == 0)
+		{
+			LCD_clear();
+			LCD_setPosition(0, 0);
+			LCD_sendString(string);
+			flag++;
+		}	
+		else
+		{
+			LCD_setPosition(0, 1);
+			LCD_sendString(string);
+			flag--;
+		}
 		
-// 		PORTD ^= BLUE;
-// 		_delay_ms(10);
-// 		PORTD ^= BLUE;
-// 		txt = UARTReceive();
-// 		count++;
-// 		UARTSend(txt);
-// 		LCD_sendString("bababa");
-		
-		
-		
-// 		while (txt != '\0')
-// 		{
-// 			txt = UARTReceive();
-// 			string[count] = txt;
-// 			count++;
-// 		}
-// 		txt = 'a';
-// 		LCD_setPosition(0,0);
-// 		LCD_sendString(string);
-		
-// 		txt = UARTReceive();
-// 		count++;
-// 		if ((count == 15) && (flag != 1))
-// 		{
-// 			count = 0;
-// 			flag = 1;
-// 			sendByte(txt, 1);
-// 		}
-// 		else if ((count == 15) && (flag = 1))
-// 		{
-// 				LCD_clear();
-// 				flag = 0;
-// 				count = 0;
-// 				sendByte(txt, 1);
-// 			}
- 		}
+		for (int j = 0; j < 128; j++)
+		{
+			string[j] = '\0';
+		}
+ 	}
 	
-}
-
-void Test()
-{
-	LCD_setPosition(0,0);
-	//LCD_sendString(UARTReceive(), 1);
 }
 
 void colorRGB(int R, int G, int B)
