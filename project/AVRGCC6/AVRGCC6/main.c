@@ -27,15 +27,12 @@ ISR(INT1_vect);
 int count = 0;
 int flag = 0;
 char string[128];
-char txt;
+char txt = 'a';
 
 int main(void) 
 { 
-	DDRD |= 0xFF;
-	UARTInit();
-	
 //----------------------	
-//	ColorToLCD();
+	ColorToLCD();
 //	UARTtoLCD();
 //----------------------
 	
@@ -61,7 +58,7 @@ int main(void)
   
 	while (1) 
 	{ 
-		Test();
+		//Test();
 	} 
  
 	return 0; 
@@ -84,34 +81,51 @@ void ColorToLCD()
 	MCUCR = 0x0F;
 	GICR = 0xC0; 
 	sei();
+	
+	while (1)
+	{
+		
+	}
 }
 
 void UARTtoLCD()
 {
+	DDRD |= 0x03;
 	DDRC |= (1<<PC0) | (1<<PC1);
 	I2C_Init(); 
-	_delay_ms(50); 
+	_delay_ms(250); 
 	LCD_Init();
+	UARTInit();
 	
 	LCD_clear();
 	
 	while (1)
 	{		
-		txt = UARTReceive();
-		count++;
-		if ((count == 15) && (flag != 1))
+		while (txt != '\0')
 		{
-			count = 0;
-			flag = 1;
-			sendByte(txt, 1);
+			txt = UARTReceive();
+			string[count] = txt;
+			count++;
 		}
-		else if ((count == 15) && (flag = 1))
-		{
-			LCD_clear();
-			flag = 0;
-			count = 0;
-			sendByte(txt, 1);
-		}
+		txt = 'a';
+		LCD_setPosition(0,0);
+		LCD_sendString(string);
+		
+// 		txt = UARTReceive();
+// 		count++;
+// 		if ((count == 15) && (flag != 1))
+// 		{
+// 			count = 0;
+// 			flag = 1;
+// 			sendByte(txt, 1);
+// 		}
+// 		else if ((count == 15) && (flag = 1))
+// 		{
+// 			LCD_clear();
+// 			flag = 0;
+// 			count = 0;
+// 			sendByte(txt, 1);
+// 		}
 	}
 	
 }
@@ -184,14 +198,14 @@ void color(int num)
 			case 4:
 				colorRGB(0,255,0);				
 				LCD_setPosition(0,0);
-				LCD_sendString("(255, 255, 0)");
+				LCD_sendString("(0, 255, 0)");
 				LCD_setPosition(0,1);
 				LCD_sendString("Green");
 				break;
 			case 5:
 				colorRGB(0,255,255);				
 				LCD_setPosition(0,0);
-				LCD_sendString("(255, 0, 0)");
+				LCD_sendString("(0, 255, 255)");
 				LCD_setPosition(0,1);
 				LCD_sendString("Cyan");
 				break;

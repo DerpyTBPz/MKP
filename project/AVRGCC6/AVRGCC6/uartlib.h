@@ -14,7 +14,4 @@ void UARTSend(char Value);
 char UARTReceive();
 void SendString(char* str);
 
-
-
-
 #endif /* UARTLIB_H_ */
