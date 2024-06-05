@@ -3,43 +3,41 @@ AVRGCC6.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000688  00000000  00000000  00000094  2**1
+  0 .text         00000666  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000086  00800060  00000688  0000071c  2**0
+  1 .data         00000086  00800060  00000666  000006fa  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000085  008000e6  008000e6  000007a2  2**0
+  2 .bss          00000085  008000e6  008000e6  00000780  2**0
                   ALLOC
-  3 .stab         000006cc  00000000  00000000  000007a4  2**2
+  3 .stab         000006cc  00000000  00000000  00000780  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000090  00000000  00000000  00000e70  2**0
+  4 .stabstr      00000090  00000000  00000000  00000e4c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000080  00000000  00000000  00000f00  2**0
+  5 .debug_aranges 00000080  00000000  00000000  00000edc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_pubnames 000001d9  00000000  00000000  00000f80  2**0
+  6 .debug_pubnames 000001d9  00000000  00000000  00000f5c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00000a08  00000000  00000000  00001159  2**0
+  7 .debug_info   00000a30  00000000  00000000  00001135  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000004a3  00000000  00000000  00001b61  2**0
+  8 .debug_abbrev 0000049c  00000000  00000000  00001b65  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000b89  00000000  00000000  00002004  2**0
+  9 .debug_line   00000b62  00000000  00000000  00002001  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  000001c0  00000000  00000000  00002b90  2**2
+ 10 .debug_frame  000001c0  00000000  00000000  00002b64  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000002a3  00000000  00000000  00002d50  2**0
+ 11 .debug_str    000002a3  00000000  00000000  00002d24  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    00000298  00000000  00000000  00002ff3  2**0
+ 12 .debug_loc    000002e8  00000000  00000000  00002fc7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_pubtypes 000000ac  00000000  00000000  0000328b  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000018  00000000  00000000  00003337  2**0
+ 13 .debug_pubtypes 000000ac  00000000  00000000  000032af  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 df 02 	jmp	0x5be	; 0x5be <__vector_1>
-   8:	0c 94 a3 02 	jmp	0x546	; 0x546 <__vector_2>
+   4:	0c 94 ce 02 	jmp	0x59c	; 0x59c <__vector_1>
+   8:	0c 94 92 02 	jmp	0x524	; 0x524 <__vector_2>
    c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -71,7 +69,7 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e8 e8       	ldi	r30, 0x88	; 136
+  66:	e6 e6       	ldi	r30, 0x66	; 102
   68:	f6 e0       	ldi	r31, 0x06	; 6
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -93,8 +91,8 @@ Disassembly of section .text:
   80:	ab 36       	cpi	r26, 0x6B	; 107
   82:	b1 07       	cpc	r27, r17
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <main>
-  8a:	0c 94 42 03 	jmp	0x684	; 0x684 <_exit>
+  86:	0e 94 95 01 	call	0x32a	; 0x32a <main>
+  8a:	0c 94 31 03 	jmp	0x662	; 0x662 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -400,679 +398,641 @@ void ColorToLCD()
 	LCD_Init();
  2c4:	0e 94 c3 00 	call	0x186	; 0x186 <LCD_Init>
 	
+	UARTInit();
+ 2c8:	0e 94 0a 03 	call	0x614	; 0x614 <UARTInit>
+	
 	LCD_clear();
- 2c8:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
+ 2cc:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
 		
 	MCUCR = 0x0F;
- 2cc:	8f e0       	ldi	r24, 0x0F	; 15
- 2ce:	85 bf       	out	0x35, r24	; 53
+ 2d0:	8f e0       	ldi	r24, 0x0F	; 15
+ 2d2:	85 bf       	out	0x35, r24	; 53
 	GICR = 0xC0; 
- 2d0:	80 ec       	ldi	r24, 0xC0	; 192
- 2d2:	8b bf       	out	0x3b, r24	; 59
+ 2d4:	80 ec       	ldi	r24, 0xC0	; 192
+ 2d6:	8b bf       	out	0x3b, r24	; 59
 	sei();
- 2d4:	78 94       	sei
- 2d6:	ff cf       	rjmp	.-2      	; 0x2d6 <ColorToLCD+0x40>
+ 2d8:	78 94       	sei
+ 2da:	ff cf       	rjmp	.-2      	; 0x2da <ColorToLCD+0x44>
 
-000002d8 <main>:
+000002dc <UARTtoLCD>:
+	}
+}
+
+void UARTtoLCD()
+{
+	DDRD |= 0x03;
+ 2dc:	81 b3       	in	r24, 0x11	; 17
+ 2de:	83 60       	ori	r24, 0x03	; 3
+ 2e0:	81 bb       	out	0x11, r24	; 17
+	DDRC |= (1<<PC0) | (1<<PC1);
+ 2e2:	84 b3       	in	r24, 0x14	; 20
+ 2e4:	83 60       	ori	r24, 0x03	; 3
+ 2e6:	84 bb       	out	0x14, r24	; 20
+	I2C_Init(); 
+ 2e8:	0e 94 49 00 	call	0x92	; 0x92 <I2C_Init>
+ 2ec:	83 e2       	ldi	r24, 0x23	; 35
+ 2ee:	94 ef       	ldi	r25, 0xF4	; 244
+ 2f0:	01 97       	sbiw	r24, 0x01	; 1
+ 2f2:	f1 f7       	brne	.-4      	; 0x2f0 <UARTtoLCD+0x14>
+ 2f4:	00 c0       	rjmp	.+0      	; 0x2f6 <UARTtoLCD+0x1a>
+ 2f6:	00 00       	nop
+	_delay_ms(250); 
+	LCD_Init();
+ 2f8:	0e 94 c3 00 	call	0x186	; 0x186 <LCD_Init>
+	UARTInit();
+ 2fc:	0e 94 0a 03 	call	0x614	; 0x614 <UARTInit>
+	
+	LCD_clear();
+ 300:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
+	
+	txt = UARTReceive();
+ 304:	0e 94 18 03 	call	0x630	; 0x630 <UARTReceive>
+ 308:	80 93 e5 00 	sts	0x00E5, r24
+	for (int i = 0; i < 5; i++)
+	{
+		string[i] = txt;
+ 30c:	80 93 eb 00 	sts	0x00EB, r24
+ 310:	80 93 ec 00 	sts	0x00EC, r24
+ 314:	80 93 ed 00 	sts	0x00ED, r24
+ 318:	80 93 ee 00 	sts	0x00EE, r24
+ 31c:	80 93 ef 00 	sts	0x00EF, r24
+	}
+	LCD_sendString(string);
+ 320:	8b ee       	ldi	r24, 0xEB	; 235
+ 322:	90 e0       	ldi	r25, 0x00	; 0
+ 324:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 328:	ff cf       	rjmp	.-2      	; 0x328 <UARTtoLCD+0x4c>
+
+0000032a <main>:
 int flag = 0;
 char string[128];
 char txt = 'a';
 
 int main(void) 
 { 
- 2d8:	0f 93       	push	r16
- 2da:	1f 93       	push	r17
- 2dc:	cf 93       	push	r28
- 2de:	df 93       	push	r29
+ 32a:	0f 93       	push	r16
+ 32c:	1f 93       	push	r17
+ 32e:	cf 93       	push	r28
+ 330:	df 93       	push	r29
 //----------------------	
-	ColorToLCD();
- 2e0:	0e 94 4b 01 	call	0x296	; 0x296 <ColorToLCD>
+//	ColorToLCD();
+	UARTtoLCD();
+ 332:	0e 94 6e 01 	call	0x2dc	; 0x2dc <UARTtoLCD>
 //----------------------
 	
 //	LCD_clear();
  
 // 	_delay_ms(1000); 
 	LCD_clear(); 
- 2e4:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
+ 336:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
 	LCD_setPosition(0,0);
- 2e8:	80 e0       	ldi	r24, 0x00	; 0
- 2ea:	60 e0       	ldi	r22, 0x00	; 0
- 2ec:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
- 2f0:	cb ee       	ldi	r28, 0xEB	; 235
- 2f2:	d0 e0       	ldi	r29, 0x00	; 0
+ 33a:	80 e0       	ldi	r24, 0x00	; 0
+ 33c:	60 e0       	ldi	r22, 0x00	; 0
+ 33e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 342:	cb ee       	ldi	r28, 0xEB	; 235
+ 344:	d0 e0       	ldi	r29, 0x00	; 0
 int count = 0;
 int flag = 0;
 char string[128];
 char txt = 'a';
 
 int main(void) 
- 2f4:	8e 01       	movw	r16, r28
- 2f6:	0b 5f       	subi	r16, 0xFB	; 251
- 2f8:	1f 4f       	sbci	r17, 0xFF	; 255
+ 346:	8e 01       	movw	r16, r28
+ 348:	0b 5f       	subi	r16, 0xFB	; 251
+ 34a:	1f 4f       	sbci	r17, 0xFF	; 255
 // 	_delay_ms(1000); 
 	LCD_clear(); 
 	LCD_setPosition(0,0);
 	for (int i = 0; i < 5; i++)
 	{
 		string[i] = UARTReceive();
- 2fa:	0e 94 29 03 	call	0x652	; 0x652 <UARTReceive>
- 2fe:	89 93       	st	Y+, r24
+ 34c:	0e 94 18 03 	call	0x630	; 0x630 <UARTReceive>
+ 350:	89 93       	st	Y+, r24
 //	LCD_clear();
  
 // 	_delay_ms(1000); 
 	LCD_clear(); 
 	LCD_setPosition(0,0);
 	for (int i = 0; i < 5; i++)
- 300:	c0 17       	cp	r28, r16
- 302:	d1 07       	cpc	r29, r17
- 304:	d1 f7       	brne	.-12     	; 0x2fa <main+0x22>
+ 352:	c0 17       	cp	r28, r16
+ 354:	d1 07       	cpc	r29, r17
+ 356:	d1 f7       	brne	.-12     	; 0x34c <main+0x22>
 	{
 		string[i] = UARTReceive();
 	} 
 		
  	LCD_sendString(string); 
- 306:	8b ee       	ldi	r24, 0xEB	; 235
- 308:	90 e0       	ldi	r25, 0x00	; 0
- 30a:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
- 30e:	ff cf       	rjmp	.-2      	; 0x30e <main+0x36>
+ 358:	8b ee       	ldi	r24, 0xEB	; 235
+ 35a:	90 e0       	ldi	r25, 0x00	; 0
+ 35c:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 360:	ff cf       	rjmp	.-2      	; 0x360 <main+0x36>
 
-00000310 <UARTtoLCD>:
-		
-	}
-}
-
-void UARTtoLCD()
-{
- 310:	1f 93       	push	r17
- 312:	cf 93       	push	r28
- 314:	df 93       	push	r29
-	DDRD |= 0x03;
- 316:	81 b3       	in	r24, 0x11	; 17
- 318:	83 60       	ori	r24, 0x03	; 3
- 31a:	81 bb       	out	0x11, r24	; 17
-	DDRC |= (1<<PC0) | (1<<PC1);
- 31c:	84 b3       	in	r24, 0x14	; 20
- 31e:	83 60       	ori	r24, 0x03	; 3
- 320:	84 bb       	out	0x14, r24	; 20
-	I2C_Init(); 
- 322:	0e 94 49 00 	call	0x92	; 0x92 <I2C_Init>
- 326:	83 e2       	ldi	r24, 0x23	; 35
- 328:	94 ef       	ldi	r25, 0xF4	; 244
- 32a:	01 97       	sbiw	r24, 0x01	; 1
- 32c:	f1 f7       	brne	.-4      	; 0x32a <UARTtoLCD+0x1a>
- 32e:	00 c0       	rjmp	.+0      	; 0x330 <UARTtoLCD+0x20>
- 330:	00 00       	nop
-	_delay_ms(250); 
-	LCD_Init();
- 332:	0e 94 c3 00 	call	0x186	; 0x186 <LCD_Init>
-	UARTInit();
- 336:	0e 94 1b 03 	call	0x636	; 0x636 <UARTInit>
-	
-	LCD_clear();
- 33a:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
-	while (1)
-	{		
-		while (txt != '\0')
-		{
-			txt = UARTReceive();
-			string[count] = txt;
- 33e:	cb ee       	ldi	r28, 0xEB	; 235
- 340:	d0 e0       	ldi	r29, 0x00	; 0
-			count++;
-		}
-		txt = 'a';
- 342:	11 e6       	ldi	r17, 0x61	; 97
- 344:	12 c0       	rjmp	.+36     	; 0x36a <UARTtoLCD+0x5a>
-	
-	while (1)
-	{		
-		while (txt != '\0')
-		{
-			txt = UARTReceive();
- 346:	0e 94 29 03 	call	0x652	; 0x652 <UARTReceive>
- 34a:	80 93 e5 00 	sts	0x00E5, r24
-			string[count] = txt;
- 34e:	20 91 e7 00 	lds	r18, 0x00E7
- 352:	30 91 e8 00 	lds	r19, 0x00E8
- 356:	fe 01       	movw	r30, r28
- 358:	e2 0f       	add	r30, r18
- 35a:	f3 1f       	adc	r31, r19
- 35c:	80 83       	st	Z, r24
-			count++;
- 35e:	2f 5f       	subi	r18, 0xFF	; 255
- 360:	3f 4f       	sbci	r19, 0xFF	; 255
- 362:	30 93 e8 00 	sts	0x00E8, r19
- 366:	20 93 e7 00 	sts	0x00E7, r18
-	
-	LCD_clear();
-	
-	while (1)
-	{		
-		while (txt != '\0')
- 36a:	80 91 e5 00 	lds	r24, 0x00E5
- 36e:	88 23       	and	r24, r24
- 370:	51 f7       	brne	.-44     	; 0x346 <UARTtoLCD+0x36>
-		{
-			txt = UARTReceive();
-			string[count] = txt;
-			count++;
-		}
-		txt = 'a';
- 372:	10 93 e5 00 	sts	0x00E5, r17
-		LCD_setPosition(0,0);
- 376:	60 e0       	ldi	r22, 0x00	; 0
- 378:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-		LCD_sendString(string);
- 37c:	ce 01       	movw	r24, r28
- 37e:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
- 382:	f3 cf       	rjmp	.-26     	; 0x36a <UARTtoLCD+0x5a>
-
-00000384 <Test>:
+00000362 <Test>:
 	
 }
 
 void Test()
 {
 	LCD_setPosition(0,0);
- 384:	80 e0       	ldi	r24, 0x00	; 0
- 386:	60 e0       	ldi	r22, 0x00	; 0
- 388:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 362:	80 e0       	ldi	r24, 0x00	; 0
+ 364:	60 e0       	ldi	r22, 0x00	; 0
+ 366:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 	//LCD_sendString(UARTReceive(), 1);
 }
- 38c:	08 95       	ret
+ 36a:	08 95       	ret
 
-0000038e <colorRGB>:
+0000036c <colorRGB>:
 
 void colorRGB(int R, int G, int B)
 {
 	OCR2 = R; //RED 		
- 38e:	83 bd       	out	0x23, r24	; 35
+ 36c:	83 bd       	out	0x23, r24	; 35
 	OCR1AL = G; //GREEN
- 390:	6a bd       	out	0x2a, r22	; 42
+ 36e:	6a bd       	out	0x2a, r22	; 42
 	OCR1BL = B; //BLUE
- 392:	48 bd       	out	0x28, r20	; 40
+ 370:	48 bd       	out	0x28, r20	; 40
 // 
 // 	OCR2 = G; //RED 		
 // 	OCR1AL = R; //GREEN
 // 	OCR1BL = B; //BLUE
 
 }
- 394:	08 95       	ret
+ 372:	08 95       	ret
 
-00000396 <color>:
+00000374 <color>:
 	color(count);
 }
 
 void color(int num)
 {
 	switch (num)
- 396:	84 30       	cpi	r24, 0x04	; 4
- 398:	91 05       	cpc	r25, r1
- 39a:	09 f4       	brne	.+2      	; 0x39e <color+0x8>
- 39c:	67 c0       	rjmp	.+206    	; 0x46c <__stack+0xd>
- 39e:	85 30       	cpi	r24, 0x05	; 5
- 3a0:	91 05       	cpc	r25, r1
- 3a2:	64 f4       	brge	.+24     	; 0x3bc <color+0x26>
- 3a4:	82 30       	cpi	r24, 0x02	; 2
- 3a6:	91 05       	cpc	r25, r1
- 3a8:	79 f1       	breq	.+94     	; 0x408 <color+0x72>
- 3aa:	83 30       	cpi	r24, 0x03	; 3
+ 374:	84 30       	cpi	r24, 0x04	; 4
+ 376:	91 05       	cpc	r25, r1
+ 378:	09 f4       	brne	.+2      	; 0x37c <color+0x8>
+ 37a:	67 c0       	rjmp	.+206    	; 0x44a <color+0xd6>
+ 37c:	85 30       	cpi	r24, 0x05	; 5
+ 37e:	91 05       	cpc	r25, r1
+ 380:	64 f4       	brge	.+24     	; 0x39a <color+0x26>
+ 382:	82 30       	cpi	r24, 0x02	; 2
+ 384:	91 05       	cpc	r25, r1
+ 386:	79 f1       	breq	.+94     	; 0x3e6 <color+0x72>
+ 388:	83 30       	cpi	r24, 0x03	; 3
+ 38a:	91 05       	cpc	r25, r1
+ 38c:	0c f0       	brlt	.+2      	; 0x390 <color+0x1c>
+ 38e:	44 c0       	rjmp	.+136    	; 0x418 <color+0xa4>
+ 390:	81 30       	cpi	r24, 0x01	; 1
+ 392:	91 05       	cpc	r25, r1
+ 394:	09 f0       	breq	.+2      	; 0x398 <color+0x24>
+ 396:	bd c0       	rjmp	.+378    	; 0x512 <__stack+0xb3>
+ 398:	0d c0       	rjmp	.+26     	; 0x3b4 <color+0x40>
+ 39a:	86 30       	cpi	r24, 0x06	; 6
+ 39c:	91 05       	cpc	r25, r1
+ 39e:	09 f4       	brne	.+2      	; 0x3a2 <color+0x2e>
+ 3a0:	86 c0       	rjmp	.+268    	; 0x4ae <__stack+0x4f>
+ 3a2:	86 30       	cpi	r24, 0x06	; 6
+ 3a4:	91 05       	cpc	r25, r1
+ 3a6:	0c f4       	brge	.+2      	; 0x3aa <color+0x36>
+ 3a8:	69 c0       	rjmp	.+210    	; 0x47c <__stack+0x1d>
+ 3aa:	87 30       	cpi	r24, 0x07	; 7
  3ac:	91 05       	cpc	r25, r1
- 3ae:	0c f0       	brlt	.+2      	; 0x3b2 <color+0x1c>
- 3b0:	44 c0       	rjmp	.+136    	; 0x43a <color+0xa4>
- 3b2:	81 30       	cpi	r24, 0x01	; 1
- 3b4:	91 05       	cpc	r25, r1
- 3b6:	09 f0       	breq	.+2      	; 0x3ba <color+0x24>
- 3b8:	bd c0       	rjmp	.+378    	; 0x534 <__stack+0xd5>
- 3ba:	0d c0       	rjmp	.+26     	; 0x3d6 <color+0x40>
- 3bc:	86 30       	cpi	r24, 0x06	; 6
- 3be:	91 05       	cpc	r25, r1
- 3c0:	09 f4       	brne	.+2      	; 0x3c4 <color+0x2e>
- 3c2:	86 c0       	rjmp	.+268    	; 0x4d0 <__stack+0x71>
- 3c4:	86 30       	cpi	r24, 0x06	; 6
- 3c6:	91 05       	cpc	r25, r1
- 3c8:	0c f4       	brge	.+2      	; 0x3cc <color+0x36>
- 3ca:	69 c0       	rjmp	.+210    	; 0x49e <__stack+0x3f>
- 3cc:	87 30       	cpi	r24, 0x07	; 7
- 3ce:	91 05       	cpc	r25, r1
- 3d0:	09 f0       	breq	.+2      	; 0x3d4 <color+0x3e>
- 3d2:	b0 c0       	rjmp	.+352    	; 0x534 <__stack+0xd5>
- 3d4:	96 c0       	rjmp	.+300    	; 0x502 <__stack+0xa3>
+ 3ae:	09 f0       	breq	.+2      	; 0x3b2 <color+0x3e>
+ 3b0:	b0 c0       	rjmp	.+352    	; 0x512 <__stack+0xb3>
+ 3b2:	96 c0       	rjmp	.+300    	; 0x4e0 <__stack+0x81>
 		{
 			case 1:
 				colorRGB(255,0,0);				
- 3d6:	8f ef       	ldi	r24, 0xFF	; 255
- 3d8:	90 e0       	ldi	r25, 0x00	; 0
- 3da:	60 e0       	ldi	r22, 0x00	; 0
- 3dc:	70 e0       	ldi	r23, 0x00	; 0
- 3de:	40 e0       	ldi	r20, 0x00	; 0
- 3e0:	50 e0       	ldi	r21, 0x00	; 0
- 3e2:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 3b4:	8f ef       	ldi	r24, 0xFF	; 255
+ 3b6:	90 e0       	ldi	r25, 0x00	; 0
+ 3b8:	60 e0       	ldi	r22, 0x00	; 0
+ 3ba:	70 e0       	ldi	r23, 0x00	; 0
+ 3bc:	40 e0       	ldi	r20, 0x00	; 0
+ 3be:	50 e0       	ldi	r21, 0x00	; 0
+ 3c0:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 3e6:	80 e0       	ldi	r24, 0x00	; 0
- 3e8:	60 e0       	ldi	r22, 0x00	; 0
- 3ea:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 3c4:	80 e0       	ldi	r24, 0x00	; 0
+ 3c6:	60 e0       	ldi	r22, 0x00	; 0
+ 3c8:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(255, 0, 0)");
- 3ee:	80 e6       	ldi	r24, 0x60	; 96
- 3f0:	90 e0       	ldi	r25, 0x00	; 0
- 3f2:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 3cc:	80 e6       	ldi	r24, 0x60	; 96
+ 3ce:	90 e0       	ldi	r25, 0x00	; 0
+ 3d0:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 3f6:	80 e0       	ldi	r24, 0x00	; 0
- 3f8:	61 e0       	ldi	r22, 0x01	; 1
- 3fa:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 3d4:	80 e0       	ldi	r24, 0x00	; 0
+ 3d6:	61 e0       	ldi	r22, 0x01	; 1
+ 3d8:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Red");
- 3fe:	8c e6       	ldi	r24, 0x6C	; 108
- 400:	90 e0       	ldi	r25, 0x00	; 0
- 402:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 3dc:	8c e6       	ldi	r24, 0x6C	; 108
+ 3de:	90 e0       	ldi	r25, 0x00	; 0
+ 3e0:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;
- 406:	08 95       	ret
+ 3e4:	08 95       	ret
 			case 2:
 				colorRGB(255,165,0);				
- 408:	8f ef       	ldi	r24, 0xFF	; 255
- 40a:	90 e0       	ldi	r25, 0x00	; 0
- 40c:	65 ea       	ldi	r22, 0xA5	; 165
- 40e:	70 e0       	ldi	r23, 0x00	; 0
- 410:	40 e0       	ldi	r20, 0x00	; 0
- 412:	50 e0       	ldi	r21, 0x00	; 0
- 414:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 3e6:	8f ef       	ldi	r24, 0xFF	; 255
+ 3e8:	90 e0       	ldi	r25, 0x00	; 0
+ 3ea:	65 ea       	ldi	r22, 0xA5	; 165
+ 3ec:	70 e0       	ldi	r23, 0x00	; 0
+ 3ee:	40 e0       	ldi	r20, 0x00	; 0
+ 3f0:	50 e0       	ldi	r21, 0x00	; 0
+ 3f2:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 418:	80 e0       	ldi	r24, 0x00	; 0
- 41a:	60 e0       	ldi	r22, 0x00	; 0
- 41c:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 3f6:	80 e0       	ldi	r24, 0x00	; 0
+ 3f8:	60 e0       	ldi	r22, 0x00	; 0
+ 3fa:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(255, 165, 0)");
- 420:	80 e7       	ldi	r24, 0x70	; 112
- 422:	90 e0       	ldi	r25, 0x00	; 0
- 424:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 3fe:	80 e7       	ldi	r24, 0x70	; 112
+ 400:	90 e0       	ldi	r25, 0x00	; 0
+ 402:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 428:	80 e0       	ldi	r24, 0x00	; 0
- 42a:	61 e0       	ldi	r22, 0x01	; 1
- 42c:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 406:	80 e0       	ldi	r24, 0x00	; 0
+ 408:	61 e0       	ldi	r22, 0x01	; 1
+ 40a:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Orange");
- 430:	8e e7       	ldi	r24, 0x7E	; 126
- 432:	90 e0       	ldi	r25, 0x00	; 0
- 434:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 40e:	8e e7       	ldi	r24, 0x7E	; 126
+ 410:	90 e0       	ldi	r25, 0x00	; 0
+ 412:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;
- 438:	08 95       	ret
+ 416:	08 95       	ret
 			case 3:
 				colorRGB(255,255,0);				
- 43a:	8f ef       	ldi	r24, 0xFF	; 255
- 43c:	90 e0       	ldi	r25, 0x00	; 0
- 43e:	6f ef       	ldi	r22, 0xFF	; 255
- 440:	70 e0       	ldi	r23, 0x00	; 0
- 442:	40 e0       	ldi	r20, 0x00	; 0
- 444:	50 e0       	ldi	r21, 0x00	; 0
- 446:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 418:	8f ef       	ldi	r24, 0xFF	; 255
+ 41a:	90 e0       	ldi	r25, 0x00	; 0
+ 41c:	6f ef       	ldi	r22, 0xFF	; 255
+ 41e:	70 e0       	ldi	r23, 0x00	; 0
+ 420:	40 e0       	ldi	r20, 0x00	; 0
+ 422:	50 e0       	ldi	r21, 0x00	; 0
+ 424:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 44a:	80 e0       	ldi	r24, 0x00	; 0
- 44c:	60 e0       	ldi	r22, 0x00	; 0
- 44e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 428:	80 e0       	ldi	r24, 0x00	; 0
+ 42a:	60 e0       	ldi	r22, 0x00	; 0
+ 42c:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(255, 255, 0)");
- 452:	85 e8       	ldi	r24, 0x85	; 133
- 454:	90 e0       	ldi	r25, 0x00	; 0
- 456:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 430:	85 e8       	ldi	r24, 0x85	; 133
+ 432:	90 e0       	ldi	r25, 0x00	; 0
+ 434:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 45a:	80 e0       	ldi	r24, 0x00	; 0
- 45c:	61 e0       	ldi	r22, 0x01	; 1
- 45e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 438:	80 e0       	ldi	r24, 0x00	; 0
+ 43a:	61 e0       	ldi	r22, 0x01	; 1
+ 43c:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Yellow");
- 462:	83 e9       	ldi	r24, 0x93	; 147
- 464:	90 e0       	ldi	r25, 0x00	; 0
- 466:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 440:	83 e9       	ldi	r24, 0x93	; 147
+ 442:	90 e0       	ldi	r25, 0x00	; 0
+ 444:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;
- 46a:	08 95       	ret
+ 448:	08 95       	ret
 			case 4:
 				colorRGB(0,255,0);				
- 46c:	80 e0       	ldi	r24, 0x00	; 0
- 46e:	90 e0       	ldi	r25, 0x00	; 0
- 470:	6f ef       	ldi	r22, 0xFF	; 255
- 472:	70 e0       	ldi	r23, 0x00	; 0
- 474:	40 e0       	ldi	r20, 0x00	; 0
- 476:	50 e0       	ldi	r21, 0x00	; 0
- 478:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 44a:	80 e0       	ldi	r24, 0x00	; 0
+ 44c:	90 e0       	ldi	r25, 0x00	; 0
+ 44e:	6f ef       	ldi	r22, 0xFF	; 255
+ 450:	70 e0       	ldi	r23, 0x00	; 0
+ 452:	40 e0       	ldi	r20, 0x00	; 0
+ 454:	50 e0       	ldi	r21, 0x00	; 0
+ 456:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 47c:	80 e0       	ldi	r24, 0x00	; 0
- 47e:	60 e0       	ldi	r22, 0x00	; 0
- 480:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 45a:	80 e0       	ldi	r24, 0x00	; 0
+ 45c:	60 e0       	ldi	r22, 0x00	; 0
+ 45e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(0, 255, 0)");
- 484:	8a e9       	ldi	r24, 0x9A	; 154
- 486:	90 e0       	ldi	r25, 0x00	; 0
- 488:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 462:	8a e9       	ldi	r24, 0x9A	; 154
+ 464:	90 e0       	ldi	r25, 0x00	; 0
+ 466:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 48c:	80 e0       	ldi	r24, 0x00	; 0
- 48e:	61 e0       	ldi	r22, 0x01	; 1
- 490:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 46a:	80 e0       	ldi	r24, 0x00	; 0
+ 46c:	61 e0       	ldi	r22, 0x01	; 1
+ 46e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Green");
- 494:	86 ea       	ldi	r24, 0xA6	; 166
- 496:	90 e0       	ldi	r25, 0x00	; 0
- 498:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 472:	86 ea       	ldi	r24, 0xA6	; 166
+ 474:	90 e0       	ldi	r25, 0x00	; 0
+ 476:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;
- 49c:	08 95       	ret
+ 47a:	08 95       	ret
 			case 5:
 				colorRGB(0,255,255);				
- 49e:	80 e0       	ldi	r24, 0x00	; 0
- 4a0:	90 e0       	ldi	r25, 0x00	; 0
- 4a2:	6f ef       	ldi	r22, 0xFF	; 255
- 4a4:	70 e0       	ldi	r23, 0x00	; 0
- 4a6:	4f ef       	ldi	r20, 0xFF	; 255
- 4a8:	50 e0       	ldi	r21, 0x00	; 0
- 4aa:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 47c:	80 e0       	ldi	r24, 0x00	; 0
+ 47e:	90 e0       	ldi	r25, 0x00	; 0
+ 480:	6f ef       	ldi	r22, 0xFF	; 255
+ 482:	70 e0       	ldi	r23, 0x00	; 0
+ 484:	4f ef       	ldi	r20, 0xFF	; 255
+ 486:	50 e0       	ldi	r21, 0x00	; 0
+ 488:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 4ae:	80 e0       	ldi	r24, 0x00	; 0
- 4b0:	60 e0       	ldi	r22, 0x00	; 0
- 4b2:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 48c:	80 e0       	ldi	r24, 0x00	; 0
+ 48e:	60 e0       	ldi	r22, 0x00	; 0
+ 490:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(0, 255, 255)");
- 4b6:	8c ea       	ldi	r24, 0xAC	; 172
- 4b8:	90 e0       	ldi	r25, 0x00	; 0
- 4ba:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 494:	8c ea       	ldi	r24, 0xAC	; 172
+ 496:	90 e0       	ldi	r25, 0x00	; 0
+ 498:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 4be:	80 e0       	ldi	r24, 0x00	; 0
- 4c0:	61 e0       	ldi	r22, 0x01	; 1
- 4c2:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 49c:	80 e0       	ldi	r24, 0x00	; 0
+ 49e:	61 e0       	ldi	r22, 0x01	; 1
+ 4a0:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Cyan");
- 4c6:	8a eb       	ldi	r24, 0xBA	; 186
- 4c8:	90 e0       	ldi	r25, 0x00	; 0
- 4ca:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 4a4:	8a eb       	ldi	r24, 0xBA	; 186
+ 4a6:	90 e0       	ldi	r25, 0x00	; 0
+ 4a8:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;
- 4ce:	08 95       	ret
+ 4ac:	08 95       	ret
 			case 6:
 				colorRGB(0,0,255);				
- 4d0:	80 e0       	ldi	r24, 0x00	; 0
- 4d2:	90 e0       	ldi	r25, 0x00	; 0
- 4d4:	60 e0       	ldi	r22, 0x00	; 0
- 4d6:	70 e0       	ldi	r23, 0x00	; 0
- 4d8:	4f ef       	ldi	r20, 0xFF	; 255
- 4da:	50 e0       	ldi	r21, 0x00	; 0
- 4dc:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 4ae:	80 e0       	ldi	r24, 0x00	; 0
+ 4b0:	90 e0       	ldi	r25, 0x00	; 0
+ 4b2:	60 e0       	ldi	r22, 0x00	; 0
+ 4b4:	70 e0       	ldi	r23, 0x00	; 0
+ 4b6:	4f ef       	ldi	r20, 0xFF	; 255
+ 4b8:	50 e0       	ldi	r21, 0x00	; 0
+ 4ba:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 4e0:	80 e0       	ldi	r24, 0x00	; 0
- 4e2:	60 e0       	ldi	r22, 0x00	; 0
- 4e4:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 4be:	80 e0       	ldi	r24, 0x00	; 0
+ 4c0:	60 e0       	ldi	r22, 0x00	; 0
+ 4c2:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(0, 0, 255)");
- 4e8:	8f eb       	ldi	r24, 0xBF	; 191
- 4ea:	90 e0       	ldi	r25, 0x00	; 0
- 4ec:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 4c6:	8f eb       	ldi	r24, 0xBF	; 191
+ 4c8:	90 e0       	ldi	r25, 0x00	; 0
+ 4ca:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 4f0:	80 e0       	ldi	r24, 0x00	; 0
- 4f2:	61 e0       	ldi	r22, 0x01	; 1
- 4f4:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 4ce:	80 e0       	ldi	r24, 0x00	; 0
+ 4d0:	61 e0       	ldi	r22, 0x01	; 1
+ 4d2:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Blue");
- 4f8:	8b ec       	ldi	r24, 0xCB	; 203
- 4fa:	90 e0       	ldi	r25, 0x00	; 0
- 4fc:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 4d6:	8b ec       	ldi	r24, 0xCB	; 203
+ 4d8:	90 e0       	ldi	r25, 0x00	; 0
+ 4da:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;			
- 500:	08 95       	ret
+ 4de:	08 95       	ret
 			case 7:
 				colorRGB(128,0,128);				
- 502:	80 e8       	ldi	r24, 0x80	; 128
- 504:	90 e0       	ldi	r25, 0x00	; 0
- 506:	60 e0       	ldi	r22, 0x00	; 0
- 508:	70 e0       	ldi	r23, 0x00	; 0
- 50a:	40 e8       	ldi	r20, 0x80	; 128
- 50c:	50 e0       	ldi	r21, 0x00	; 0
- 50e:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
+ 4e0:	80 e8       	ldi	r24, 0x80	; 128
+ 4e2:	90 e0       	ldi	r25, 0x00	; 0
+ 4e4:	60 e0       	ldi	r22, 0x00	; 0
+ 4e6:	70 e0       	ldi	r23, 0x00	; 0
+ 4e8:	40 e8       	ldi	r20, 0x80	; 128
+ 4ea:	50 e0       	ldi	r21, 0x00	; 0
+ 4ec:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
 				LCD_setPosition(0,0);
- 512:	80 e0       	ldi	r24, 0x00	; 0
- 514:	60 e0       	ldi	r22, 0x00	; 0
- 516:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 4f0:	80 e0       	ldi	r24, 0x00	; 0
+ 4f2:	60 e0       	ldi	r22, 0x00	; 0
+ 4f4:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("(128, 0, 128)");
- 51a:	80 ed       	ldi	r24, 0xD0	; 208
- 51c:	90 e0       	ldi	r25, 0x00	; 0
- 51e:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 4f8:	80 ed       	ldi	r24, 0xD0	; 208
+ 4fa:	90 e0       	ldi	r25, 0x00	; 0
+ 4fc:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				LCD_setPosition(0,1);
- 522:	80 e0       	ldi	r24, 0x00	; 0
- 524:	61 e0       	ldi	r22, 0x01	; 1
- 526:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 500:	80 e0       	ldi	r24, 0x00	; 0
+ 502:	61 e0       	ldi	r22, 0x01	; 1
+ 504:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 				LCD_sendString("Violet");
- 52a:	8e ed       	ldi	r24, 0xDE	; 222
- 52c:	90 e0       	ldi	r25, 0x00	; 0
- 52e:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
+ 508:	8e ed       	ldi	r24, 0xDE	; 222
+ 50a:	90 e0       	ldi	r25, 0x00	; 0
+ 50c:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
 				break;
- 532:	08 95       	ret
+ 510:	08 95       	ret
 			default:
 				colorRGB(0,0,0);
- 534:	80 e0       	ldi	r24, 0x00	; 0
- 536:	90 e0       	ldi	r25, 0x00	; 0
- 538:	60 e0       	ldi	r22, 0x00	; 0
- 53a:	70 e0       	ldi	r23, 0x00	; 0
- 53c:	40 e0       	ldi	r20, 0x00	; 0
- 53e:	50 e0       	ldi	r21, 0x00	; 0
- 540:	0e 94 c7 01 	call	0x38e	; 0x38e <colorRGB>
- 544:	08 95       	ret
+ 512:	80 e0       	ldi	r24, 0x00	; 0
+ 514:	90 e0       	ldi	r25, 0x00	; 0
+ 516:	60 e0       	ldi	r22, 0x00	; 0
+ 518:	70 e0       	ldi	r23, 0x00	; 0
+ 51a:	40 e0       	ldi	r20, 0x00	; 0
+ 51c:	50 e0       	ldi	r21, 0x00	; 0
+ 51e:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
+ 522:	08 95       	ret
 
-00000546 <__vector_2>:
+00000524 <__vector_2>:
 	LCD_clear();
 	color(count);
 }
 
 ISR(INT1_vect)
 {
- 546:	1f 92       	push	r1
- 548:	0f 92       	push	r0
- 54a:	0f b6       	in	r0, 0x3f	; 63
- 54c:	0f 92       	push	r0
- 54e:	11 24       	eor	r1, r1
- 550:	2f 93       	push	r18
- 552:	3f 93       	push	r19
- 554:	4f 93       	push	r20
- 556:	5f 93       	push	r21
- 558:	6f 93       	push	r22
- 55a:	7f 93       	push	r23
- 55c:	8f 93       	push	r24
- 55e:	9f 93       	push	r25
- 560:	af 93       	push	r26
- 562:	bf 93       	push	r27
- 564:	ef 93       	push	r30
- 566:	ff 93       	push	r31
+ 524:	1f 92       	push	r1
+ 526:	0f 92       	push	r0
+ 528:	0f b6       	in	r0, 0x3f	; 63
+ 52a:	0f 92       	push	r0
+ 52c:	11 24       	eor	r1, r1
+ 52e:	2f 93       	push	r18
+ 530:	3f 93       	push	r19
+ 532:	4f 93       	push	r20
+ 534:	5f 93       	push	r21
+ 536:	6f 93       	push	r22
+ 538:	7f 93       	push	r23
+ 53a:	8f 93       	push	r24
+ 53c:	9f 93       	push	r25
+ 53e:	af 93       	push	r26
+ 540:	bf 93       	push	r27
+ 542:	ef 93       	push	r30
+ 544:	ff 93       	push	r31
 	count--;
- 568:	80 91 e7 00 	lds	r24, 0x00E7
- 56c:	90 91 e8 00 	lds	r25, 0x00E8
- 570:	01 97       	sbiw	r24, 0x01	; 1
- 572:	90 93 e8 00 	sts	0x00E8, r25
- 576:	80 93 e7 00 	sts	0x00E7, r24
+ 546:	80 91 e7 00 	lds	r24, 0x00E7
+ 54a:	90 91 e8 00 	lds	r25, 0x00E8
+ 54e:	01 97       	sbiw	r24, 0x01	; 1
+ 550:	90 93 e8 00 	sts	0x00E8, r25
+ 554:	80 93 e7 00 	sts	0x00E7, r24
 	if (count <= 0)
- 57a:	18 16       	cp	r1, r24
- 57c:	19 06       	cpc	r1, r25
- 57e:	34 f0       	brlt	.+12     	; 0x58c <__vector_2+0x46>
+ 558:	18 16       	cp	r1, r24
+ 55a:	19 06       	cpc	r1, r25
+ 55c:	34 f0       	brlt	.+12     	; 0x56a <__vector_2+0x46>
 	{
 		count = 7;
- 580:	87 e0       	ldi	r24, 0x07	; 7
- 582:	90 e0       	ldi	r25, 0x00	; 0
- 584:	90 93 e8 00 	sts	0x00E8, r25
- 588:	80 93 e7 00 	sts	0x00E7, r24
+ 55e:	87 e0       	ldi	r24, 0x07	; 7
+ 560:	90 e0       	ldi	r25, 0x00	; 0
+ 562:	90 93 e8 00 	sts	0x00E8, r25
+ 566:	80 93 e7 00 	sts	0x00E7, r24
 	}
 	LCD_clear();
- 58c:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
+ 56a:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
 	color(count);
- 590:	80 91 e7 00 	lds	r24, 0x00E7
- 594:	90 91 e8 00 	lds	r25, 0x00E8
- 598:	0e 94 cb 01 	call	0x396	; 0x396 <color>
+ 56e:	80 91 e7 00 	lds	r24, 0x00E7
+ 572:	90 91 e8 00 	lds	r25, 0x00E8
+ 576:	0e 94 ba 01 	call	0x374	; 0x374 <color>
 }
- 59c:	ff 91       	pop	r31
- 59e:	ef 91       	pop	r30
- 5a0:	bf 91       	pop	r27
- 5a2:	af 91       	pop	r26
- 5a4:	9f 91       	pop	r25
- 5a6:	8f 91       	pop	r24
- 5a8:	7f 91       	pop	r23
- 5aa:	6f 91       	pop	r22
- 5ac:	5f 91       	pop	r21
- 5ae:	4f 91       	pop	r20
- 5b0:	3f 91       	pop	r19
- 5b2:	2f 91       	pop	r18
- 5b4:	0f 90       	pop	r0
- 5b6:	0f be       	out	0x3f, r0	; 63
- 5b8:	0f 90       	pop	r0
- 5ba:	1f 90       	pop	r1
- 5bc:	18 95       	reti
+ 57a:	ff 91       	pop	r31
+ 57c:	ef 91       	pop	r30
+ 57e:	bf 91       	pop	r27
+ 580:	af 91       	pop	r26
+ 582:	9f 91       	pop	r25
+ 584:	8f 91       	pop	r24
+ 586:	7f 91       	pop	r23
+ 588:	6f 91       	pop	r22
+ 58a:	5f 91       	pop	r21
+ 58c:	4f 91       	pop	r20
+ 58e:	3f 91       	pop	r19
+ 590:	2f 91       	pop	r18
+ 592:	0f 90       	pop	r0
+ 594:	0f be       	out	0x3f, r0	; 63
+ 596:	0f 90       	pop	r0
+ 598:	1f 90       	pop	r1
+ 59a:	18 95       	reti
 
-000005be <__vector_1>:
+0000059c <__vector_1>:
 // 	OCR1BL = B; //BLUE
 
 }
 
 ISR(INT0_vect)
 {
- 5be:	1f 92       	push	r1
- 5c0:	0f 92       	push	r0
- 5c2:	0f b6       	in	r0, 0x3f	; 63
- 5c4:	0f 92       	push	r0
- 5c6:	11 24       	eor	r1, r1
- 5c8:	2f 93       	push	r18
- 5ca:	3f 93       	push	r19
- 5cc:	4f 93       	push	r20
- 5ce:	5f 93       	push	r21
- 5d0:	6f 93       	push	r22
- 5d2:	7f 93       	push	r23
- 5d4:	8f 93       	push	r24
- 5d6:	9f 93       	push	r25
- 5d8:	af 93       	push	r26
- 5da:	bf 93       	push	r27
- 5dc:	ef 93       	push	r30
- 5de:	ff 93       	push	r31
+ 59c:	1f 92       	push	r1
+ 59e:	0f 92       	push	r0
+ 5a0:	0f b6       	in	r0, 0x3f	; 63
+ 5a2:	0f 92       	push	r0
+ 5a4:	11 24       	eor	r1, r1
+ 5a6:	2f 93       	push	r18
+ 5a8:	3f 93       	push	r19
+ 5aa:	4f 93       	push	r20
+ 5ac:	5f 93       	push	r21
+ 5ae:	6f 93       	push	r22
+ 5b0:	7f 93       	push	r23
+ 5b2:	8f 93       	push	r24
+ 5b4:	9f 93       	push	r25
+ 5b6:	af 93       	push	r26
+ 5b8:	bf 93       	push	r27
+ 5ba:	ef 93       	push	r30
+ 5bc:	ff 93       	push	r31
 	count++;
- 5e0:	80 91 e7 00 	lds	r24, 0x00E7
- 5e4:	90 91 e8 00 	lds	r25, 0x00E8
- 5e8:	01 96       	adiw	r24, 0x01	; 1
- 5ea:	90 93 e8 00 	sts	0x00E8, r25
- 5ee:	80 93 e7 00 	sts	0x00E7, r24
+ 5be:	80 91 e7 00 	lds	r24, 0x00E7
+ 5c2:	90 91 e8 00 	lds	r25, 0x00E8
+ 5c6:	01 96       	adiw	r24, 0x01	; 1
+ 5c8:	90 93 e8 00 	sts	0x00E8, r25
+ 5cc:	80 93 e7 00 	sts	0x00E7, r24
 	if (count >= 8)
- 5f2:	88 30       	cpi	r24, 0x08	; 8
- 5f4:	91 05       	cpc	r25, r1
- 5f6:	34 f0       	brlt	.+12     	; 0x604 <__vector_1+0x46>
+ 5d0:	88 30       	cpi	r24, 0x08	; 8
+ 5d2:	91 05       	cpc	r25, r1
+ 5d4:	34 f0       	brlt	.+12     	; 0x5e2 <__vector_1+0x46>
 	{
 		count = 1;
- 5f8:	81 e0       	ldi	r24, 0x01	; 1
- 5fa:	90 e0       	ldi	r25, 0x00	; 0
- 5fc:	90 93 e8 00 	sts	0x00E8, r25
- 600:	80 93 e7 00 	sts	0x00E7, r24
+ 5d6:	81 e0       	ldi	r24, 0x01	; 1
+ 5d8:	90 e0       	ldi	r25, 0x00	; 0
+ 5da:	90 93 e8 00 	sts	0x00E8, r25
+ 5de:	80 93 e7 00 	sts	0x00E7, r24
 	}
 	LCD_clear();
- 604:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
+ 5e2:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
 	color(count);
- 608:	80 91 e7 00 	lds	r24, 0x00E7
- 60c:	90 91 e8 00 	lds	r25, 0x00E8
- 610:	0e 94 cb 01 	call	0x396	; 0x396 <color>
+ 5e6:	80 91 e7 00 	lds	r24, 0x00E7
+ 5ea:	90 91 e8 00 	lds	r25, 0x00E8
+ 5ee:	0e 94 ba 01 	call	0x374	; 0x374 <color>
 }
- 614:	ff 91       	pop	r31
- 616:	ef 91       	pop	r30
- 618:	bf 91       	pop	r27
- 61a:	af 91       	pop	r26
- 61c:	9f 91       	pop	r25
- 61e:	8f 91       	pop	r24
- 620:	7f 91       	pop	r23
- 622:	6f 91       	pop	r22
- 624:	5f 91       	pop	r21
- 626:	4f 91       	pop	r20
- 628:	3f 91       	pop	r19
- 62a:	2f 91       	pop	r18
- 62c:	0f 90       	pop	r0
- 62e:	0f be       	out	0x3f, r0	; 63
- 630:	0f 90       	pop	r0
- 632:	1f 90       	pop	r1
- 634:	18 95       	reti
+ 5f2:	ff 91       	pop	r31
+ 5f4:	ef 91       	pop	r30
+ 5f6:	bf 91       	pop	r27
+ 5f8:	af 91       	pop	r26
+ 5fa:	9f 91       	pop	r25
+ 5fc:	8f 91       	pop	r24
+ 5fe:	7f 91       	pop	r23
+ 600:	6f 91       	pop	r22
+ 602:	5f 91       	pop	r21
+ 604:	4f 91       	pop	r20
+ 606:	3f 91       	pop	r19
+ 608:	2f 91       	pop	r18
+ 60a:	0f 90       	pop	r0
+ 60c:	0f be       	out	0x3f, r0	; 63
+ 60e:	0f 90       	pop	r0
+ 610:	1f 90       	pop	r1
+ 612:	18 95       	reti
 
-00000636 <UARTInit>:
+00000614 <UARTInit>:
 #include "main.h"
 #include "uartlib.h"
 
 void UARTInit()
 {		
 	UCSRA = 0x00;
- 636:	1b b8       	out	0x0b, r1	; 11
+ 614:	1b b8       	out	0x0b, r1	; 11
 	UCSRB |= (1 << RXEN) | (1 << TXEN);
- 638:	8a b1       	in	r24, 0x0a	; 10
- 63a:	88 61       	ori	r24, 0x18	; 24
- 63c:	8a b9       	out	0x0a, r24	; 10
+ 616:	8a b1       	in	r24, 0x0a	; 10
+ 618:	88 61       	ori	r24, 0x18	; 24
+ 61a:	8a b9       	out	0x0a, r24	; 10
 	UCSRC |= (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
- 63e:	80 b5       	in	r24, 0x20	; 32
- 640:	86 68       	ori	r24, 0x86	; 134
- 642:	80 bd       	out	0x20, r24	; 32
+ 61c:	80 b5       	in	r24, 0x20	; 32
+ 61e:	86 68       	ori	r24, 0x86	; 134
+ 620:	80 bd       	out	0x20, r24	; 32
 	UBRRL = 25;
- 644:	89 e1       	ldi	r24, 0x19	; 25
- 646:	89 b9       	out	0x09, r24	; 9
+ 622:	89 e1       	ldi	r24, 0x19	; 25
+ 624:	89 b9       	out	0x09, r24	; 9
 }
- 648:	08 95       	ret
+ 626:	08 95       	ret
 
-0000064a <UARTSend>:
+00000628 <UARTSend>:
 
 void UARTSend(char Value)
 {
 	while (!(UCSRA & (1 << UDRE)))
- 64a:	5d 9b       	sbis	0x0b, 5	; 11
- 64c:	fe cf       	rjmp	.-4      	; 0x64a <UARTSend>
+ 628:	5d 9b       	sbis	0x0b, 5	; 11
+ 62a:	fe cf       	rjmp	.-4      	; 0x628 <UARTSend>
 	{
 				
 	}		
 	UDR = Value;
- 64e:	8c b9       	out	0x0c, r24	; 12
+ 62c:	8c b9       	out	0x0c, r24	; 12
 }
- 650:	08 95       	ret
+ 62e:	08 95       	ret
 
-00000652 <UARTReceive>:
+00000630 <UARTReceive>:
 
 char UARTReceive()
 {
 	while (!(UCSRA & (1 << RXC)))
- 652:	5f 9b       	sbis	0x0b, 7	; 11
- 654:	fe cf       	rjmp	.-4      	; 0x652 <UARTReceive>
+ 630:	5f 9b       	sbis	0x0b, 7	; 11
+ 632:	fe cf       	rjmp	.-4      	; 0x630 <UARTReceive>
 	{
 		
 	}		
 	return UDR; 
- 656:	8c b1       	in	r24, 0x0c	; 12
+ 634:	8c b1       	in	r24, 0x0c	; 12
 }
- 658:	08 95       	ret
+ 636:	08 95       	ret
 
-0000065a <SendString>:
+00000638 <SendString>:
 
 void SendString(char* str)
 {
- 65a:	cf 93       	push	r28
- 65c:	df 93       	push	r29
- 65e:	ec 01       	movw	r28, r24
+ 638:	cf 93       	push	r28
+ 63a:	df 93       	push	r29
+ 63c:	ec 01       	movw	r28, r24
 	while(*str != '\0')
- 660:	88 81       	ld	r24, Y
- 662:	88 23       	and	r24, r24
- 664:	31 f0       	breq	.+12     	; 0x672 <SendString+0x18>
+ 63e:	88 81       	ld	r24, Y
+ 640:	88 23       	and	r24, r24
+ 642:	31 f0       	breq	.+12     	; 0x650 <SendString+0x18>
 		
 	}		
 	return UDR; 
 }
 
 void SendString(char* str)
- 666:	21 96       	adiw	r28, 0x01	; 1
+ 644:	21 96       	adiw	r28, 0x01	; 1
 {
 	while(*str != '\0')
 	{
 		UARTSend(*str);
- 668:	0e 94 25 03 	call	0x64a	; 0x64a <UARTSend>
+ 646:	0e 94 14 03 	call	0x628	; 0x628 <UARTSend>
 	return UDR; 
 }
 
 void SendString(char* str)
 {
 	while(*str != '\0')
- 66c:	89 91       	ld	r24, Y+
- 66e:	88 23       	and	r24, r24
- 670:	d9 f7       	brne	.-10     	; 0x668 <SendString+0xe>
+ 64a:	89 91       	ld	r24, Y+
+ 64c:	88 23       	and	r24, r24
+ 64e:	d9 f7       	brne	.-10     	; 0x646 <SendString+0xe>
 	{
 		UARTSend(*str);
 		str++;
 	}
 	//UARTSend(*str);
 	UARTSend('\r');
- 672:	8d e0       	ldi	r24, 0x0D	; 13
- 674:	0e 94 25 03 	call	0x64a	; 0x64a <UARTSend>
+ 650:	8d e0       	ldi	r24, 0x0D	; 13
+ 652:	0e 94 14 03 	call	0x628	; 0x628 <UARTSend>
 	UARTSend('\n');
- 678:	8a e0       	ldi	r24, 0x0A	; 10
- 67a:	0e 94 25 03 	call	0x64a	; 0x64a <UARTSend>
+ 656:	8a e0       	ldi	r24, 0x0A	; 10
+ 658:	0e 94 14 03 	call	0x628	; 0x628 <UARTSend>
 }
- 67e:	df 91       	pop	r29
- 680:	cf 91       	pop	r28
- 682:	08 95       	ret
+ 65c:	df 91       	pop	r29
+ 65e:	cf 91       	pop	r28
+ 660:	08 95       	ret
 
-00000684 <_exit>:
- 684:	f8 94       	cli
+00000662 <_exit>:
+ 662:	f8 94       	cli
 
-00000686 <__stop_program>:
- 686:	ff cf       	rjmp	.-2      	; 0x686 <__stop_program>
+00000664 <__stop_program>:
+ 664:	ff cf       	rjmp	.-2      	; 0x664 <__stop_program>

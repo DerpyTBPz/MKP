@@ -32,8 +32,8 @@ char txt = 'a';
 int main(void) 
 { 
 //----------------------	
-	ColorToLCD();
-//	UARTtoLCD();
+//	ColorToLCD();
+	UARTtoLCD();
 //----------------------
 	
 //	LCD_clear();
@@ -76,6 +76,8 @@ void ColorToLCD()
 	_delay_ms(50); 
 	LCD_Init();
 	
+	UARTInit();
+	
 	LCD_clear();
 		
 	MCUCR = 0x0F;
@@ -99,17 +101,27 @@ void UARTtoLCD()
 	
 	LCD_clear();
 	
+// 	txt = UARTReceive();
+// 	for (int i = 0; i < 5; i++)
+// 	{
+// 		string[i] = txt;
+// 	}
+	LCD_sendString(string);
+	
 	while (1)
 	{		
-		while (txt != '\0')
-		{
-			txt = UARTReceive();
-			string[count] = txt;
-			count++;
-		}
-		txt = 'a';
-		LCD_setPosition(0,0);
-		LCD_sendString(string);
+		txt = UARTReceive();
+		
+		
+// 		while (txt != '\0')
+// 		{
+// 			txt = UARTReceive();
+// 			string[count] = txt;
+// 			count++;
+// 		}
+// 		txt = 'a';
+// 		LCD_setPosition(0,0);
+// 		LCD_sendString(string);
 		
 // 		txt = UARTReceive();
 // 		count++;
