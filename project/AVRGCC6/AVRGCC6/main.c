@@ -96,10 +96,16 @@ void UARTtoLCD()
 {
 	DDRD |= 0xFF;
 	DDRC |= (1<<PC0) | (1<<PC1);
+	MCUCR = 0x0F;
+	GICR = 0xC0;
+	
+	sei();
+	
 	I2C_Init(); 
 	_delay_ms(250); 
 	LCD_Init();
 	UARTInit();
+	_delay_ms(250); 
 	
 	LCD_clear();
 	
@@ -112,7 +118,7 @@ void UARTtoLCD()
 	
 	while (1)
 	{	
-/*		char string[128];*/
+// /*		char string[128];*/
 		while (1)
 		{
 			txt = UARTReceive();
@@ -138,10 +144,12 @@ void UARTtoLCD()
 			_delay_ms(10);
 			PORTD ^= RED;
 		}
+
+		UARTSend(UARTReceive());
 		
-		PORTD ^= BLUE;
-		_delay_ms(10);
-		PORTD ^= BLUE;
+// 		PORTD ^= BLUE;
+// 		_delay_ms(10);
+// 		PORTD ^= BLUE;
 // 		txt = UARTReceive();
 // 		count++;
 // 		UARTSend(txt);
@@ -169,12 +177,12 @@ void UARTtoLCD()
 // 		}
 // 		else if ((count == 15) && (flag = 1))
 // 		{
-// 			LCD_clear();
-// 			flag = 0;
-// 			count = 0;
-// 			sendByte(txt, 1);
-// 		}
-	}
+// 				LCD_clear();
+// 				flag = 0;
+// 				count = 0;
+// 				sendByte(txt, 1);
+// 			}
+ 		}
 	
 }
 
