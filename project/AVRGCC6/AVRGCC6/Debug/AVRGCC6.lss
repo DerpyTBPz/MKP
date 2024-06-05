@@ -3,41 +3,43 @@ AVRGCC6.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000666  00000000  00000000  00000094  2**1
+  0 .text         0000040c  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000086  00800060  00000666  000006fa  2**0
+  1 .data         00000002  00800060  0000040c  000004a0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000085  008000e6  008000e6  00000780  2**0
+  2 .bss          00000107  00800062  00800062  000004a2  2**0
                   ALLOC
-  3 .stab         000006cc  00000000  00000000  00000780  2**2
+  3 .stab         000006cc  00000000  00000000  000004a4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000090  00000000  00000000  00000e4c  2**0
+  4 .stabstr      00000090  00000000  00000000  00000b70  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000080  00000000  00000000  00000edc  2**0
+  5 .debug_aranges 00000080  00000000  00000000  00000c00  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_pubnames 000001d9  00000000  00000000  00000f5c  2**0
+  6 .debug_pubnames 000001c1  00000000  00000000  00000c80  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00000a30  00000000  00000000  00001135  2**0
+  7 .debug_info   00000a63  00000000  00000000  00000e41  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 0000049c  00000000  00000000  00001b65  2**0
+  8 .debug_abbrev 00000480  00000000  00000000  000018a4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000b62  00000000  00000000  00002001  2**0
+  9 .debug_line   000009f2  00000000  00000000  00001d24  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  000001c0  00000000  00000000  00002b64  2**2
+ 10 .debug_frame  00000190  00000000  00000000  00002718  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000002a3  00000000  00000000  00002d24  2**0
+ 11 .debug_str    0000028d  00000000  00000000  000028a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000002e8  00000000  00000000  00002fc7  2**0
+ 12 .debug_loc    00000266  00000000  00000000  00002b35  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_pubtypes 000000ac  00000000  00000000  000032af  2**0
+ 13 .debug_pubtypes 000000ac  00000000  00000000  00002d9b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_ranges 00000038  00000000  00000000  00002e47  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 ce 02 	jmp	0x59c	; 0x59c <__vector_1>
-   8:	0c 94 92 02 	jmp	0x524	; 0x524 <__vector_2>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
    c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -69,18 +71,18 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e6 e6       	ldi	r30, 0x66	; 102
-  68:	f6 e0       	ldi	r31, 0x06	; 6
+  66:	ec e0       	ldi	r30, 0x0C	; 12
+  68:	f4 e0       	ldi	r31, 0x04	; 4
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a6 3e       	cpi	r26, 0xE6	; 230
+  70:	a2 36       	cpi	r26, 0x62	; 98
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	11 e0       	ldi	r17, 0x01	; 1
-  78:	a6 ee       	ldi	r26, 0xE6	; 230
+  78:	a2 e6       	ldi	r26, 0x62	; 98
   7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -88,82 +90,139 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	ab 36       	cpi	r26, 0x6B	; 107
+  80:	a9 36       	cpi	r26, 0x69	; 105
   82:	b1 07       	cpc	r27, r17
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 95 01 	call	0x32a	; 0x32a <main>
-  8a:	0c 94 31 03 	jmp	0x662	; 0x662 <_exit>
+  86:	0e 94 d1 01 	call	0x3a2	; 0x3a2 <main>
+  8a:	0c 94 04 02 	jmp	0x408	; 0x408 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <I2C_Init>:
+#include "i2clib.h"
+#include "main.h"
+
+void I2C_Init(void)
+{
+	TWBR = 0x03; //1MGz CPU; 25kGz I2C
   92:	83 e0       	ldi	r24, 0x03	; 3
   94:	80 b9       	out	0x00, r24	; 0
+}
   96:	08 95       	ret
 
 00000098 <I2C_Start>:
+
+void I2C_Start(void) 
+{ 
+	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN); 
   98:	84 ea       	ldi	r24, 0xA4	; 164
   9a:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & (1<<TWINT))); 
   9c:	06 b6       	in	r0, 0x36	; 54
   9e:	07 fe       	sbrs	r0, 7
   a0:	fd cf       	rjmp	.-6      	; 0x9c <I2C_Start+0x4>
+} 
   a2:	08 95       	ret
 
 000000a4 <I2C_Transmit>:
+ 
+void I2C_Transmit(unsigned char data) 
+{ 
+	TWDR = data; 
   a4:	83 b9       	out	0x03, r24	; 3
+	TWCR = (1<<TWINT) | (1<<TWEN); 
   a6:	84 e8       	ldi	r24, 0x84	; 132
   a8:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & (1<<TWINT))); 
   aa:	06 b6       	in	r0, 0x36	; 54
   ac:	07 fe       	sbrs	r0, 7
   ae:	fd cf       	rjmp	.-6      	; 0xaa <I2C_Transmit+0x6>
+} 
   b0:	08 95       	ret
 
 000000b2 <I2C_Stop>:
+	I2C_Stop(); 
+} 
+ 
+void I2C_Stop(void) 
+{ 
+	TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN); 
   b2:	84 e9       	ldi	r24, 0x94	; 148
   b4:	86 bf       	out	0x36, r24	; 54
   b6:	08 95       	ret
 
 000000b8 <I2C_TransmitByAddr>:
+	TWCR = (1<<TWINT) | (1<<TWEN); 
+	while(!(TWCR & (1<<TWINT))); 
+} 
+ 
+void I2C_TransmitByAddr(unsigned char data, unsigned char addr)
+{ 
   b8:	0f 93       	push	r16
   ba:	1f 93       	push	r17
   bc:	18 2f       	mov	r17, r24
   be:	06 2f       	mov	r16, r22
+	I2C_Start(); 
   c0:	0e 94 4c 00 	call	0x98	; 0x98 <I2C_Start>
+	I2C_Transmit(addr); 
   c4:	80 2f       	mov	r24, r16
   c6:	0e 94 52 00 	call	0xa4	; 0xa4 <I2C_Transmit>
+	I2C_Transmit(data); 
   ca:	81 2f       	mov	r24, r17
   cc:	0e 94 52 00 	call	0xa4	; 0xa4 <I2C_Transmit>
+	I2C_Stop(); 
   d0:	0e 94 59 00 	call	0xb2	; 0xb2 <I2C_Stop>
+} 
   d4:	1f 91       	pop	r17
   d6:	0f 91       	pop	r16
   d8:	08 95       	ret
 
 000000da <LCD_BackLight>:
+	I2C_TransmitByAddr(portlcd &= ~0x02, 0x4E); //LCD Write ON
+}
+
+void LCD_BackLight(unsigned char mode) 
+{
+	switch(mode) 
   da:	88 23       	and	r24, r24
   dc:	19 f0       	breq	.+6      	; 0xe4 <LCD_BackLight+0xa>
   de:	81 30       	cpi	r24, 0x01	; 1
   e0:	91 f4       	brne	.+36     	; 0x106 <LCD_BackLight+0x2c>
   e2:	09 c0       	rjmp	.+18     	; 0xf6 <LCD_BackLight+0x1c>
-  e4:	80 91 e6 00 	lds	r24, 0x00E6
+	{  
+		case 0: 
+			I2C_TransmitByAddr(portlcd &= ~0x08, 0x4E); //BackLight OFF   
+  e4:	80 91 62 00 	lds	r24, 0x0062
   e8:	87 7f       	andi	r24, 0xF7	; 247
-  ea:	80 93 e6 00 	sts	0x00E6, r24
+  ea:	80 93 62 00 	sts	0x0062, r24
   ee:	6e e4       	ldi	r22, 0x4E	; 78
   f0:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
+			break;		
   f4:	08 95       	ret
-  f6:	80 91 e6 00 	lds	r24, 0x00E6
+		case 1:
+			I2C_TransmitByAddr(portlcd |= 0x08, 0x4E); //BackLight ON
+  f6:	80 91 62 00 	lds	r24, 0x0062
   fa:	88 60       	ori	r24, 0x08	; 8
-  fc:	80 93 e6 00 	sts	0x00E6, r24
+  fc:	80 93 62 00 	sts	0x0062, r24
  100:	6e e4       	ldi	r22, 0x4E	; 78
  102:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
  106:	08 95       	ret
 
 00000108 <sendHalfByte>:
+			break; 
+	}
+}
+
+void sendHalfByte(unsigned char c) 
+{ 
  108:	1f 93       	push	r17
  10a:	18 2f       	mov	r17, r24
- 10c:	80 91 e6 00 	lds	r24, 0x00E6
+	c <<= 4;
+	I2C_TransmitByAddr(portlcd |= 0x04, 0x4E); // Enable E
+ 10c:	80 91 62 00 	lds	r24, 0x0062
  110:	84 60       	ori	r24, 0x04	; 4
- 112:	80 93 e6 00 	sts	0x00E6, r24
+ 112:	80 93 62 00 	sts	0x0062, r24
  116:	6e e4       	ldi	r22, 0x4E	; 78
  118:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
 	#else
@@ -176,46 +235,79 @@ Disassembly of section .text:
  11e:	8a 95       	dec	r24
  120:	f1 f7       	brne	.-4      	; 0x11e <sendHalfByte+0x16>
  122:	00 c0       	rjmp	.+0      	; 0x124 <sendHalfByte+0x1c>
+	}
+}
+
+void sendHalfByte(unsigned char c) 
+{ 
+	c <<= 4;
  124:	12 95       	swap	r17
  126:	10 7f       	andi	r17, 0xF0	; 240
- 128:	80 91 e6 00 	lds	r24, 0x00E6
+	I2C_TransmitByAddr(portlcd |= 0x04, 0x4E); // Enable E
+	_delay_us(50);
+	I2C_TransmitByAddr(portlcd | c, 0x4E);
+ 128:	80 91 62 00 	lds	r24, 0x0062
  12c:	81 2b       	or	r24, r17
  12e:	6e e4       	ldi	r22, 0x4E	; 78
  130:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
- 134:	80 91 e6 00 	lds	r24, 0x00E6
+	I2C_TransmitByAddr(portlcd &= ~0x04, 0x4E); // Disable E _delay_us(50);
+ 134:	80 91 62 00 	lds	r24, 0x0062
  138:	8b 7f       	andi	r24, 0xFB	; 251
- 13a:	80 93 e6 00 	sts	0x00E6, r24
+ 13a:	80 93 62 00 	sts	0x0062, r24
  13e:	6e e4       	ldi	r22, 0x4E	; 78
  140:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
+}
  144:	1f 91       	pop	r17
  146:	08 95       	ret
 
 00000148 <sendByte>:
+
+void sendByte(unsigned char c, unsigned char mode) 
+{
  148:	1f 93       	push	r17
  14a:	18 2f       	mov	r17, r24
+	if(mode == 0) 
  14c:	66 23       	and	r22, r22
  14e:	49 f4       	brne	.+18     	; 0x162 <sendByte+0x1a>
- 150:	80 91 e6 00 	lds	r24, 0x00E6
+	{
+		I2C_TransmitByAddr(portlcd &= ~0x01, 0x4E); 
+ 150:	80 91 62 00 	lds	r24, 0x0062
  154:	8e 7f       	andi	r24, 0xFE	; 254
- 156:	80 93 e6 00 	sts	0x00E6, r24
+ 156:	80 93 62 00 	sts	0x0062, r24
  15a:	6e e4       	ldi	r22, 0x4E	; 78
  15c:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
  160:	08 c0       	rjmp	.+16     	; 0x172 <sendByte+0x2a>
- 162:	80 91 e6 00 	lds	r24, 0x00E6
+	}		
+	else 
+	{
+		I2C_TransmitByAddr(portlcd |= 0x01, 0x4E);
+ 162:	80 91 62 00 	lds	r24, 0x0062
  166:	81 60       	ori	r24, 0x01	; 1
- 168:	80 93 e6 00 	sts	0x00E6, r24
+ 168:	80 93 62 00 	sts	0x0062, r24
  16c:	6e e4       	ldi	r22, 0x4E	; 78
  16e:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
+	}		
+	unsigned char hc = 0; 
+	hc = c >> 4;
+	sendHalfByte(hc); 
  172:	81 2f       	mov	r24, r17
  174:	82 95       	swap	r24
  176:	8f 70       	andi	r24, 0x0F	; 15
  178:	0e 94 84 00 	call	0x108	; 0x108 <sendHalfByte>
+	sendHalfByte(c);
  17c:	81 2f       	mov	r24, r17
  17e:	0e 94 84 00 	call	0x108	; 0x108 <sendHalfByte>
+}
  182:	1f 91       	pop	r17
  184:	08 95       	ret
 
 00000186 <LCD_Init>:
+
+unsigned char portlcd = 0;
+
+void LCD_Init(void) 
+{ 
+	sendHalfByte(0b00000011);
  186:	83 e0       	ldi	r24, 0x03	; 3
  188:	0e 94 84 00 	call	0x108	; 0x108 <sendHalfByte>
 	#else
@@ -230,6 +322,8 @@ Disassembly of section .text:
  192:	f1 f7       	brne	.-4      	; 0x190 <LCD_Init+0xa>
  194:	00 c0       	rjmp	.+0      	; 0x196 <LCD_Init+0x10>
  196:	00 00       	nop
+	_delay_ms(5); 
+	sendHalfByte(0b00000011);
  198:	83 e0       	ldi	r24, 0x03	; 3
  19a:	0e 94 84 00 	call	0x108	; 0x108 <sendHalfByte>
 	#else
@@ -242,6 +336,8 @@ Disassembly of section .text:
  1a0:	9a 95       	dec	r25
  1a2:	f1 f7       	brne	.-4      	; 0x1a0 <LCD_Init+0x1a>
  1a4:	00 00       	nop
+	_delay_us(100); 
+	sendHalfByte(0b00000011);
  1a6:	83 e0       	ldi	r24, 0x03	; 3
  1a8:	0e 94 84 00 	call	0x108	; 0x108 <sendHalfByte>
 	#else
@@ -256,6 +352,8 @@ Disassembly of section .text:
  1b2:	f1 f7       	brne	.-4      	; 0x1b0 <LCD_Init+0x2a>
  1b4:	00 c0       	rjmp	.+0      	; 0x1b6 <LCD_Init+0x30>
  1b6:	00 00       	nop
+	_delay_ms(1); 
+	sendHalfByte(0b00000010);
  1b8:	82 e0       	ldi	r24, 0x02	; 2
  1ba:	0e 94 84 00 	call	0x108	; 0x108 <sendHalfByte>
  1be:	89 ef       	ldi	r24, 0xF9	; 249
@@ -264,6 +362,8 @@ Disassembly of section .text:
  1c4:	f1 f7       	brne	.-4      	; 0x1c2 <LCD_Init+0x3c>
  1c6:	00 c0       	rjmp	.+0      	; 0x1c8 <LCD_Init+0x42>
  1c8:	00 00       	nop
+	_delay_ms(1); 
+	sendByte(0b00101000, 0); // Data 4bit, Line 2, Font 5x8
  1ca:	88 e2       	ldi	r24, 0x28	; 40
  1cc:	60 e0       	ldi	r22, 0x00	; 0
  1ce:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
@@ -273,6 +373,8 @@ Disassembly of section .text:
  1d8:	f1 f7       	brne	.-4      	; 0x1d6 <LCD_Init+0x50>
  1da:	00 c0       	rjmp	.+0      	; 0x1dc <LCD_Init+0x56>
  1dc:	00 00       	nop
+	_delay_ms(1); 
+	sendByte(0b00001110, 0); //Display ON, Cursor ON, Blink OFF
  1de:	8e e0       	ldi	r24, 0x0E	; 14
  1e0:	60 e0       	ldi	r22, 0x00	; 0
  1e2:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
@@ -282,29 +384,48 @@ Disassembly of section .text:
  1ec:	f1 f7       	brne	.-4      	; 0x1ea <LCD_Init+0x64>
  1ee:	00 c0       	rjmp	.+0      	; 0x1f0 <LCD_Init+0x6a>
  1f0:	00 00       	nop
- 1f2:	80 91 e6 00 	lds	r24, 0x00E6
+	_delay_ms(1);
+	I2C_TransmitByAddr(portlcd |= 0x08, 0x4E); //BackLight ON 
+ 1f2:	80 91 62 00 	lds	r24, 0x0062
  1f6:	88 60       	ori	r24, 0x08	; 8
- 1f8:	80 93 e6 00 	sts	0x00E6, r24
+ 1f8:	80 93 62 00 	sts	0x0062, r24
  1fc:	6e e4       	ldi	r22, 0x4E	; 78
  1fe:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
- 202:	80 91 e6 00 	lds	r24, 0x00E6
+	I2C_TransmitByAddr(portlcd &= ~0x02, 0x4E); //LCD Write ON
+ 202:	80 91 62 00 	lds	r24, 0x0062
  206:	8d 7f       	andi	r24, 0xFD	; 253
- 208:	80 93 e6 00 	sts	0x00E6, r24
+ 208:	80 93 62 00 	sts	0x0062, r24
  20c:	6e e4       	ldi	r22, 0x4E	; 78
  20e:	0e 94 5c 00 	call	0xb8	; 0xb8 <I2C_TransmitByAddr>
+}
  212:	08 95       	ret
 
 00000214 <LCD_sendString>:
+	sendHalfByte(hc); 
+	sendHalfByte(c);
+}
+
+void LCD_sendString(char s[]) 
+{ 
  214:	1f 93       	push	r17
  216:	cf 93       	push	r28
  218:	df 93       	push	r29
  21a:	ec 01       	movw	r28, r24
+	char n;
+	for(n=0; s[n]!='\0'; n++)  
  21c:	88 81       	ld	r24, Y
  21e:	88 23       	and	r24, r24
  220:	59 f0       	breq	.+22     	; 0x238 <LCD_sendString+0x24>
  222:	10 e0       	ldi	r17, 0x00	; 0
+	sendByte(s[n], 1);
  224:	61 e0       	ldi	r22, 0x01	; 1
  226:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
+}
+
+void LCD_sendString(char s[]) 
+{ 
+	char n;
+	for(n=0; s[n]!='\0'; n++)  
  22a:	1f 5f       	subi	r17, 0xFF	; 255
  22c:	fe 01       	movw	r30, r28
  22e:	e1 0f       	add	r30, r17
@@ -312,12 +433,18 @@ Disassembly of section .text:
  232:	80 81       	ld	r24, Z
  234:	88 23       	and	r24, r24
  236:	b1 f7       	brne	.-20     	; 0x224 <LCD_sendString+0x10>
+	sendByte(s[n], 1);
+}
  238:	df 91       	pop	r29
  23a:	cf 91       	pop	r28
  23c:	1f 91       	pop	r17
  23e:	08 95       	ret
 
 00000240 <LCD_setPosition>:
+
+void LCD_setPosition(unsigned char x, unsigned char y) 
+{ 
+	switch(y) 
  240:	61 30       	cpi	r22, 0x01	; 1
  242:	61 f0       	breq	.+24     	; 0x25c <LCD_setPosition+0x1c>
  244:	61 30       	cpi	r22, 0x01	; 1
@@ -327,20 +454,32 @@ Disassembly of section .text:
  24c:	63 30       	cpi	r22, 0x03	; 3
  24e:	b9 f4       	brne	.+46     	; 0x27e <LCD_setPosition+0x3e>
  250:	11 c0       	rjmp	.+34     	; 0x274 <LCD_setPosition+0x34>
+	{
+		case 0:    
+			sendByte(x | 0x80, 0);
  252:	80 68       	ori	r24, 0x80	; 128
  254:	60 e0       	ldi	r22, 0x00	; 0
  256:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
+			break;  
  25a:	08 95       	ret
+		case 1: 
+			sendByte((0x40+ x) | 0x80, 0);   
  25c:	80 5c       	subi	r24, 0xC0	; 192
  25e:	80 68       	ori	r24, 0x80	; 128
  260:	60 e0       	ldi	r22, 0x00	; 0
  262:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
+			break;
  266:	08 95       	ret
+		case 2:    
+			sendByte((0x10+ x) | 0x80, 0);
  268:	80 5f       	subi	r24, 0xF0	; 240
  26a:	80 68       	ori	r24, 0x80	; 128
  26c:	60 e0       	ldi	r22, 0x00	; 0
  26e:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
+			break;  
  272:	08 95       	ret
+		case 3: 
+			sendByte((0x50+ x) | 0x80, 0);   
  274:	80 5b       	subi	r24, 0xB0	; 176
  276:	80 68       	ori	r24, 0x80	; 128
  278:	60 e0       	ldi	r22, 0x00	; 0
@@ -348,6 +487,12 @@ Disassembly of section .text:
  27e:	08 95       	ret
 
 00000280 <LCD_clear>:
+	}
+}
+
+void LCD_clear(void) 
+{
+	sendByte(0x01, 0); 
  280:	81 e0       	ldi	r24, 0x01	; 1
  282:	60 e0       	ldi	r22, 0x00	; 0
  284:	0e 94 a4 00 	call	0x148	; 0x148 <sendByte>
@@ -357,6 +502,7 @@ Disassembly of section .text:
  28e:	f1 f7       	brne	.-4      	; 0x28c <LCD_clear+0xc>
  290:	00 c0       	rjmp	.+0      	; 0x292 <LCD_clear+0x12>
  292:	00 00       	nop
+	_delay_ms(5);
  294:	08 95       	ret
 
 00000296 <ColorToLCD>:
@@ -399,7 +545,7 @@ void ColorToLCD()
  2c4:	0e 94 c3 00 	call	0x186	; 0x186 <LCD_Init>
 	
 	UARTInit();
- 2c8:	0e 94 0a 03 	call	0x614	; 0x614 <UARTInit>
+ 2c8:	0e 94 dd 01 	call	0x3ba	; 0x3ba <UARTInit>
 	
 	LCD_clear();
  2cc:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
@@ -415,624 +561,253 @@ void ColorToLCD()
  2da:	ff cf       	rjmp	.-2      	; 0x2da <ColorToLCD+0x44>
 
 000002dc <UARTtoLCD>:
+		
 	}
 }
 
 void UARTtoLCD()
 {
-	DDRD |= 0x03;
- 2dc:	81 b3       	in	r24, 0x11	; 17
- 2de:	83 60       	ori	r24, 0x03	; 3
- 2e0:	81 bb       	out	0x11, r24	; 17
+ 2dc:	1f 93       	push	r17
+ 2de:	cf 93       	push	r28
+ 2e0:	df 93       	push	r29
+	DDRD |= 0xFF;
+ 2e2:	81 b3       	in	r24, 0x11	; 17
+ 2e4:	8f ef       	ldi	r24, 0xFF	; 255
+ 2e6:	81 bb       	out	0x11, r24	; 17
 	DDRC |= (1<<PC0) | (1<<PC1);
- 2e2:	84 b3       	in	r24, 0x14	; 20
- 2e4:	83 60       	ori	r24, 0x03	; 3
- 2e6:	84 bb       	out	0x14, r24	; 20
+ 2e8:	84 b3       	in	r24, 0x14	; 20
+ 2ea:	83 60       	ori	r24, 0x03	; 3
+ 2ec:	84 bb       	out	0x14, r24	; 20
 	I2C_Init(); 
- 2e8:	0e 94 49 00 	call	0x92	; 0x92 <I2C_Init>
- 2ec:	83 e2       	ldi	r24, 0x23	; 35
- 2ee:	94 ef       	ldi	r25, 0xF4	; 244
- 2f0:	01 97       	sbiw	r24, 0x01	; 1
- 2f2:	f1 f7       	brne	.-4      	; 0x2f0 <UARTtoLCD+0x14>
- 2f4:	00 c0       	rjmp	.+0      	; 0x2f6 <UARTtoLCD+0x1a>
- 2f6:	00 00       	nop
+ 2ee:	0e 94 49 00 	call	0x92	; 0x92 <I2C_Init>
+ 2f2:	83 e2       	ldi	r24, 0x23	; 35
+ 2f4:	94 ef       	ldi	r25, 0xF4	; 244
+ 2f6:	01 97       	sbiw	r24, 0x01	; 1
+ 2f8:	f1 f7       	brne	.-4      	; 0x2f6 <UARTtoLCD+0x1a>
+ 2fa:	00 c0       	rjmp	.+0      	; 0x2fc <UARTtoLCD+0x20>
+ 2fc:	00 00       	nop
 	_delay_ms(250); 
 	LCD_Init();
- 2f8:	0e 94 c3 00 	call	0x186	; 0x186 <LCD_Init>
+ 2fe:	0e 94 c3 00 	call	0x186	; 0x186 <LCD_Init>
 	UARTInit();
- 2fc:	0e 94 0a 03 	call	0x614	; 0x614 <UARTInit>
+ 302:	0e 94 dd 01 	call	0x3ba	; 0x3ba <UARTInit>
 	
 	LCD_clear();
- 300:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
-	
-	txt = UARTReceive();
- 304:	0e 94 18 03 	call	0x630	; 0x630 <UARTReceive>
- 308:	80 93 e5 00 	sts	0x00E5, r24
-	for (int i = 0; i < 5; i++)
-	{
-		string[i] = txt;
- 30c:	80 93 eb 00 	sts	0x00EB, r24
- 310:	80 93 ec 00 	sts	0x00EC, r24
- 314:	80 93 ed 00 	sts	0x00ED, r24
- 318:	80 93 ee 00 	sts	0x00EE, r24
- 31c:	80 93 ef 00 	sts	0x00EF, r24
-	}
-	LCD_sendString(string);
- 320:	8b ee       	ldi	r24, 0xEB	; 235
- 322:	90 e0       	ldi	r25, 0x00	; 0
+ 306:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
+		{
+			txt = UARTReceive();
+			if (txt == '\r')
+			{
+				txt = 0;	
+				SendString(string);	
+ 30a:	c9 e6       	ldi	r28, 0x69	; 105
+ 30c:	d0 e0       	ldi	r29, 0x00	; 0
+			PORTD ^= RED;		
+			_delay_ms(10);
+			PORTD ^= RED;
+		}
+		
+		PORTD ^= BLUE;
+ 30e:	10 e1       	ldi	r17, 0x10	; 16
+	while (1)
+	{	
+/*		char string[128];*/
+		while (1)
+		{
+			txt = UARTReceive();
+ 310:	0e 94 eb 01 	call	0x3d6	; 0x3d6 <UARTReceive>
+			if (txt == '\r')
+ 314:	8d 30       	cpi	r24, 0x0D	; 13
+ 316:	41 f5       	brne	.+80     	; 0x368 <UARTtoLCD+0x8c>
+			{
+				txt = 0;	
+ 318:	10 92 60 00 	sts	0x0060, r1
+				SendString(string);	
+ 31c:	ce 01       	movw	r24, r28
+ 31e:	0e 94 ef 01 	call	0x3de	; 0x3de <SendString>
+				LCD_sendString(string);
+ 322:	ce 01       	movw	r24, r28
  324:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
- 328:	ff cf       	rjmp	.-2      	; 0x328 <UARTtoLCD+0x4c>
+				for (int j = 0; j < i; j++)
+ 328:	20 91 65 00 	lds	r18, 0x0065
+ 32c:	30 91 66 00 	lds	r19, 0x0066
+ 330:	12 16       	cp	r1, r18
+ 332:	13 06       	cpc	r1, r19
+ 334:	44 f4       	brge	.+16     	; 0x346 <UARTtoLCD+0x6a>
+ 336:	fe 01       	movw	r30, r28
+ 338:	80 e0       	ldi	r24, 0x00	; 0
+ 33a:	90 e0       	ldi	r25, 0x00	; 0
+				{
+					string[j] = '\0';
+ 33c:	11 92       	st	Z+, r1
+			if (txt == '\r')
+			{
+				txt = 0;	
+				SendString(string);	
+				LCD_sendString(string);
+				for (int j = 0; j < i; j++)
+ 33e:	01 96       	adiw	r24, 0x01	; 1
+ 340:	82 17       	cp	r24, r18
+ 342:	93 07       	cpc	r25, r19
+ 344:	dc f3       	brlt	.-10     	; 0x33c <UARTtoLCD+0x60>
+				{
+					string[j] = '\0';
+				}
+				i = 0;
+ 346:	10 92 66 00 	sts	0x0066, r1
+ 34a:	10 92 65 00 	sts	0x0065, r1
+			PORTD ^= RED;		
+			_delay_ms(10);
+			PORTD ^= RED;
+		}
+		
+		PORTD ^= BLUE;
+ 34e:	82 b3       	in	r24, 0x12	; 18
+ 350:	81 27       	eor	r24, r17
+ 352:	82 bb       	out	0x12, r24	; 18
+ 354:	83 ec       	ldi	r24, 0xC3	; 195
+ 356:	99 e0       	ldi	r25, 0x09	; 9
+ 358:	01 97       	sbiw	r24, 0x01	; 1
+ 35a:	f1 f7       	brne	.-4      	; 0x358 <UARTtoLCD+0x7c>
+ 35c:	00 c0       	rjmp	.+0      	; 0x35e <UARTtoLCD+0x82>
+ 35e:	00 00       	nop
+		_delay_ms(10);
+		PORTD ^= BLUE;
+ 360:	82 b3       	in	r24, 0x12	; 18
+ 362:	81 27       	eor	r24, r17
+ 364:	82 bb       	out	0x12, r24	; 18
+// 			LCD_clear();
+// 			flag = 0;
+// 			count = 0;
+// 			sendByte(txt, 1);
+// 		}
+	}
+ 366:	d4 cf       	rjmp	.-88     	; 0x310 <UARTtoLCD+0x34>
+				i = 0;
+				break;
+			}
+			else
+			{
+				string[i] = txt;
+ 368:	20 91 65 00 	lds	r18, 0x0065
+ 36c:	30 91 66 00 	lds	r19, 0x0066
+ 370:	fe 01       	movw	r30, r28
+ 372:	e2 0f       	add	r30, r18
+ 374:	f3 1f       	adc	r31, r19
+ 376:	80 83       	st	Z, r24
+				i++;
+ 378:	2f 5f       	subi	r18, 0xFF	; 255
+ 37a:	3f 4f       	sbci	r19, 0xFF	; 255
+ 37c:	30 93 66 00 	sts	0x0066, r19
+ 380:	20 93 65 00 	sts	0x0065, r18
+				txt = 0;
+ 384:	10 92 60 00 	sts	0x0060, r1
+			}					
+			PORTD ^= RED;		
+ 388:	82 b3       	in	r24, 0x12	; 18
+ 38a:	80 58       	subi	r24, 0x80	; 128
+ 38c:	82 bb       	out	0x12, r24	; 18
+ 38e:	83 ec       	ldi	r24, 0xC3	; 195
+ 390:	99 e0       	ldi	r25, 0x09	; 9
+ 392:	01 97       	sbiw	r24, 0x01	; 1
+ 394:	f1 f7       	brne	.-4      	; 0x392 <UARTtoLCD+0xb6>
+ 396:	00 c0       	rjmp	.+0      	; 0x398 <UARTtoLCD+0xbc>
+ 398:	00 00       	nop
+			_delay_ms(10);
+			PORTD ^= RED;
+ 39a:	82 b3       	in	r24, 0x12	; 18
+ 39c:	80 58       	subi	r24, 0x80	; 128
+ 39e:	82 bb       	out	0x12, r24	; 18
+ 3a0:	b7 cf       	rjmp	.-146    	; 0x310 <UARTtoLCD+0x34>
 
-0000032a <main>:
-int flag = 0;
-char string[128];
-char txt = 'a';
+000003a2 <main>:
 
 int main(void) 
 { 
- 32a:	0f 93       	push	r16
- 32c:	1f 93       	push	r17
- 32e:	cf 93       	push	r28
- 330:	df 93       	push	r29
 //----------------------	
 //	ColorToLCD();
 	UARTtoLCD();
- 332:	0e 94 6e 01 	call	0x2dc	; 0x2dc <UARTtoLCD>
-//----------------------
-	
-//	LCD_clear();
- 
-// 	_delay_ms(1000); 
-	LCD_clear(); 
- 336:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
-	LCD_setPosition(0,0);
- 33a:	80 e0       	ldi	r24, 0x00	; 0
- 33c:	60 e0       	ldi	r22, 0x00	; 0
- 33e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
- 342:	cb ee       	ldi	r28, 0xEB	; 235
- 344:	d0 e0       	ldi	r29, 0x00	; 0
-int count = 0;
-int flag = 0;
-char string[128];
-char txt = 'a';
+ 3a2:	0e 94 6e 01 	call	0x2dc	; 0x2dc <UARTtoLCD>
+ 3a6:	ff cf       	rjmp	.-2      	; 0x3a6 <main+0x4>
 
-int main(void) 
- 346:	8e 01       	movw	r16, r28
- 348:	0b 5f       	subi	r16, 0xFB	; 251
- 34a:	1f 4f       	sbci	r17, 0xFF	; 255
-// 	_delay_ms(1000); 
-	LCD_clear(); 
-	LCD_setPosition(0,0);
-	for (int i = 0; i < 5; i++)
-	{
-		string[i] = UARTReceive();
- 34c:	0e 94 18 03 	call	0x630	; 0x630 <UARTReceive>
- 350:	89 93       	st	Y+, r24
-//	LCD_clear();
- 
-// 	_delay_ms(1000); 
-	LCD_clear(); 
-	LCD_setPosition(0,0);
-	for (int i = 0; i < 5; i++)
- 352:	c0 17       	cp	r28, r16
- 354:	d1 07       	cpc	r29, r17
- 356:	d1 f7       	brne	.-12     	; 0x34c <main+0x22>
-	{
-		string[i] = UARTReceive();
-	} 
-		
- 	LCD_sendString(string); 
- 358:	8b ee       	ldi	r24, 0xEB	; 235
- 35a:	90 e0       	ldi	r25, 0x00	; 0
- 35c:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
- 360:	ff cf       	rjmp	.-2      	; 0x360 <main+0x36>
-
-00000362 <Test>:
+000003a8 <Test>:
 	
 }
 
 void Test()
 {
 	LCD_setPosition(0,0);
- 362:	80 e0       	ldi	r24, 0x00	; 0
- 364:	60 e0       	ldi	r22, 0x00	; 0
- 366:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
+ 3a8:	80 e0       	ldi	r24, 0x00	; 0
+ 3aa:	60 e0       	ldi	r22, 0x00	; 0
+ 3ac:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
 	//LCD_sendString(UARTReceive(), 1);
 }
- 36a:	08 95       	ret
+ 3b0:	08 95       	ret
 
-0000036c <colorRGB>:
+000003b2 <colorRGB>:
 
 void colorRGB(int R, int G, int B)
 {
 	OCR2 = R; //RED 		
- 36c:	83 bd       	out	0x23, r24	; 35
+ 3b2:	83 bd       	out	0x23, r24	; 35
 	OCR1AL = G; //GREEN
- 36e:	6a bd       	out	0x2a, r22	; 42
+ 3b4:	6a bd       	out	0x2a, r22	; 42
 	OCR1BL = B; //BLUE
- 370:	48 bd       	out	0x28, r20	; 40
+ 3b6:	48 bd       	out	0x28, r20	; 40
 // 
 // 	OCR2 = G; //RED 		
 // 	OCR1AL = R; //GREEN
 // 	OCR1BL = B; //BLUE
 
 }
- 372:	08 95       	ret
+ 3b8:	08 95       	ret
 
-00000374 <color>:
-	color(count);
-}
+000003ba <UARTInit>:
+ 3ba:	1b b8       	out	0x0b, r1	; 11
+ 3bc:	8a b1       	in	r24, 0x0a	; 10
+ 3be:	88 61       	ori	r24, 0x18	; 24
+ 3c0:	8a b9       	out	0x0a, r24	; 10
+ 3c2:	80 b5       	in	r24, 0x20	; 32
+ 3c4:	86 68       	ori	r24, 0x86	; 134
+ 3c6:	80 bd       	out	0x20, r24	; 32
+ 3c8:	89 e1       	ldi	r24, 0x19	; 25
+ 3ca:	89 b9       	out	0x09, r24	; 9
+ 3cc:	08 95       	ret
 
-void color(int num)
-{
-	switch (num)
- 374:	84 30       	cpi	r24, 0x04	; 4
- 376:	91 05       	cpc	r25, r1
- 378:	09 f4       	brne	.+2      	; 0x37c <color+0x8>
- 37a:	67 c0       	rjmp	.+206    	; 0x44a <color+0xd6>
- 37c:	85 30       	cpi	r24, 0x05	; 5
- 37e:	91 05       	cpc	r25, r1
- 380:	64 f4       	brge	.+24     	; 0x39a <color+0x26>
- 382:	82 30       	cpi	r24, 0x02	; 2
- 384:	91 05       	cpc	r25, r1
- 386:	79 f1       	breq	.+94     	; 0x3e6 <color+0x72>
- 388:	83 30       	cpi	r24, 0x03	; 3
- 38a:	91 05       	cpc	r25, r1
- 38c:	0c f0       	brlt	.+2      	; 0x390 <color+0x1c>
- 38e:	44 c0       	rjmp	.+136    	; 0x418 <color+0xa4>
- 390:	81 30       	cpi	r24, 0x01	; 1
- 392:	91 05       	cpc	r25, r1
- 394:	09 f0       	breq	.+2      	; 0x398 <color+0x24>
- 396:	bd c0       	rjmp	.+378    	; 0x512 <__stack+0xb3>
- 398:	0d c0       	rjmp	.+26     	; 0x3b4 <color+0x40>
- 39a:	86 30       	cpi	r24, 0x06	; 6
- 39c:	91 05       	cpc	r25, r1
- 39e:	09 f4       	brne	.+2      	; 0x3a2 <color+0x2e>
- 3a0:	86 c0       	rjmp	.+268    	; 0x4ae <__stack+0x4f>
- 3a2:	86 30       	cpi	r24, 0x06	; 6
- 3a4:	91 05       	cpc	r25, r1
- 3a6:	0c f4       	brge	.+2      	; 0x3aa <color+0x36>
- 3a8:	69 c0       	rjmp	.+210    	; 0x47c <__stack+0x1d>
- 3aa:	87 30       	cpi	r24, 0x07	; 7
- 3ac:	91 05       	cpc	r25, r1
- 3ae:	09 f0       	breq	.+2      	; 0x3b2 <color+0x3e>
- 3b0:	b0 c0       	rjmp	.+352    	; 0x512 <__stack+0xb3>
- 3b2:	96 c0       	rjmp	.+300    	; 0x4e0 <__stack+0x81>
-		{
-			case 1:
-				colorRGB(255,0,0);				
- 3b4:	8f ef       	ldi	r24, 0xFF	; 255
- 3b6:	90 e0       	ldi	r25, 0x00	; 0
- 3b8:	60 e0       	ldi	r22, 0x00	; 0
- 3ba:	70 e0       	ldi	r23, 0x00	; 0
- 3bc:	40 e0       	ldi	r20, 0x00	; 0
- 3be:	50 e0       	ldi	r21, 0x00	; 0
- 3c0:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 3c4:	80 e0       	ldi	r24, 0x00	; 0
- 3c6:	60 e0       	ldi	r22, 0x00	; 0
- 3c8:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(255, 0, 0)");
- 3cc:	80 e6       	ldi	r24, 0x60	; 96
- 3ce:	90 e0       	ldi	r25, 0x00	; 0
- 3d0:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 3d4:	80 e0       	ldi	r24, 0x00	; 0
- 3d6:	61 e0       	ldi	r22, 0x01	; 1
- 3d8:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Red");
- 3dc:	8c e6       	ldi	r24, 0x6C	; 108
- 3de:	90 e0       	ldi	r25, 0x00	; 0
- 3e0:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;
- 3e4:	08 95       	ret
-			case 2:
-				colorRGB(255,165,0);				
- 3e6:	8f ef       	ldi	r24, 0xFF	; 255
- 3e8:	90 e0       	ldi	r25, 0x00	; 0
- 3ea:	65 ea       	ldi	r22, 0xA5	; 165
- 3ec:	70 e0       	ldi	r23, 0x00	; 0
- 3ee:	40 e0       	ldi	r20, 0x00	; 0
- 3f0:	50 e0       	ldi	r21, 0x00	; 0
- 3f2:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 3f6:	80 e0       	ldi	r24, 0x00	; 0
- 3f8:	60 e0       	ldi	r22, 0x00	; 0
- 3fa:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(255, 165, 0)");
- 3fe:	80 e7       	ldi	r24, 0x70	; 112
- 400:	90 e0       	ldi	r25, 0x00	; 0
- 402:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 406:	80 e0       	ldi	r24, 0x00	; 0
- 408:	61 e0       	ldi	r22, 0x01	; 1
- 40a:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Orange");
- 40e:	8e e7       	ldi	r24, 0x7E	; 126
- 410:	90 e0       	ldi	r25, 0x00	; 0
- 412:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;
- 416:	08 95       	ret
-			case 3:
-				colorRGB(255,255,0);				
- 418:	8f ef       	ldi	r24, 0xFF	; 255
- 41a:	90 e0       	ldi	r25, 0x00	; 0
- 41c:	6f ef       	ldi	r22, 0xFF	; 255
- 41e:	70 e0       	ldi	r23, 0x00	; 0
- 420:	40 e0       	ldi	r20, 0x00	; 0
- 422:	50 e0       	ldi	r21, 0x00	; 0
- 424:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 428:	80 e0       	ldi	r24, 0x00	; 0
- 42a:	60 e0       	ldi	r22, 0x00	; 0
- 42c:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(255, 255, 0)");
- 430:	85 e8       	ldi	r24, 0x85	; 133
- 432:	90 e0       	ldi	r25, 0x00	; 0
- 434:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 438:	80 e0       	ldi	r24, 0x00	; 0
- 43a:	61 e0       	ldi	r22, 0x01	; 1
- 43c:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Yellow");
- 440:	83 e9       	ldi	r24, 0x93	; 147
- 442:	90 e0       	ldi	r25, 0x00	; 0
- 444:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;
- 448:	08 95       	ret
-			case 4:
-				colorRGB(0,255,0);				
- 44a:	80 e0       	ldi	r24, 0x00	; 0
- 44c:	90 e0       	ldi	r25, 0x00	; 0
- 44e:	6f ef       	ldi	r22, 0xFF	; 255
- 450:	70 e0       	ldi	r23, 0x00	; 0
- 452:	40 e0       	ldi	r20, 0x00	; 0
- 454:	50 e0       	ldi	r21, 0x00	; 0
- 456:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 45a:	80 e0       	ldi	r24, 0x00	; 0
- 45c:	60 e0       	ldi	r22, 0x00	; 0
- 45e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(0, 255, 0)");
- 462:	8a e9       	ldi	r24, 0x9A	; 154
- 464:	90 e0       	ldi	r25, 0x00	; 0
- 466:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 46a:	80 e0       	ldi	r24, 0x00	; 0
- 46c:	61 e0       	ldi	r22, 0x01	; 1
- 46e:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Green");
- 472:	86 ea       	ldi	r24, 0xA6	; 166
- 474:	90 e0       	ldi	r25, 0x00	; 0
- 476:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;
- 47a:	08 95       	ret
-			case 5:
-				colorRGB(0,255,255);				
- 47c:	80 e0       	ldi	r24, 0x00	; 0
- 47e:	90 e0       	ldi	r25, 0x00	; 0
- 480:	6f ef       	ldi	r22, 0xFF	; 255
- 482:	70 e0       	ldi	r23, 0x00	; 0
- 484:	4f ef       	ldi	r20, 0xFF	; 255
- 486:	50 e0       	ldi	r21, 0x00	; 0
- 488:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 48c:	80 e0       	ldi	r24, 0x00	; 0
- 48e:	60 e0       	ldi	r22, 0x00	; 0
- 490:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(0, 255, 255)");
- 494:	8c ea       	ldi	r24, 0xAC	; 172
- 496:	90 e0       	ldi	r25, 0x00	; 0
- 498:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 49c:	80 e0       	ldi	r24, 0x00	; 0
- 49e:	61 e0       	ldi	r22, 0x01	; 1
- 4a0:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Cyan");
- 4a4:	8a eb       	ldi	r24, 0xBA	; 186
- 4a6:	90 e0       	ldi	r25, 0x00	; 0
- 4a8:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;
- 4ac:	08 95       	ret
-			case 6:
-				colorRGB(0,0,255);				
- 4ae:	80 e0       	ldi	r24, 0x00	; 0
- 4b0:	90 e0       	ldi	r25, 0x00	; 0
- 4b2:	60 e0       	ldi	r22, 0x00	; 0
- 4b4:	70 e0       	ldi	r23, 0x00	; 0
- 4b6:	4f ef       	ldi	r20, 0xFF	; 255
- 4b8:	50 e0       	ldi	r21, 0x00	; 0
- 4ba:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 4be:	80 e0       	ldi	r24, 0x00	; 0
- 4c0:	60 e0       	ldi	r22, 0x00	; 0
- 4c2:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(0, 0, 255)");
- 4c6:	8f eb       	ldi	r24, 0xBF	; 191
- 4c8:	90 e0       	ldi	r25, 0x00	; 0
- 4ca:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 4ce:	80 e0       	ldi	r24, 0x00	; 0
- 4d0:	61 e0       	ldi	r22, 0x01	; 1
- 4d2:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Blue");
- 4d6:	8b ec       	ldi	r24, 0xCB	; 203
- 4d8:	90 e0       	ldi	r25, 0x00	; 0
- 4da:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;			
- 4de:	08 95       	ret
-			case 7:
-				colorRGB(128,0,128);				
- 4e0:	80 e8       	ldi	r24, 0x80	; 128
- 4e2:	90 e0       	ldi	r25, 0x00	; 0
- 4e4:	60 e0       	ldi	r22, 0x00	; 0
- 4e6:	70 e0       	ldi	r23, 0x00	; 0
- 4e8:	40 e8       	ldi	r20, 0x80	; 128
- 4ea:	50 e0       	ldi	r21, 0x00	; 0
- 4ec:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
-				LCD_setPosition(0,0);
- 4f0:	80 e0       	ldi	r24, 0x00	; 0
- 4f2:	60 e0       	ldi	r22, 0x00	; 0
- 4f4:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("(128, 0, 128)");
- 4f8:	80 ed       	ldi	r24, 0xD0	; 208
- 4fa:	90 e0       	ldi	r25, 0x00	; 0
- 4fc:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				LCD_setPosition(0,1);
- 500:	80 e0       	ldi	r24, 0x00	; 0
- 502:	61 e0       	ldi	r22, 0x01	; 1
- 504:	0e 94 20 01 	call	0x240	; 0x240 <LCD_setPosition>
-				LCD_sendString("Violet");
- 508:	8e ed       	ldi	r24, 0xDE	; 222
- 50a:	90 e0       	ldi	r25, 0x00	; 0
- 50c:	0e 94 0a 01 	call	0x214	; 0x214 <LCD_sendString>
-				break;
- 510:	08 95       	ret
-			default:
-				colorRGB(0,0,0);
- 512:	80 e0       	ldi	r24, 0x00	; 0
- 514:	90 e0       	ldi	r25, 0x00	; 0
- 516:	60 e0       	ldi	r22, 0x00	; 0
- 518:	70 e0       	ldi	r23, 0x00	; 0
- 51a:	40 e0       	ldi	r20, 0x00	; 0
- 51c:	50 e0       	ldi	r21, 0x00	; 0
- 51e:	0e 94 b6 01 	call	0x36c	; 0x36c <colorRGB>
- 522:	08 95       	ret
+000003ce <UARTSend>:
+ 3ce:	5d 9b       	sbis	0x0b, 5	; 11
+ 3d0:	fe cf       	rjmp	.-4      	; 0x3ce <UARTSend>
+ 3d2:	8c b9       	out	0x0c, r24	; 12
+ 3d4:	08 95       	ret
 
-00000524 <__vector_2>:
-	LCD_clear();
-	color(count);
-}
+000003d6 <UARTReceive>:
+ 3d6:	5f 9b       	sbis	0x0b, 7	; 11
+ 3d8:	fe cf       	rjmp	.-4      	; 0x3d6 <UARTReceive>
+ 3da:	8c b1       	in	r24, 0x0c	; 12
+ 3dc:	08 95       	ret
 
-ISR(INT1_vect)
-{
- 524:	1f 92       	push	r1
- 526:	0f 92       	push	r0
- 528:	0f b6       	in	r0, 0x3f	; 63
- 52a:	0f 92       	push	r0
- 52c:	11 24       	eor	r1, r1
- 52e:	2f 93       	push	r18
- 530:	3f 93       	push	r19
- 532:	4f 93       	push	r20
- 534:	5f 93       	push	r21
- 536:	6f 93       	push	r22
- 538:	7f 93       	push	r23
- 53a:	8f 93       	push	r24
- 53c:	9f 93       	push	r25
- 53e:	af 93       	push	r26
- 540:	bf 93       	push	r27
- 542:	ef 93       	push	r30
- 544:	ff 93       	push	r31
-	count--;
- 546:	80 91 e7 00 	lds	r24, 0x00E7
- 54a:	90 91 e8 00 	lds	r25, 0x00E8
- 54e:	01 97       	sbiw	r24, 0x01	; 1
- 550:	90 93 e8 00 	sts	0x00E8, r25
- 554:	80 93 e7 00 	sts	0x00E7, r24
-	if (count <= 0)
- 558:	18 16       	cp	r1, r24
- 55a:	19 06       	cpc	r1, r25
- 55c:	34 f0       	brlt	.+12     	; 0x56a <__vector_2+0x46>
-	{
-		count = 7;
- 55e:	87 e0       	ldi	r24, 0x07	; 7
- 560:	90 e0       	ldi	r25, 0x00	; 0
- 562:	90 93 e8 00 	sts	0x00E8, r25
- 566:	80 93 e7 00 	sts	0x00E7, r24
-	}
-	LCD_clear();
- 56a:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
-	color(count);
- 56e:	80 91 e7 00 	lds	r24, 0x00E7
- 572:	90 91 e8 00 	lds	r25, 0x00E8
- 576:	0e 94 ba 01 	call	0x374	; 0x374 <color>
-}
- 57a:	ff 91       	pop	r31
- 57c:	ef 91       	pop	r30
- 57e:	bf 91       	pop	r27
- 580:	af 91       	pop	r26
- 582:	9f 91       	pop	r25
- 584:	8f 91       	pop	r24
- 586:	7f 91       	pop	r23
- 588:	6f 91       	pop	r22
- 58a:	5f 91       	pop	r21
- 58c:	4f 91       	pop	r20
- 58e:	3f 91       	pop	r19
- 590:	2f 91       	pop	r18
- 592:	0f 90       	pop	r0
- 594:	0f be       	out	0x3f, r0	; 63
- 596:	0f 90       	pop	r0
- 598:	1f 90       	pop	r1
- 59a:	18 95       	reti
+000003de <SendString>:
+ 3de:	cf 93       	push	r28
+ 3e0:	df 93       	push	r29
+ 3e2:	ec 01       	movw	r28, r24
+ 3e4:	88 81       	ld	r24, Y
+ 3e6:	88 23       	and	r24, r24
+ 3e8:	31 f0       	breq	.+12     	; 0x3f6 <SendString+0x18>
+ 3ea:	21 96       	adiw	r28, 0x01	; 1
+ 3ec:	0e 94 e7 01 	call	0x3ce	; 0x3ce <UARTSend>
+ 3f0:	89 91       	ld	r24, Y+
+ 3f2:	88 23       	and	r24, r24
+ 3f4:	d9 f7       	brne	.-10     	; 0x3ec <SendString+0xe>
+ 3f6:	8d e0       	ldi	r24, 0x0D	; 13
+ 3f8:	0e 94 e7 01 	call	0x3ce	; 0x3ce <UARTSend>
+ 3fc:	8a e0       	ldi	r24, 0x0A	; 10
+ 3fe:	0e 94 e7 01 	call	0x3ce	; 0x3ce <UARTSend>
+ 402:	df 91       	pop	r29
+ 404:	cf 91       	pop	r28
+ 406:	08 95       	ret
 
-0000059c <__vector_1>:
-// 	OCR1BL = B; //BLUE
+00000408 <_exit>:
+ 408:	f8 94       	cli
 
-}
-
-ISR(INT0_vect)
-{
- 59c:	1f 92       	push	r1
- 59e:	0f 92       	push	r0
- 5a0:	0f b6       	in	r0, 0x3f	; 63
- 5a2:	0f 92       	push	r0
- 5a4:	11 24       	eor	r1, r1
- 5a6:	2f 93       	push	r18
- 5a8:	3f 93       	push	r19
- 5aa:	4f 93       	push	r20
- 5ac:	5f 93       	push	r21
- 5ae:	6f 93       	push	r22
- 5b0:	7f 93       	push	r23
- 5b2:	8f 93       	push	r24
- 5b4:	9f 93       	push	r25
- 5b6:	af 93       	push	r26
- 5b8:	bf 93       	push	r27
- 5ba:	ef 93       	push	r30
- 5bc:	ff 93       	push	r31
-	count++;
- 5be:	80 91 e7 00 	lds	r24, 0x00E7
- 5c2:	90 91 e8 00 	lds	r25, 0x00E8
- 5c6:	01 96       	adiw	r24, 0x01	; 1
- 5c8:	90 93 e8 00 	sts	0x00E8, r25
- 5cc:	80 93 e7 00 	sts	0x00E7, r24
-	if (count >= 8)
- 5d0:	88 30       	cpi	r24, 0x08	; 8
- 5d2:	91 05       	cpc	r25, r1
- 5d4:	34 f0       	brlt	.+12     	; 0x5e2 <__vector_1+0x46>
-	{
-		count = 1;
- 5d6:	81 e0       	ldi	r24, 0x01	; 1
- 5d8:	90 e0       	ldi	r25, 0x00	; 0
- 5da:	90 93 e8 00 	sts	0x00E8, r25
- 5de:	80 93 e7 00 	sts	0x00E7, r24
-	}
-	LCD_clear();
- 5e2:	0e 94 40 01 	call	0x280	; 0x280 <LCD_clear>
-	color(count);
- 5e6:	80 91 e7 00 	lds	r24, 0x00E7
- 5ea:	90 91 e8 00 	lds	r25, 0x00E8
- 5ee:	0e 94 ba 01 	call	0x374	; 0x374 <color>
-}
- 5f2:	ff 91       	pop	r31
- 5f4:	ef 91       	pop	r30
- 5f6:	bf 91       	pop	r27
- 5f8:	af 91       	pop	r26
- 5fa:	9f 91       	pop	r25
- 5fc:	8f 91       	pop	r24
- 5fe:	7f 91       	pop	r23
- 600:	6f 91       	pop	r22
- 602:	5f 91       	pop	r21
- 604:	4f 91       	pop	r20
- 606:	3f 91       	pop	r19
- 608:	2f 91       	pop	r18
- 60a:	0f 90       	pop	r0
- 60c:	0f be       	out	0x3f, r0	; 63
- 60e:	0f 90       	pop	r0
- 610:	1f 90       	pop	r1
- 612:	18 95       	reti
-
-00000614 <UARTInit>:
-#include "main.h"
-#include "uartlib.h"
-
-void UARTInit()
-{		
-	UCSRA = 0x00;
- 614:	1b b8       	out	0x0b, r1	; 11
-	UCSRB |= (1 << RXEN) | (1 << TXEN);
- 616:	8a b1       	in	r24, 0x0a	; 10
- 618:	88 61       	ori	r24, 0x18	; 24
- 61a:	8a b9       	out	0x0a, r24	; 10
-	UCSRC |= (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
- 61c:	80 b5       	in	r24, 0x20	; 32
- 61e:	86 68       	ori	r24, 0x86	; 134
- 620:	80 bd       	out	0x20, r24	; 32
-	UBRRL = 25;
- 622:	89 e1       	ldi	r24, 0x19	; 25
- 624:	89 b9       	out	0x09, r24	; 9
-}
- 626:	08 95       	ret
-
-00000628 <UARTSend>:
-
-void UARTSend(char Value)
-{
-	while (!(UCSRA & (1 << UDRE)))
- 628:	5d 9b       	sbis	0x0b, 5	; 11
- 62a:	fe cf       	rjmp	.-4      	; 0x628 <UARTSend>
-	{
-				
-	}		
-	UDR = Value;
- 62c:	8c b9       	out	0x0c, r24	; 12
-}
- 62e:	08 95       	ret
-
-00000630 <UARTReceive>:
-
-char UARTReceive()
-{
-	while (!(UCSRA & (1 << RXC)))
- 630:	5f 9b       	sbis	0x0b, 7	; 11
- 632:	fe cf       	rjmp	.-4      	; 0x630 <UARTReceive>
-	{
-		
-	}		
-	return UDR; 
- 634:	8c b1       	in	r24, 0x0c	; 12
-}
- 636:	08 95       	ret
-
-00000638 <SendString>:
-
-void SendString(char* str)
-{
- 638:	cf 93       	push	r28
- 63a:	df 93       	push	r29
- 63c:	ec 01       	movw	r28, r24
-	while(*str != '\0')
- 63e:	88 81       	ld	r24, Y
- 640:	88 23       	and	r24, r24
- 642:	31 f0       	breq	.+12     	; 0x650 <SendString+0x18>
-		
-	}		
-	return UDR; 
-}
-
-void SendString(char* str)
- 644:	21 96       	adiw	r28, 0x01	; 1
-{
-	while(*str != '\0')
-	{
-		UARTSend(*str);
- 646:	0e 94 14 03 	call	0x628	; 0x628 <UARTSend>
-	return UDR; 
-}
-
-void SendString(char* str)
-{
-	while(*str != '\0')
- 64a:	89 91       	ld	r24, Y+
- 64c:	88 23       	and	r24, r24
- 64e:	d9 f7       	brne	.-10     	; 0x646 <SendString+0xe>
-	{
-		UARTSend(*str);
-		str++;
-	}
-	//UARTSend(*str);
-	UARTSend('\r');
- 650:	8d e0       	ldi	r24, 0x0D	; 13
- 652:	0e 94 14 03 	call	0x628	; 0x628 <UARTSend>
-	UARTSend('\n');
- 656:	8a e0       	ldi	r24, 0x0A	; 10
- 658:	0e 94 14 03 	call	0x628	; 0x628 <UARTSend>
-}
- 65c:	df 91       	pop	r29
- 65e:	cf 91       	pop	r28
- 660:	08 95       	ret
-
-00000662 <_exit>:
- 662:	f8 94       	cli
-
-00000664 <__stop_program>:
- 664:	ff cf       	rjmp	.-2      	; 0x664 <__stop_program>
+0000040a <__stop_program>:
+ 40a:	ff cf       	rjmp	.-2      	; 0x40a <__stop_program>
