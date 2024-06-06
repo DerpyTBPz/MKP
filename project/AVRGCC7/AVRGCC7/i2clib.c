@@ -33,6 +33,13 @@ void I2C_TransmitByAddr(unsigned char data, unsigned char addr)
 	I2C_Transmit(data); 
 	I2C_Stop(); 
 } 
+
+char* I2C_Read()
+{
+	I2C_Start();
+	I2C_Stop();
+	return TWDR;
+}
  
 void I2C_Stop(void) 
 { 

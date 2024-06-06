@@ -17,7 +17,9 @@ signature        0x00840000         0x00000400         rw !x
 Linker script and memory map
 
 LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/../../../../avr/lib/avr5/crtm16a.o
+LOAD i2clib.o
 LOAD main.o
+LOAD uartlib.o
 LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/../../../../avr/lib/avr5\libm.a
 LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a
 LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/../../../../avr/lib/avr5\libc.a
@@ -113,7 +115,7 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000       0x72
+.text           0x00000000      0x14e
  *(.vectors)
  .vectors       0x00000000       0x54 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000000                __vector_default
@@ -186,17 +188,29 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
                 0x00000068                __vector_16
                 0x00000068                __vector_18
                 0x00000068                __vector_20
- .text          0x0000006c        0x2 main.o
-                0x0000006c                main
- .text          0x0000006e        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
-                0x0000006e                . = ALIGN (0x2)
+ .text          0x0000006c       0x56 i2clib.o
+                0x0000006c                I2C_Init
+                0x00000072                I2C_Start
+                0x0000007e                I2C_Transmit
+                0x0000008c                I2C_Stop
+                0x00000092                I2C_Read
+                0x000000a0                I2C_TransmitByAddr
+ .text          0x000000c2       0x3a main.o
+                0x000000c2                main
+ .text          0x000000fc       0x4e uartlib.o
+                0x000000fc                UARTInit
+                0x00000110                UARTSend
+                0x00000118                UARTReceive
+                0x00000120                SendString
+ .text          0x0000014a        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
+                0x0000014a                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x0000006e        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
-                0x0000006e                . = ALIGN (0x2)
+ .text.libgcc   0x0000014a        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
+                0x0000014a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000006e        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
-                0x0000006e                _exit
-                0x0000006e                exit
+ .fini9         0x0000014a        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
+                0x0000014a                _exit
+                0x0000014a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -215,15 +229,17 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000006e        0x4 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000014a        0x4 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000072                _etext = .
+                0x0000014e                _etext = .
 
-.data           0x00800060        0x0 load address 0x00000072
+.data           0x00800060        0x0 load address 0x0000014e
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/../../../../avr/lib/avr5/crtm16a.o
+ .data          0x00800060        0x0 i2clib.o
  .data          0x00800060        0x0 main.o
+ .data          0x00800060        0x0 uartlib.o
  .data          0x00800060        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
@@ -237,13 +253,15 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
                 0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800060        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/../../../../avr/lib/avr5/crtm16a.o
+ .bss           0x00800060        0x0 i2clib.o
  .bss           0x00800060        0x0 main.o
+ .bss           0x00800060        0x0 uartlib.o
  .bss           0x00800060        0x0 c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.27/avrtoolchain/bin/../lib/gcc/avr/4.5.1/avr5\libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
                 0x00800060                PROVIDE (__bss_end, .)
-                0x00000072                __data_load_start = LOADADDR (.data)
-                0x00000072                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000014e                __data_load_start = LOADADDR (.data)
+                0x0000014e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 0x00800060                PROVIDE (__noinit_start, .)
@@ -303,41 +321,64 @@ LOAD c:/program files (x86)/atmel/avr studio 5.1/extensions/atmel/avrgcc/3.3.1.2
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x20
+.debug_aranges  0x00000000       0x60
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x20 main.o
+                0x00000000       0x20 i2clib.o
+ .debug_aranges
+                0x00000020       0x20 main.o
+ .debug_aranges
+                0x00000040       0x20 uartlib.o
 
 .debug_pubnames
-                0x00000000       0x1b
+                0x00000000       0xd5
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0x1b main.o
+                0x00000000       0x6f i2clib.o
+ .debug_pubnames
+                0x0000006f       0x1b main.o
+ .debug_pubnames
+                0x0000008a       0x4b uartlib.o
 
-.debug_info     0x00000000       0x77
+.debug_info     0x00000000      0x3e6
  *(.debug_info)
- .debug_info    0x00000000       0x77 main.o
+ .debug_info    0x00000000      0x12a i2clib.o
+ .debug_info    0x0000012a      0x1ca main.o
+ .debug_info    0x000002f4       0xf2 uartlib.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000       0x41
+.debug_abbrev   0x00000000      0x26b
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0x41 main.o
+ .debug_abbrev  0x00000000       0xa5 i2clib.o
+ .debug_abbrev  0x000000a5      0x129 main.o
+ .debug_abbrev  0x000001ce       0x9d uartlib.o
 
-.debug_line     0x00000000       0x55
+.debug_line     0x00000000      0x53f
  *(.debug_line)
- .debug_line    0x00000000       0x55 main.o
+ .debug_line    0x00000000      0x1b8 i2clib.o
+ .debug_line    0x000001b8      0x1f0 main.o
+ .debug_line    0x000003a8      0x197 uartlib.o
 
-.debug_frame    0x00000000       0x20
+.debug_frame    0x00000000       0xe0
  *(.debug_frame)
- .debug_frame   0x00000000       0x20 main.o
+ .debug_frame   0x00000000       0x70 i2clib.o
+ .debug_frame   0x00000070       0x20 main.o
+ .debug_frame   0x00000090       0x50 uartlib.o
 
-.debug_str      0x00000000       0x8d
+.debug_str      0x00000000      0x19d
  *(.debug_str)
- .debug_str     0x00000000       0x8d main.o
-                                 0xc1 (size before relaxing)
+ .debug_str     0x00000000       0xe1 i2clib.o
+                                0x11a (size before relaxing)
+ .debug_str     0x000000e1       0x7e main.o
+                                0x138 (size before relaxing)
+ .debug_str     0x0000015f       0x3e uartlib.o
+                                 0xfb (size before relaxing)
 
-.debug_loc
+.debug_loc      0x00000000       0x96
  *(.debug_loc)
+ .debug_loc     0x00000000       0x5b i2clib.o
+ .debug_loc     0x0000005b       0x13 main.o
+ .debug_loc     0x0000006e       0x28 uartlib.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -345,6 +386,10 @@ OUTPUT(AVRGCC7.elf elf32-avr)
 LOAD linker stubs
 
 .debug_pubtypes
-                0x00000000       0x12
+                0x00000000       0x68
  .debug_pubtypes
-                0x00000000       0x12 main.o
+                0x00000000       0x1e i2clib.o
+ .debug_pubtypes
+                0x0000001e       0x2c main.o
+ .debug_pubtypes
+                0x0000004a       0x1e uartlib.o

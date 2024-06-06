@@ -13,6 +13,7 @@ void I2C_Init(void);
 void I2C_Start(void);
 void I2C_Transmit(unsigned char data);
 void I2C_TransmitByAddr(unsigned char data, unsigned char addr);
+char* I2C_Read();
 void I2C_Stop(void);
 
 #endif /* I2CLIB_H_ */

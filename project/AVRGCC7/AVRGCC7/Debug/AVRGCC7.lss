@@ -3,27 +3,29 @@ AVRGCC7.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000072  00000000  00000000  00000054  2**1
+  0 .text         0000014e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .stab         000006cc  00000000  00000000  000000c8  2**2
+  1 .stab         000006cc  00000000  00000000  000001a4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  2 .stabstr      00000090  00000000  00000000  00000794  2**0
+  2 .stabstr      00000090  00000000  00000000  00000870  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_aranges 00000020  00000000  00000000  00000824  2**0
+  3 .debug_aranges 00000060  00000000  00000000  00000900  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_pubnames 0000001b  00000000  00000000  00000844  2**0
+  4 .debug_pubnames 000000d5  00000000  00000000  00000960  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000077  00000000  00000000  0000085f  2**0
+  5 .debug_info   000003e6  00000000  00000000  00000a35  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000041  00000000  00000000  000008d6  2**0
+  6 .debug_abbrev 0000026b  00000000  00000000  00000e1b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000055  00000000  00000000  00000917  2**0
+  7 .debug_line   0000053f  00000000  00000000  00001086  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000020  00000000  00000000  0000096c  2**2
+  8 .debug_frame  000000e0  00000000  00000000  000015c8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000008d  00000000  00000000  0000098c  2**0
+  9 .debug_str    0000019d  00000000  00000000  000016a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_pubtypes 00000012  00000000  00000000  00000a19  2**0
+ 10 .debug_loc    00000096  00000000  00000000  00001845  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_pubtypes 00000068  00000000  00000000  000018db  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -58,23 +60,262 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
-  64:	0c 94 37 00 	jmp	0x6e	; 0x6e <_exit>
+  60:	0e 94 61 00 	call	0xc2	; 0xc2 <main>
+  64:	0c 94 a5 00 	jmp	0x14a	; 0x14a <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000006c <main>:
- */ 
+0000006c <I2C_Init>:
+#include "i2clib.h"
+#include "main.h"
 
-#include <avr/io.h>
+void I2C_Init(void)
+{
+	TWBR = 0x03; //1MGz CPU; 25kGz I2C
+  6c:	83 e0       	ldi	r24, 0x03	; 3
+  6e:	80 b9       	out	0x00, r24	; 0
+}
+  70:	08 95       	ret
+
+00000072 <I2C_Start>:
+
+void I2C_Start(void) 
+{ 
+	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN); 
+  72:	84 ea       	ldi	r24, 0xA4	; 164
+  74:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & (1<<TWINT))); 
+  76:	06 b6       	in	r0, 0x36	; 54
+  78:	07 fe       	sbrs	r0, 7
+  7a:	fd cf       	rjmp	.-6      	; 0x76 <I2C_Start+0x4>
+} 
+  7c:	08 95       	ret
+
+0000007e <I2C_Transmit>:
+ 
+void I2C_Transmit(unsigned char data) 
+{ 
+	TWDR = data; 
+  7e:	83 b9       	out	0x03, r24	; 3
+	TWCR = (1<<TWINT) | (1<<TWEN); 
+  80:	84 e8       	ldi	r24, 0x84	; 132
+  82:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & (1<<TWINT))); 
+  84:	06 b6       	in	r0, 0x36	; 54
+  86:	07 fe       	sbrs	r0, 7
+  88:	fd cf       	rjmp	.-6      	; 0x84 <I2C_Transmit+0x6>
+} 
+  8a:	08 95       	ret
+
+0000008c <I2C_Stop>:
+	return TWDR;
+}
+ 
+void I2C_Stop(void) 
+{ 
+	TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN); 
+  8c:	84 e9       	ldi	r24, 0x94	; 148
+  8e:	86 bf       	out	0x36, r24	; 54
+  90:	08 95       	ret
+
+00000092 <I2C_Read>:
+	I2C_Stop(); 
+} 
+
+char* I2C_Read()
+{
+	I2C_Start();
+  92:	0e 94 39 00 	call	0x72	; 0x72 <I2C_Start>
+	I2C_Stop();
+  96:	0e 94 46 00 	call	0x8c	; 0x8c <I2C_Stop>
+	return TWDR;
+  9a:	83 b1       	in	r24, 0x03	; 3
+}
+  9c:	90 e0       	ldi	r25, 0x00	; 0
+  9e:	08 95       	ret
+
+000000a0 <I2C_TransmitByAddr>:
+	TWCR = (1<<TWINT) | (1<<TWEN); 
+	while(!(TWCR & (1<<TWINT))); 
+} 
+ 
+void I2C_TransmitByAddr(unsigned char data, unsigned char addr)
+{ 
+  a0:	0f 93       	push	r16
+  a2:	1f 93       	push	r17
+  a4:	18 2f       	mov	r17, r24
+  a6:	06 2f       	mov	r16, r22
+	I2C_Start(); 
+  a8:	0e 94 39 00 	call	0x72	; 0x72 <I2C_Start>
+	I2C_Transmit(addr); 
+  ac:	80 2f       	mov	r24, r16
+  ae:	0e 94 3f 00 	call	0x7e	; 0x7e <I2C_Transmit>
+	I2C_Transmit(data); 
+  b2:	81 2f       	mov	r24, r17
+  b4:	0e 94 3f 00 	call	0x7e	; 0x7e <I2C_Transmit>
+	I2C_Stop(); 
+  b8:	0e 94 46 00 	call	0x8c	; 0x8c <I2C_Stop>
+} 
+  bc:	1f 91       	pop	r17
+  be:	0f 91       	pop	r16
+  c0:	08 95       	ret
+
+000000c2 <main>:
+#include "i2clib.h"
+#include "uartlib.h"
 
 int main(void)
 {
-  6c:	ff cf       	rjmp	.-2      	; 0x6c <main>
+	I2C_Init();
+  c2:	0e 94 36 00 	call	0x6c	; 0x6c <I2C_Init>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
 
-0000006e <_exit>:
-  6e:	f8 94       	cli
+	__builtin_avr_delay_cycles(__ticks_dc);
+  c6:	87 ea       	ldi	r24, 0xA7	; 167
+  c8:	91 e6       	ldi	r25, 0x61	; 97
+  ca:	01 97       	sbiw	r24, 0x01	; 1
+  cc:	f1 f7       	brne	.-4      	; 0xca <main+0x8>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <main+0xe>
+  d0:	00 00       	nop
+	_delay_ms(100);
+	UARTInit();
+  d2:	0e 94 7e 00 	call	0xfc	; 0xfc <UARTInit>
+    {
+		char config[2] = {0};
+        config[0] = 0x2C;
+		config[1] = 0x06;
+		
+		I2C_Transmit(config[0]);
+  d6:	8c e2       	ldi	r24, 0x2C	; 44
+  d8:	0e 94 3f 00 	call	0x7e	; 0x7e <I2C_Transmit>
+		I2C_Transmit(config[1]);
+  dc:	86 e0       	ldi	r24, 0x06	; 6
+  de:	0e 94 3f 00 	call	0x7e	; 0x7e <I2C_Transmit>
+  e2:	87 ea       	ldi	r24, 0xA7	; 167
+  e4:	91 e6       	ldi	r25, 0x61	; 97
+  e6:	01 97       	sbiw	r24, 0x01	; 1
+  e8:	f1 f7       	brne	.-4      	; 0xe6 <main+0x24>
+  ea:	00 c0       	rjmp	.+0      	; 0xec <main+0x2a>
+  ec:	00 00       	nop
+		_delay_ms(100);
+		
+		char data;
+		
+		data = I2C_Read();
+  ee:	0e 94 49 00 	call	0x92	; 0x92 <I2C_Read>
+		
+		UARTSend(data);
+  f2:	0e 94 88 00 	call	0x110	; 0x110 <UARTSend>
+		UARTReceive();
+  f6:	0e 94 8c 00 	call	0x118	; 0x118 <UARTReceive>
+  fa:	ed cf       	rjmp	.-38     	; 0xd6 <main+0x14>
 
-00000070 <__stop_program>:
-  70:	ff cf       	rjmp	.-2      	; 0x70 <__stop_program>
+000000fc <UARTInit>:
+#include "main.h"
+#include "uartlib.h"
+
+void UARTInit()
+{		
+	UCSRA = 0x00;
+  fc:	1b b8       	out	0x0b, r1	; 11
+	UCSRB |= (1 << RXEN) | (1 << TXEN);
+  fe:	8a b1       	in	r24, 0x0a	; 10
+ 100:	88 61       	ori	r24, 0x18	; 24
+ 102:	8a b9       	out	0x0a, r24	; 10
+	UCSRC |= (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
+ 104:	80 b5       	in	r24, 0x20	; 32
+ 106:	86 68       	ori	r24, 0x86	; 134
+ 108:	80 bd       	out	0x20, r24	; 32
+	UBRRL = 25;
+ 10a:	89 e1       	ldi	r24, 0x19	; 25
+ 10c:	89 b9       	out	0x09, r24	; 9
+}
+ 10e:	08 95       	ret
+
+00000110 <UARTSend>:
+
+void UARTSend(char Value)
+{
+	while (!(UCSRA & (1 << UDRE)))
+ 110:	5d 9b       	sbis	0x0b, 5	; 11
+ 112:	fe cf       	rjmp	.-4      	; 0x110 <UARTSend>
+	{
+				
+	}		
+	UDR = Value;
+ 114:	8c b9       	out	0x0c, r24	; 12
+}
+ 116:	08 95       	ret
+
+00000118 <UARTReceive>:
+
+char UARTReceive()
+{
+	while (!(UCSRA & (1 << RXC)))
+ 118:	5f 9b       	sbis	0x0b, 7	; 11
+ 11a:	fe cf       	rjmp	.-4      	; 0x118 <UARTReceive>
+	{
+		
+	}		
+	return UDR; 
+ 11c:	8c b1       	in	r24, 0x0c	; 12
+}
+ 11e:	08 95       	ret
+
+00000120 <SendString>:
+
+void SendString(char* str)
+{
+ 120:	cf 93       	push	r28
+ 122:	df 93       	push	r29
+ 124:	ec 01       	movw	r28, r24
+	while(*str != '\0')
+ 126:	88 81       	ld	r24, Y
+ 128:	88 23       	and	r24, r24
+ 12a:	31 f0       	breq	.+12     	; 0x138 <SendString+0x18>
+		
+	}		
+	return UDR; 
+}
+
+void SendString(char* str)
+ 12c:	21 96       	adiw	r28, 0x01	; 1
+{
+	while(*str != '\0')
+	{
+		UARTSend(*str);
+ 12e:	0e 94 88 00 	call	0x110	; 0x110 <UARTSend>
+	return UDR; 
+}
+
+void SendString(char* str)
+{
+	while(*str != '\0')
+ 132:	89 91       	ld	r24, Y+
+ 134:	88 23       	and	r24, r24
+ 136:	d9 f7       	brne	.-10     	; 0x12e <SendString+0xe>
+	{
+		UARTSend(*str);
+		str++;
+	}
+	//UARTSend(*str);
+	UARTSend('\r');
+ 138:	8d e0       	ldi	r24, 0x0D	; 13
+ 13a:	0e 94 88 00 	call	0x110	; 0x110 <UARTSend>
+	UARTSend('\n');
+ 13e:	8a e0       	ldi	r24, 0x0A	; 10
+ 140:	0e 94 88 00 	call	0x110	; 0x110 <UARTSend>
+}
+ 144:	df 91       	pop	r29
+ 146:	cf 91       	pop	r28
+ 148:	08 95       	ret
+
+0000014a <_exit>:
+ 14a:	f8 94       	cli
+
+0000014c <__stop_program>:
+ 14c:	ff cf       	rjmp	.-2      	; 0x14c <__stop_program>

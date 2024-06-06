@@ -35,7 +35,9 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../main.c
+../i2clib.c \
+../main.c \
+../uartlib.c
 
 
 PREPROCESSING_SRCS += 
@@ -45,19 +47,27 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-main.o
+i2clib.o \
+main.o \
+uartlib.o
 
 
 OBJS_AS_ARGS +=  \
-main.o
+i2clib.o \
+main.o \
+uartlib.o
 
 
 C_DEPS +=  \
-main.d
+i2clib.d \
+main.d \
+uartlib.d
 
 
 C_DEPS_AS_ARGS +=  \
-main.d
+i2clib.d \
+main.d \
+uartlib.d
 
 
 OUTPUT_FILE_PATH +=AVRGCC7.elf
@@ -69,6 +79,10 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

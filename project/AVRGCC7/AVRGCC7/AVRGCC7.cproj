@@ -56,7 +56,22 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="i2clib.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="i2clib.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="main.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uartlib.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uartlib.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
