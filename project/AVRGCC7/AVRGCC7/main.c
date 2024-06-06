@@ -5,7 +5,8 @@
  *  Author: Administrator
  */ 
 
-#include <avr/io.h>
+#include "main.h"
+#include "i2clib.h"
 
 int main(void)
 {
