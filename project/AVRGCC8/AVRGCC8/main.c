@@ -19,20 +19,22 @@ ISR(TIMER0_COMP_vect);
 ISR(TIMER1_COMPA_vect);
 ISR(TIMER2_COMP_vect);
 
-
 void TimerInit();
 void NumToArr(int numbr);
 unsigned char DecToDigit(unsigned char Dec);
 
 int j = 0;
 int arr[DIGITS];
-int HH = 0;
-int MM = 0;
+int HH = 21;
+int MM = 43;
 int SS = 0;
 int time = 0;
+char timeArr[8];
 
 char string[128];
-int sendTime;
+int sendTime = 0;
+int timeMode = 0;
+int flag = 0;
 
 int main(void)
 {	
@@ -49,22 +51,22 @@ int main(void)
 	
 	while(1)
 	{
-		if (sendTime == 1)
+		SendTime();
+		
+		if (timeMode == 1)
 		{
-			SendString("Time is ");
-			itoa(HH, string, 10);
-			SendString(string);
-			UARTSend(':');
-			itoa(MM, string, 10);
-			SendString(string);
-			UARTSend(':');
-			itoa(SS, string, 10);
-			SendString(string);		
-			UARTSend('\r');
-			UARTSend('\n');
-			
-			sendTime = 0;
-		}		
+			PORTA = 0xF0;
+			PORTC = 0xFF;
+			_delay_ms(1000);
+			PORTC = 0x00;
+			_delay_ms(1000);
+		}
+//		TimeArray(HH, MM, SS);
+//		SendString(timeArr);
+// 		if (sendTime == 1)
+// 		{
+// 			SendTime();
+// 		}		
 	}
 }
 
@@ -72,7 +74,7 @@ void TimerInit()
 {
 	//TIMER0
 // 	TCCR0 |= (1 << WGM00) | (1 << CS02) | (1 << CS00);
-// 	OCR0 = 256;
+// 	OCR0 = 200;
 // 	TIMSK |= (1 << OCIE0);
 
  	//TIMER1	
@@ -85,32 +87,39 @@ void TimerInit()
 	
 	//TIMER2
 	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
-	OCR2 = 10;
+	OCR2 = 5;
 	TIMSK |= (1 << OCIE2);
 }
 
 ISR(TIMER0_COMP_vect)
 {	
-	SS++;	
+	
 }
 
 ISR(TIMER1_COMPA_vect)
 {
-	SS++;
-	if (SS == 60)
+	if (timeMode == 0)
 	{
-		MM++;
-		SS = 0;
-		if (MM == 60)
+		SS++;
+		if (SS == 60)
 		{
-			HH++;
-			MM = 0;
+			MM++;
+			SS = 0;
+			if (MM == 60)
+			{
+				HH++;
+				MM = 0;
+			}
 		}
+		time = (HH * 100) + MM;	
+		NumToArr(time);
 	}
-	time = (HH * 100) + MM;	
-	NumToArr(time);
+	else if (timeMode == 1)
+	{
+		
+	}
 	
-	sendTime = 1;
+	
 	//time = (MM * 100) + SS;
 	
 // 	
@@ -125,24 +134,42 @@ ISR(TIMER1_COMPA_vect)
 
 ISR(TIMER2_COMP_vect)
 {	
-	PORTC = 0x00;
-	PORTA = 0x00;
 	
-	PORTC = DecToDigit(arr[j]);	
-	
-	if ((j == 2) && ((SS % 2) == 0))
-	{			
-		PORTC ^= 0b10000000;	
-	}	
+	if (timeMode == 0)
+	{
 		
-	PORTA = (1 << (7 - j));			
-	j++;
-	j %= 4;
+		PORTC = 0x00;
+		PORTA = 0x00;
+			
+		PORTC = DecToDigit(arr[j]);
+		
+		if ((j == 2) && ((SS % 2) == 0))
+		{			
+			PORTC ^= 0b10000000;	
+		}	
+		
+		PORTA = (1 << (7 - j));			
+		j++;
+		j %= 4;
+	}
+}
+
+ISR(INT0_vect)
+{
+	timeMode++;
+	
+	if (timeMode == 1)
+	{
+		
+	}
+	else
+	{		
+		timeMode = 0;
+	}
 }
 
 void SendTime()
 {
-	SendString("Time is ");
 	itoa(HH, string, 10);
 	SendString(string);
 	UARTSend(':');
@@ -150,12 +177,31 @@ void SendTime()
 	SendString(string);
 	UARTSend(':');
 	itoa(SS, string, 10);
-	SendString(string);		
-	UARTSend('\r');
-	UARTSend('\n');
+	SendString(string);	
+	
+ 	UARTSend('\r');
+ 	UARTSend('\n');
 			
 	sendTime = 0;
 }
+
+// void TimeArray(int H, int M, int S)
+// {
+// 	int tmp = (S * 10000) + (M * 100) + H;
+// 	for (int k = 0; k < 8; k++)
+// 	{
+// 		if ((k == 2) || (k == 5))
+// 		{
+// 			timeArr[k] = ':';
+// 		}
+// 		else
+// 		{
+// 			timeArr[k] = (tmp % 10) + '0';
+// 			tmp /= 10;
+// 		}
+// 		
+// 	}
+// }
 
 void NumToArr(int numbr)
 {	
