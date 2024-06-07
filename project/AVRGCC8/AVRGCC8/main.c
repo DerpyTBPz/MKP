@@ -35,6 +35,7 @@ char string[128];
 int sendTime = 0;
 int timeMode = 0;
 int flag = 0;
+char tmp[3];
 
 int main(void)
 {	
@@ -55,11 +56,40 @@ int main(void)
 		
 		if (timeMode == 1)
 		{
-			PORTA = 0xF0;
-			PORTC = 0xFF;
-			_delay_ms(1000);
-			PORTC = 0x00;
-			_delay_ms(1000);
+			while(1)
+			{			
+				SendString("Enter hours (HH)");			
+				tmp[0] = UARTReceive();
+				tmp[1] = UARTReceive();				
+				HH = atoi(tmp);				
+				if (HH > 23)
+				{
+					SendString("Wrong hours");
+					break;
+				}
+				
+				SendString("Enter minutes (MM)");				
+				tmp[0] = UARTReceive();
+				tmp[1] = UARTReceive();				
+				MM = atoi(tmp);				
+				if (MM > 59)
+				{
+					SendString("Wrong minutes");
+					break;
+				}
+				
+				SendString("Enter seconds (SS)");				
+				tmp[0] = UARTReceive();
+				tmp[1] = UARTReceive();				
+				SS = atoi(tmp);			
+			
+			
+// 				PORTA = 0xF0;
+// 				PORTC = 0xFF;
+// 				_delay_ms(1000);
+// 				PORTC = 0x00;
+// 				_delay_ms(1000);
+			}			
 		}
 //		TimeArray(HH, MM, SS);
 //		SendString(timeArr);
