@@ -86,58 +86,53 @@ int main(void)
 	
 	while(1)
 	{	
-		if (command == '1')
-		{
-			ADCSRA |= (1<<ADSC);
-			command = UARTReceive();						
+		type = UARTReceive();
+		if (type == 'n') // NUMBER OF SAMPLES (1 - 9999)
+		{								
+			for (int i = 0; i < 4; i++)
+			{					
+				resc[i] = UARTReceive();
+			}
+			numOfSamp = atoi(resc);	
 		}
-		else if (command == '2')
+		else if (type == 't') // THESHOLD (1 - 1022)
 		{
+			for (int i = 0; i < 4; i++)
+			{					
+				resc[i] = UARTReceive();
+			}
+			treshold = atoi(resc);
+		}
+		else if (type == 'a') // ACP MODE (1 - 8BIT; 2 - 10BIT)
+		{
+			acpMode = UARTReceive();
+		}
+		else if (type == 'w') // WORKING MODE (1 - HIGHER THEN TRESHOLD; 2 - ALL; 3 - LOWER THEN TRESHOLD)
+		{
+			workingMode = UARTReceive();
+		}
+		else if (type == 'c') // COMMAND (1 - START; 2 - PAUSE; 3 - STOP)
+		{							
 			command = UARTReceive();
+			if (command == '1')
+			{
+				ADCSRA |= (1<<ADSC);
+			}
+			else if (command == '2')
+			{
+				//PAUSE
+			}
+			else if (command == '3')
+			{
+				int numOfSamp = 0;
+				int treshold = 0;
+				char acpMode = '0';
+				char workingMode = '0';
+				char command = '0';								
+			}
 		}
-		else if (command == '0')
-		{
-			type = UARTReceive();
-			if (type == 'n') // NUMBER OF SAMPLES (1 - 9999)
-			{								
-				for (int i = 0; i < 4; i++)
-				{					
-					resc[i] = UARTReceive();
-				}
-				numOfSamp = atoi(resc);				
-				
-				itoa(numOfSamp, string, 10);
-				SendString(string);
-			}
-			else if (type == 't') // THESHOLD (1 - 1022)
-			{
-				for (int i = 0; i < 4; i++)
-				{					
-					resc[i] = UARTReceive();
-				}
-				treshold = atoi(resc);
-				
-				itoa(treshold, string, 10);
-				SendString(string);
-			}
-			else if (type == 'a') // ACP MODE (1 - 8BIT; 2 - 10BIT)
-			{
-				acpMode = UARTReceive();
-				UARTSend(acpMode);				
-			}
-			else if (type == 'w') // WORKING MODE (1 - HIGHER THEN TRESHOLD; 2 - ALL; 3 - LOWER THEN TRESHOLD)
-			{
-				workingMode = UARTReceive();
-				UARTSend(workingMode);
-				
-			}
-			else if (type == 'c') // COMMAND (1 - START; 2 - PAUSE; 3 - STOP)
-			{							
-				command = UARTReceive();
-			}
 			
-			type = '\0';
-		}		
+		type = '\0';
 	}			
 }
 
@@ -184,95 +179,48 @@ ISR(ADC_vect)
 {	
 	res = ADCL;
 	res |= (ADCH << 8);
-	itoa(res, string, 10);
-	SendString(string);
-// 	
-// 	PORTC = 0x00;
-// 	PORTA = 0x00;
-// 	_delay_ms(100);
-// 		
-// 	if (enACP == 0)
-// 	{
-// 		res = 0;
-// 		volt = 0;
-// 		
-// 		itoa(res, string, 10);
-//  		SendString(string);	
-// 	}
-// 	else 
-// 	{
-// 		res = ADCL;
-// 		res |= (ADCH << 8);
-// 		
-// 		itoa(res, string, 10);
-//  		SendString(string);	
-//  	}
-}
-
-// ISR(TIMER2_COMP_vect)
-// {	
-// // 	if (trigger == 1)
-// // 	{
-// // 		ADCSRA |= (1 << ADATE);
-// // // 		if (count >= 20)
-// // // 		{
-// // // 			ADCSRA |= (1 >> ADATE);
-// // // 			trigger = 0;
-// // // 			count = 0;
-// // // 		}		
-// // 	}
-// 	
-// 	PORTC = 0x00;
-// 	PORTA = 0x00;
-// 	
-// 	if (modeACP != 0)
-// 	{
-// // 		if (modeACP == 1)
-// // 		{
-// // 			NumToArr(res);
-// // 		}
-// // 		else if (modeACP == 2)
-// // 		{
-// // 			volt = (float)((0.5 * res) / 1024) * 10000;
-// // 			NumToArr(volt);
-// // 		}
-// 		NumToArr(trigger);
-// 		
-// 		PORTC = DecToDigit(arr[j]);
-// 		PORTA = (1 << (7 - j));	
-// 	
-// 		if (j == 3)
-// 		{
-// 			PINC |= 0b10000000;	
-// 		}	
-// 	
-// 		j++;
-// 		j %= 4;
-// 	}	
-// }
-
-ISR(INT0_vect)
-{
-	SendString(string);
-	ADCSRA |= (1<<ADSC);
 	
-// 	enACP++;
-// 	if (enACP >= 2)
+	if (acpMode == '1')
+	{
+		res /= 4;
+	}	
+// 	else if (acpMode == '2')
 // 	{
-// 		enACP = 0;
+// 		itoa(res, string, 10);
 // 	}
-// 	ToggleACP(enACP);
+	
+	if ((workingMode == '1') && (res < treshold))
+	{
+		itoa(treshold, string, 10);
+	}
+	else if ((workingMode == '1') && (res > treshold))
+	{
+		itoa(res, string, 10);
+	}
+	else if ((workingMode == '3') && (res < treshold))
+	{
+		itoa(res, string, 10);
+	}
+	else if ((workingMode == '3') && (res > treshold))
+	{
+		itoa(treshold, string, 10);
+	}
+	else 
+	{
+		itoa(res, string, 10);
+	}
+	
+	SendString(string);
 }
 
-ISR(INT1_vect)
+ISR(INT0_vect) // RESET
 {
-// 	modeACP++;
-// 	if (modeACP >= 3)
-// 	{
-// 		modeACP = 0;
-// 	}
+	int numOfSamp = 0;
+	int treshold = 0;
+	char acpMode = '0';
+	char workingMode = '0';
+	char command = '0';
 }
-
 
 void UARTSend(char Value)
 {
@@ -303,11 +251,6 @@ void SendString(char* str)
 	UARTSend('\r');
 	UARTSend('\n');
 }
-
-
-
-
-
 
 void NumToArr(int numbr)
 {	

@@ -15,7 +15,10 @@
 #define		BTN2	0x08
 #define		DIGITS	4
 
+ISR(TIMER0_COMP_vect);
+ISR(TIMER1_COMPA_vect);
 ISR(TIMER2_COMP_vect);
+
 
 void TimerInit();
 void NumToArr(int numbr);
@@ -23,8 +26,13 @@ unsigned char DecToDigit(unsigned char Dec);
 
 int j = 0;
 int arr[DIGITS];
-int num = 1488;
-int hr, mn, sc;
+int HH = 0;
+int MM = 0;
+int SS = 0;
+int time = 0;
+
+char string[128];
+char timeStr[128] = "Time is ";
 
 int main(void)
 {	
@@ -33,33 +41,32 @@ int main(void)
 	DDRD |= RED | GREEN | BLUE | BTN1 | BTN2;
 	MCUCR = 0x0F;
 	GICR = 0xC0;
-		
-	PORTA = 0x00;
-	PORTC = 0x00;
 	
 	TimerInit();
-		
-	PORTD = 0x0;
+	UARTInit();
+	
 	sei();
 	
 	while(1)
 	{
-		NumToArr(num);
+		
 	}
 }
 
 void TimerInit()
 {
 	//TIMER0
-	TCCR0 |= (1 << WGM01) | (1 << CS01) | (1 << CS00);
-	OCR0 = 20;
-	TIMSK |= (1 << OCIE0);
+// 	TCCR0 |= (1 << WGM00) | (1 << CS02) | (1 << CS00);
+// 	OCR0 = 256;
+// 	TIMSK |= (1 << OCIE0);
 
-// 	//TIMER1
-// 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
-// 	TCCR1B |= (1<<WGM12) | (1<<CS10);
-// 	OCR1A = 10;
-// 	TIMSK |= (1 << OCIE1A);		
+ 	//TIMER1	
+	TCNT1 |= 0;
+	OCR1A |= 15625;
+	TCCR1A |= (1 << FOC1A);
+	TCCR1B |= (1 << WGM12) | (1 << CS11) | (1 << CS10);
+	TIMSK |= (1 << OCIE1A);
+	
 	
 	//TIMER2
 	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
@@ -69,7 +76,26 @@ void TimerInit()
 
 ISR(TIMER0_COMP_vect)
 {	
-	
+	SS++;	
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+	SS++;
+	if (SS == 60)
+	{
+		MM++;
+		SS = 0;
+		if (MM == 60)
+		{
+			HH++;
+			MM = 0;
+		}
+	}
+	time = (HH * 100) + MM;
+	//time = (MM * 100) + SS;
+	itoa(string, )
+	SendString("Time is :" + HH + ":" + MM + ":" + SS);
 }
 
 ISR(TIMER2_COMP_vect)
@@ -79,9 +105,9 @@ ISR(TIMER2_COMP_vect)
 	
 	PORTC = DecToDigit(arr[j]);	
 	
-	if (j == 2)
+	if ((j == 2) && ((SS % 2) == 0))
 	{			
-		PORTC |= 0b10000000;	
+		PORTC ^= 0b10000000;	
 	}	
 		
 	PORTA = (1 << (7 - j));			
