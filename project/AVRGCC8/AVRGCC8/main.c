@@ -25,17 +25,18 @@ unsigned char DecToDigit(unsigned char Dec);
 
 int j = 0;
 int arr[DIGITS];
-int HH = 21;
-int MM = 43;
-int SS = 0;
+int HH = 3;
+int MM = 59;
+int SS = 50;
 int time = 0;
-char timeArr[8];
+char timeArr[10];
 
 char string[128];
 int sendTime = 0;
 int timeMode = 0;
 int flag = 0;
 char tmp[3];
+int blink = 0;
 
 int main(void)
 {	
@@ -58,45 +59,56 @@ int main(void)
 		{
 			while(1)
 			{			
-				SendString("Enter hours (HH)");			
+				SendString("Enter hours (HH)");
+				UARTSend('\r');
+ 				UARTSend('\n');
 				tmp[0] = UARTReceive();
 				tmp[1] = UARTReceive();				
 				HH = atoi(tmp);				
 				if (HH > 23)
 				{
 					SendString("Wrong hours");
+					UARTSend('\r');
+ 					UARTSend('\n');
 					break;
 				}
+				_delay_ms(100);
 				
-				SendString("Enter minutes (MM)");				
+				SendString("Enter minutes (MM)");
+				UARTSend('\r');
+ 				UARTSend('\n');				
 				tmp[0] = UARTReceive();
 				tmp[1] = UARTReceive();				
 				MM = atoi(tmp);				
 				if (MM > 59)
 				{
 					SendString("Wrong minutes");
+					UARTSend('\r');
+ 					UARTSend('\n');
 					break;
 				}
+				_delay_ms(100);
 				
-				SendString("Enter seconds (SS)");				
+				SendString("Enter seconds (SS)");
+				UARTSend('\r');
+ 				UARTSend('\n');				
 				tmp[0] = UARTReceive();
 				tmp[1] = UARTReceive();				
-				SS = atoi(tmp);			
-			
-			
-// 				PORTA = 0xF0;
-// 				PORTC = 0xFF;
-// 				_delay_ms(1000);
-// 				PORTC = 0x00;
-// 				_delay_ms(1000);
+				SS = atoi(tmp);	
+				if (SS > 59)
+				{
+					SendString("Wrong seconds");
+					UARTSend('\r');
+ 					UARTSend('\n');
+					break;
+				}	
+				_delay_ms(100);
+				timeMode = 0;	
+				break;
 			}			
 		}
-//		TimeArray(HH, MM, SS);
-//		SendString(timeArr);
-// 		if (sendTime == 1)
-// 		{
-// 			SendTime();
-// 		}		
+		
+			
 	}
 }
 
@@ -139,16 +151,33 @@ ISR(TIMER1_COMPA_vect)
 			{
 				HH++;
 				MM = 0;
+				if (HH == 24)
+				{
+					HH = 0;
+				}
+				if (HH > 12)
+				{
+					blink = (HH - 12) * 2;
+				}
+				else if (HH == 0)
+				{
+					blink = 24;					
+				}
+				else
+				{
+					blink = HH * 2;
+				}
 			}
 		}
 		time = (HH * 100) + MM;	
 		NumToArr(time);
 	}
-	else if (timeMode == 1)
-	{
-		
-	}
 	
+	if (blink != 0)	
+	{
+		PORTD ^= RED | GREEN | BLUE;
+		blink--;
+	}
 	
 	//time = (MM * 100) + SS;
 	
@@ -214,24 +243,6 @@ void SendTime()
 			
 	sendTime = 0;
 }
-
-// void TimeArray(int H, int M, int S)
-// {
-// 	int tmp = (S * 10000) + (M * 100) + H;
-// 	for (int k = 0; k < 8; k++)
-// 	{
-// 		if ((k == 2) || (k == 5))
-// 		{
-// 			timeArr[k] = ':';
-// 		}
-// 		else
-// 		{
-// 			timeArr[k] = (tmp % 10) + '0';
-// 			tmp /= 10;
-// 		}
-// 		
-// 	}
-// }
 
 void NumToArr(int numbr)
 {	
