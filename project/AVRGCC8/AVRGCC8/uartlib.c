@@ -42,6 +42,4 @@ void SendString(char* str)
 		str++;
 	}
 	//UARTSend(*str);
-	UARTSend('\r');
-	UARTSend('\n');
 }

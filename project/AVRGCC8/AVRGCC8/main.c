@@ -32,7 +32,7 @@ int SS = 0;
 int time = 0;
 
 char string[128];
-char timeStr[128] = "Time is ";
+int sendTime;
 
 int main(void)
 {	
@@ -49,7 +49,22 @@ int main(void)
 	
 	while(1)
 	{
-		
+		if (sendTime == 1)
+		{
+			SendString("Time is ");
+			itoa(HH, string, 10);
+			SendString(string);
+			UARTSend(':');
+			itoa(MM, string, 10);
+			SendString(string);
+			UARTSend(':');
+			itoa(SS, string, 10);
+			SendString(string);		
+			UARTSend('\r');
+			UARTSend('\n');
+			
+			sendTime = 0;
+		}		
 	}
 }
 
@@ -92,10 +107,20 @@ ISR(TIMER1_COMPA_vect)
 			MM = 0;
 		}
 	}
-	time = (HH * 100) + MM;
+	time = (HH * 100) + MM;	
+	NumToArr(time);
+	
+	sendTime = 1;
 	//time = (MM * 100) + SS;
-	itoa(string, )
-	SendString("Time is :" + HH + ":" + MM + ":" + SS);
+	
+// 	
+// 	timeStr = "Time is ";
+// 	itoa(HH, string, 10);
+// 	timeStr += string + ":";
+// 	itoa(MM, string, 10);
+// 	timeStr += string + ":";
+// 	itoa(SS, string, 10);
+// 	SendString(timeStr);
 }
 
 ISR(TIMER2_COMP_vect)
@@ -113,6 +138,23 @@ ISR(TIMER2_COMP_vect)
 	PORTA = (1 << (7 - j));			
 	j++;
 	j %= 4;
+}
+
+void SendTime()
+{
+	SendString("Time is ");
+	itoa(HH, string, 10);
+	SendString(string);
+	UARTSend(':');
+	itoa(MM, string, 10);
+	SendString(string);
+	UARTSend(':');
+	itoa(SS, string, 10);
+	SendString(string);		
+	UARTSend('\r');
+	UARTSend('\n');
+			
+	sendTime = 0;
 }
 
 void NumToArr(int numbr)
