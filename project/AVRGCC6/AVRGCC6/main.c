@@ -34,8 +34,8 @@ char txt = 'a';
 int main(void) 
 { 
 //----------------------	
-//	ColorToLCD();
-	UARTtoLCD();
+	ColorToLCD();
+//	UARTtoLCD();
 //----------------------
 	
 //	LCD_clear();
@@ -92,60 +92,60 @@ void ColorToLCD()
 	}
 }
 
-void UARTtoLCD()
-{
-	DDRD |= 0xFF;
-	DDRC |= (1<<PC0) | (1<<PC1);
-	MCUCR = 0x0F;
-	GICR = 0xC0;
-	
-	sei();
-	
-	I2C_Init(); 
-	_delay_ms(250); 
-	LCD_Init();
-	UARTInit();
-	_delay_ms(250); 
-	
-	LCD_clear();
-	while (1)
-	{
-		while (1)
-		{
-			txt = UARTReceive();
-			if (txt == '\r')
-			{
-				count = 0;
-				break;
-			}
-			else
-			{
-				string[count++] = txt;
-			}
-		}
-				
-//		SendString(string);
-		if (flag == 0)
-		{
-			LCD_clear();
-			LCD_setPosition(0, 0);
-			LCD_sendString(string);
-			flag++;
-		}	
-		else
-		{
-			LCD_setPosition(0, 1);
-			LCD_sendString(string);
-			flag--;
-		}
-		
-		for (int j = 0; j < 128; j++)
-		{
-			string[j] = '\0';
-		}
- 	}
-	
-}
+// void UARTtoLCD()
+// {
+// 	DDRD |= 0xFF;
+// 	DDRC |= (1<<PC0) | (1<<PC1);
+// 	MCUCR = 0x0F;
+// 	GICR = 0xC0;
+// 	
+// 	sei();
+// 	
+// 	I2C_Init(); 
+// 	_delay_ms(250); 
+// 	LCD_Init();
+// 	UARTInit();
+// 	_delay_ms(250); 
+// 	
+// 	LCD_clear();
+// 	while (1)
+// 	{
+// 		while (1)
+// 		{
+// 			txt = UARTReceive();
+// 			if (txt == '\r')
+// 			{
+// 				count = 0;
+// 				break;
+// 			}
+// 			else
+// 			{
+// 				string[count++] = txt;
+// 			}
+// 		}
+// 				
+// //		SendString(string);
+// 		if (flag == 0)
+// 		{
+// 			LCD_clear();
+// 			LCD_setPosition(0, 0);
+// 			LCD_sendString(string);
+// 			flag++;
+// 		}	
+// 		else
+// 		{
+// 			LCD_setPosition(0, 1);
+// 			LCD_sendString(string);
+// 			flag--;
+// 		}
+// 		
+// 		for (int j = 0; j < 128; j++)
+// 		{
+// 			string[j] = '\0';
+// 		}
+//  	}
+// 	
+// }
 
 void colorRGB(int R, int G, int B)
 {
@@ -159,84 +159,84 @@ void colorRGB(int R, int G, int B)
 
 }
 
-// ISR(INT0_vect)
-// {
-// 	count++;
-// 	if (count >= 8)
-// 	{
-// 		count = 1;
-// 	}
-// 	LCD_clear();
-// 	color(count);
-// }
-// 
-// ISR(INT1_vect)
-// {
-// 	count--;
-// 	if (count <= 0)
-// 	{
-// 		count = 7;
-// 	}
-// 	LCD_clear();
-// 	color(count);
-// }
+ISR(INT0_vect)
+{
+	count++;
+	if (count >= 8)
+	{
+		count = 1;
+	}
+	LCD_clear();
+	color(count);
+}
 
-// void color(int num)
-// {
-// 	switch (num)
-// 		{
-// 			case 1:
-// 				colorRGB(255,0,0);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(255, 0, 0)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Red");
-// 				break;
-// 			case 2:
-// 				colorRGB(255,165,0);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(255, 165, 0)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Orange");
-// 				break;
-// 			case 3:
-// 				colorRGB(255,255,0);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(255, 255, 0)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Yellow");
-// 				break;
-// 			case 4:
-// 				colorRGB(0,255,0);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(0, 255, 0)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Green");
-// 				break;
-// 			case 5:
-// 				colorRGB(0,255,255);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(0, 255, 255)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Cyan");
-// 				break;
-// 			case 6:
-// 				colorRGB(0,0,255);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(0, 0, 255)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Blue");
-// 				break;			
-// 			case 7:
-// 				colorRGB(128,0,128);				
-// 				LCD_setPosition(0,0);
-// 				LCD_sendString("(128, 0, 128)");
-// 				LCD_setPosition(0,1);
-// 				LCD_sendString("Violet");
-// 				break;
-// 			default:
-// 				colorRGB(0,0,0);
-// 				break;
-// 		}
-// }
+ISR(INT1_vect)
+{
+	count--;
+	if (count <= 0)
+	{
+		count = 7;
+	}
+	LCD_clear();
+	color(count);
+}
+
+void color(int num)
+{
+	switch (num)
+		{
+			case 1:
+				colorRGB(255,0,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 0, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Red");
+				break;
+			case 2:
+				colorRGB(255,165,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 165, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Orange");
+				break;
+			case 3:
+				colorRGB(255,255,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(255, 255, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Yellow");
+				break;
+			case 4:
+				colorRGB(0,255,0);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(0, 255, 0)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Green");
+				break;
+			case 5:
+				colorRGB(0,255,255);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(0, 255, 255)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Cyan");
+				break;
+			case 6:
+				colorRGB(0,0,255);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(0, 0, 255)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Blue");
+				break;			
+			case 7:
+				colorRGB(128,0,128);				
+				LCD_setPosition(0,0);
+				LCD_sendString("(128, 0, 128)");
+				LCD_setPosition(0,1);
+				LCD_sendString("Violet");
+				break;
+			default:
+				colorRGB(0,0,0);
+				break;
+		}
+}
 
