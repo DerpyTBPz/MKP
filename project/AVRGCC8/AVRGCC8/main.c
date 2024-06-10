@@ -192,12 +192,16 @@ ISR(TIMER1_COMPA_vect)
 		time = (HH * 100) + MM;			
 		NumToArr(time);
 		
-		if (segMode == 1)
-		{			
-			PORTC = 0x00;
-			PORTA = 0x00;
-			CalculateTemp();
-		}
+		PORTC = 0x00;
+		PORTA = 0x00;
+		CalculateTemp();
+		
+// 		if (segMode == 1)
+// 		{			
+// 			PORTC = 0x00;
+// 			PORTA = 0x00;
+// 			CalculateTemp();
+// 		}
 	}
 	
 	if (blink != 0)	
