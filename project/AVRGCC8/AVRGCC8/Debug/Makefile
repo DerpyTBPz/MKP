@@ -36,6 +36,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../main.c \
+../TWI.c \
 ../uartlib.c
 
 
@@ -47,21 +48,25 @@ ASM_SRCS +=
 
 OBJS +=  \
 main.o \
+TWI.o \
 uartlib.o
 
 
 OBJS_AS_ARGS +=  \
 main.o \
+TWI.o \
 uartlib.o
 
 
 C_DEPS +=  \
 main.d \
+TWI.d \
 uartlib.d
 
 
 C_DEPS_AS_ARGS +=  \
 main.d \
+TWI.d \
 uartlib.d
 
 
@@ -74,6 +79,8 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 # AVR32/GNU C Compiler
+
+
 
 
 

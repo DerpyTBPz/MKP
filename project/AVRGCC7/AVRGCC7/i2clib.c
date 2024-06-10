@@ -33,11 +33,25 @@ void I2C_TransmitByAddr(unsigned char data, unsigned char addr)
 	I2C_Transmit(data); 
 	I2C_Stop(); 
 } 
+	/*
+	st_start = 0x08,
+	st_restart = 0x10,
+	st_sla_w_ack = 0x18,
+	st_sla_w_noack = 0x20,
+	st_data_w_ack = 0x28,
+	st_data_w_noack = 0x30,
+	st_arb_lost = 0x38,
+	st_sla_r_ack = 0x40,
+	st_sla_r_noack = 0x48,
+	st_data_r_ack = 0x50,
+	st_data_r_noack = 0x58
+	*/
 
 void I2C_Read(char *data)
 {
 	TWCR = (1 << TWINT) | (1 << TWEN);
 	*data = TWDR;
+	while(!(TWCR & (1<<TWINT))); 	
 }
  
 void I2C_Stop(void) 

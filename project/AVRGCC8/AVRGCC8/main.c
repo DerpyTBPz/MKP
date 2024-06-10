@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "uartlib.h"
+#include "TWI.h"
 
 #define		RED		0x80
 #define		GREEN	0x20
@@ -20,23 +21,33 @@ ISR(TIMER1_COMPA_vect);
 ISR(TIMER2_COMP_vect);
 
 void TimerInit();
+void CalculateTemp();	
+void TempTo7Seg();
 void NumToArr(int numbr);
+void TempToArr(int temp);
 unsigned char DecToDigit(unsigned char Dec);
 
+mode = fast;
 int j = 0;
-int arr[DIGITS];
-int HH = 3;
+int n = 0;
+int timeArr[DIGITS];
+int tempArr[DIGITS];
+int HH = 11;
 int MM = 59;
 int SS = 50;
 int time = 0;
-char timeArr[10];
+long int temp = 270;
+double cTemp;
+char data[6] = {0};
+char sendData[2] = {0x2C, 0x06};
 
 char string[128];
-int sendTime = 0;
+char tmpStr[128];
 int timeMode = 0;
 int flag = 0;
 char tmp[3];
 int blink = 0;
+int segMode = 0;
 
 int main(void)
 {	
@@ -46,6 +57,7 @@ int main(void)
 	MCUCR = 0x0F;
 	GICR = 0xC0;
 	
+	_delay_ms(1);
 	TimerInit();
 	UARTInit();
 	
@@ -53,7 +65,18 @@ int main(void)
 	
 	while(1)
 	{
-		SendTime();
+		if (segMode == 0)
+		{
+			SendTime();
+		}
+		else
+		{	
+			//TempToArr(temp);
+			ltoa((long int)(cTemp), tmpStr, 10);
+			TempToArr((long int)(cTemp));
+			SendTemperature();
+			//TempTo7Seg();					
+		}
 		
 		if (timeMode == 1)
 		{
@@ -107,8 +130,6 @@ int main(void)
 				break;
 			}			
 		}
-		
-			
 	}
 }
 
@@ -116,7 +137,7 @@ void TimerInit()
 {
 	//TIMER0
 // 	TCCR0 |= (1 << WGM00) | (1 << CS02) | (1 << CS00);
-// 	OCR0 = 200;
+// 	OCR0 = 5;
 // 	TIMSK |= (1 << OCIE0);
 
  	//TIMER1	
@@ -126,15 +147,14 @@ void TimerInit()
 	TCCR1B |= (1 << WGM12) | (1 << CS11) | (1 << CS10);
 	TIMSK |= (1 << OCIE1A);
 	
-	
 	//TIMER2
 	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
-	OCR2 = 5;
+	OCR2 = 2;
 	TIMSK |= (1 << OCIE2);
 }
 
 ISR(TIMER0_COMP_vect)
-{	
+{
 	
 }
 
@@ -166,11 +186,18 @@ ISR(TIMER1_COMPA_vect)
 				else
 				{
 					blink = HH * 2;
-				}
+				}	
 			}
-		}
-		time = (HH * 100) + MM;	
+		}		
+		time = (HH * 100) + MM;			
 		NumToArr(time);
+		
+		if (segMode == 1)
+		{			
+			PORTC = 0x00;
+			PORTA = 0x00;
+			CalculateTemp();
+		}
 	}
 	
 	if (blink != 0)	
@@ -178,39 +205,40 @@ ISR(TIMER1_COMPA_vect)
 		PORTD ^= RED | GREEN | BLUE;
 		blink--;
 	}
-	
-	//time = (MM * 100) + SS;
-	
-// 	
-// 	timeStr = "Time is ";
-// 	itoa(HH, string, 10);
-// 	timeStr += string + ":";
-// 	itoa(MM, string, 10);
-// 	timeStr += string + ":";
-// 	itoa(SS, string, 10);
-// 	SendString(timeStr);
 }
 
 ISR(TIMER2_COMP_vect)
-{	
-	
-	if (timeMode == 0)
+{
+	if (segMode == 0)
 	{
-		
 		PORTC = 0x00;
 		PORTA = 0x00;
-			
-		PORTC = DecToDigit(arr[j]);
+		PORTC = DecToDigit(timeArr[j]);
 		
-		if ((j == 2) && ((SS % 2) == 0))
+		if ((j == 2) && ((SS % 2) == 0) && (segMode == 0))
 		{			
 			PORTC ^= 0b10000000;	
 		}	
-		
+			
 		PORTA = (1 << (7 - j));			
 		j++;
 		j %= 4;
-	}
+	}	
+	else
+	{
+		PORTC = 0x00;
+		PORTA = 0x00;
+		PORTC = DecToDigit(tempArr[j]);
+		
+		if (j == 3)
+		{			
+			PORTC |= 0b10000000;	
+		}
+		
+		PORTA = (1 << (7 - j));			
+		j++;		
+		j %= 4;
+	}		
 }
 
 ISR(INT0_vect)
@@ -227,6 +255,42 @@ ISR(INT0_vect)
 	}
 }
 
+ISR(INT1_vect)
+{
+	segMode++;
+	
+	if (segMode == 1)
+	{		
+		//TIMSK ^= (1 << OCIE2);		
+	}
+	else
+	{
+		//TIMSK ^= (1 << OCIE2);
+ 		segMode = 0;
+	}
+}
+
+void CalculateTemp()
+{	
+	TIMSK ^= (1 << OCIE2);
+	
+	TWBR = (mode == standard) ? 32 : 2;
+	TWSR &= ~(0b11 << TWPS0); // Clearing TWSP to 0
+	TWCR |= (1 << TWEN); // Enable TWI, generating the SCLK
+	_delay_ms(1);
+	
+	twi_master_tx_rx(0x44, sendData, 2, data, 6);
+	
+	temp = (data[0] * 256 + data[1]);
+	cTemp = ((double)(175 * temp / 65535.0) - 45) * 10;	
+	
+	TWBR = 0;
+	TWSR = 0;
+	TWCR = 0;
+	
+	TIMSK ^= (1 << OCIE2);
+}
+
 void SendTime()
 {
 	itoa(HH, string, 10);
@@ -240,16 +304,54 @@ void SendTime()
 	
  	UARTSend('\r');
  	UARTSend('\n');
-			
-	sendTime = 0;
+}
+
+void SendTemperature()
+{
+	itoa(tempArr[3], string, 10);
+	SendString(string);
+	itoa(tempArr[2], string, 10);
+	SendString(string);
+	SendString(".");
+	itoa(tempArr[1], string, 10);
+	SendString(string);
+	SendString(" C");
+	
+	UARTSend('\r');
+ 	UARTSend('\n');
+}
+
+void TempTo7Seg()
+{	
+	PORTC = DecToDigit(tempArr[0]);
+	PORTA = (1 << 7);
+	
+	PORTC = DecToDigit(tempArr[1]);
+	PORTA = (1 << 6);
+	
+	PORTC = DecToDigit(tempArr[2]);
+	PORTA = (1 << 5);
+	
+	PORTC = DecToDigit(tempArr[3]);
+	PORTA = (1 << 4);
 }
 
 void NumToArr(int numbr)
 {	
 	for (int k = 0; k < DIGITS; k++)
 	{		
-		arr[k] = numbr % 10;
+		timeArr[k] = numbr % 10;
 		numbr /= 10;
+	}
+}
+
+void TempToArr(int tempr)
+{	
+	tempArr[0] = 12;
+	for (int k = 1; k < DIGITS; k++)
+	{		
+		tempArr[k] = tempr % 10;
+		tempr /= 10;
 	}
 }
 
@@ -288,6 +390,24 @@ unsigned char DecToDigit(unsigned char Dec)
 			break;		
 		case 9:
 			Digit = 0b01101111;
+			break;
+		case 10:
+			Digit = 0b01110111;
+			break;
+		case 11:
+			Digit = 0b01111100;
+			break;
+		case 12:
+			Digit = 0b01011001;
+			break;
+		case 13:
+			Digit = 0b00111110;
+			break;
+		case 14:
+			Digit = 0b01111001;
+			break;
+		case 15:
+			Digit = 0b01110001;
 			break;
 		default:
 			Digit = 0b00000000;

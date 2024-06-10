@@ -56,6 +56,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TWI.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="i2clib.c">
       <SubType>compile</SubType>
     </Compile>
@@ -66,6 +69,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TWI.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="uartlib.c">
