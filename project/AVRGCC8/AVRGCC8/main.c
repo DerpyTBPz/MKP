@@ -1,14 +1,11 @@
-/*
- * AVRGCC8.c
- *
- * Created: 06.06.2024 21:24:17
- *  Author: Administrator
- */ 
+//main.c
 
+// Libraries
 #include "main.h"
 #include "uartlib.h"
 #include "TWI.h"
 
+// Consts
 #define		RED		0x80
 #define		GREEN	0x20
 #define		BLUE	0x10 
@@ -16,17 +13,24 @@
 #define		BTN2	0x08
 #define		DIGITS	4
 
+// Interrupts prototypes
 ISR(TIMER0_COMP_vect);
 ISR(TIMER1_COMPA_vect);
 ISR(TIMER2_COMP_vect);
+ISR(INT0_vect);
+ISR(INT1_vect);
 
+// Functions prototypes
 void TimerInit();
-void CalculateTemp();	
+void CalculateTemp();
+void SendTime();
+void SendTemperature();
 void TempTo7Seg();
 void NumToArr(int numbr);
 void TempToArr(int temp);
 unsigned char DecToDigit(unsigned char Dec);
 
+// All global variable
 mode = fast;
 int j = 0;
 int n = 0;
@@ -35,6 +39,7 @@ int tempArr[DIGITS];
 int HH = 11;
 int MM = 59;
 int SS = 50;
+int tmpTime;
 int time = 0;
 long int temp = 270;
 double cTemp;
@@ -65,11 +70,11 @@ int main(void)
 	
 	while(1)
 	{
-		if (segMode == 0)
+		if ((segMode == 0) && (timeMode < 1))
 		{
 			SendTime();
 		}
-		else
+		else if ((segMode == 1) && (timeMode < 1))
 		{	
 			//TempToArr(temp);
 			ltoa((long int)(cTemp), tmpStr, 10);
@@ -78,22 +83,32 @@ int main(void)
 			//TempTo7Seg();					
 		}
 		
-		if (timeMode == 1)
+		if (timeMode >= 1)
 		{
 			while(1)
-			{			
+			{	
+				HH = 0;
+				MM = 0;
+				SS = 0;		
 				SendString("Enter hours (HH)");
 				UARTSend('\r');
  				UARTSend('\n');
 				tmp[0] = UARTReceive();
 				tmp[1] = UARTReceive();				
-				HH = atoi(tmp);				
-				if (HH > 23)
+				tmpTime = atoi(tmp);				
+				if (tmpTime > 23)
 				{
 					SendString("Wrong hours");
 					UARTSend('\r');
  					UARTSend('\n');
 					break;
+				}
+				else
+				{
+					HH = tmpTime;
+					tmpTime = 0;
+					tmp[0] = 0;
+					tmp[1] = 0;
 				}
 				_delay_ms(100);
 				
@@ -102,13 +117,20 @@ int main(void)
  				UARTSend('\n');				
 				tmp[0] = UARTReceive();
 				tmp[1] = UARTReceive();				
-				MM = atoi(tmp);				
-				if (MM > 59)
+				tmpTime = atoi(tmp);				
+				if (tmpTime > 59)
 				{
 					SendString("Wrong minutes");
 					UARTSend('\r');
  					UARTSend('\n');
 					break;
+				}
+				else
+				{
+					MM = tmpTime;
+					tmpTime = 0;
+					tmp[0] = 0;
+					tmp[1] = 0;
 				}
 				_delay_ms(100);
 				
@@ -117,13 +139,20 @@ int main(void)
  				UARTSend('\n');				
 				tmp[0] = UARTReceive();
 				tmp[1] = UARTReceive();				
-				SS = atoi(tmp);	
-				if (SS > 59)
+				tmpTime = atoi(tmp);	
+				if (tmpTime > 59)
 				{
 					SendString("Wrong seconds");
 					UARTSend('\r');
  					UARTSend('\n');
 					break;
+				}
+				else
+				{
+					SS = tmpTime;
+					tmpTime = 0;
+					tmp[0] = 0;
+					tmp[1] = 0;
 				}	
 				_delay_ms(100);
 				timeMode = 0;	
@@ -131,31 +160,6 @@ int main(void)
 			}			
 		}
 	}
-}
-
-void TimerInit()
-{
-	//TIMER0
-// 	TCCR0 |= (1 << WGM00) | (1 << CS02) | (1 << CS00);
-// 	OCR0 = 5;
-// 	TIMSK |= (1 << OCIE0);
-
- 	//TIMER1	
-	TCNT1 |= 0;
-	OCR1A |= 15625;
-	TCCR1A |= (1 << FOC1A);
-	TCCR1B |= (1 << WGM12) | (1 << CS11) | (1 << CS10);
-	TIMSK |= (1 << OCIE1A);
-	
-	//TIMER2
-	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
-	OCR2 = 2;
-	TIMSK |= (1 << OCIE2);
-}
-
-ISR(TIMER0_COMP_vect)
-{
-	
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -192,16 +196,16 @@ ISR(TIMER1_COMPA_vect)
 		time = (HH * 100) + MM;			
 		NumToArr(time);
 		
-		PORTC = 0x00;
-		PORTA = 0x00;
-		CalculateTemp();
+// 		PORTC = 0x00;
+// 		PORTA = 0x00;
+// 		CalculateTemp();
 		
-// 		if (segMode == 1)
-// 		{			
-// 			PORTC = 0x00;
-// 			PORTA = 0x00;
-// 			CalculateTemp();
-// 		}
+		if (segMode == 1)
+		{			
+			PORTC = 0x00;
+			PORTA = 0x00;
+			CalculateTemp();
+		}
 	}
 	
 	if (blink != 0)	
@@ -248,15 +252,6 @@ ISR(TIMER2_COMP_vect)
 ISR(INT0_vect)
 {
 	timeMode++;
-	
-	if (timeMode == 1)
-	{
-		
-	}
-	else
-	{		
-		timeMode = 0;
-	}
 }
 
 ISR(INT1_vect)
@@ -265,6 +260,9 @@ ISR(INT1_vect)
 	
 	if (segMode == 1)
 	{		
+		PORTC = 0x00;
+		PORTA = 0x00;
+		CalculateTemp();
 		//TIMSK ^= (1 << OCIE2);		
 	}
 	else
@@ -274,13 +272,28 @@ ISR(INT1_vect)
 	}
 }
 
+void TimerInit()
+{
+ 	//TIMER1	
+	TCNT1 |= 0;
+	OCR1A |= 15625;
+	TCCR1A |= (1 << FOC1A);
+	TCCR1B |= (1 << WGM12) | (1 << CS11) | (1 << CS10);
+	TIMSK |= (1 << OCIE1A);
+	
+	//TIMER2
+	TCCR2 |= (1<<WGM21) | (1<<CS22) | (1<<CS21);
+	OCR2 = 2;
+	TIMSK |= (1 << OCIE2);
+}
+
 void CalculateTemp()
 {	
 	TIMSK ^= (1 << OCIE2);
 	
 	TWBR = (mode == standard) ? 32 : 2;
-	TWSR &= ~(0b11 << TWPS0); // Clearing TWSP to 0
-	TWCR |= (1 << TWEN); // Enable TWI, generating the SCLK
+	TWSR &= ~(0b11 << TWPS0); 
+	TWCR |= (1 << TWEN); 
 	_delay_ms(1);
 	
 	twi_master_tx_rx(0x44, sendData, 2, data, 6);
@@ -416,7 +429,6 @@ unsigned char DecToDigit(unsigned char Dec)
 		default:
 			Digit = 0b00000000;
 			break;			
- 	}	
-	 
+ 	}		 
 	return Digit;
 }

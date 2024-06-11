@@ -1,9 +1,4 @@
-/*
- * CProgram1.c
- *
- * Created: 09.06.2024 11:32:31
- *  Author: dimap
- */ 
+//TWI.c
 
 #include "main.h"
 #include "TWI.h"

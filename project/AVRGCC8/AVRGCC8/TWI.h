@@ -1,10 +1,4 @@
-/*
- * TWI.h
- *
- * Created: 09.06.2024 11:33:18
- *  Author: dimap
- */ 
-
+//TWI.h
 
 #ifndef TWI_H_
 #define TWI_H_

@@ -1,10 +1,4 @@
-/*
- * uartlib.h
- *
- * Created: 04.06.2024 22:10:58
- *  Author: Administrator
- */ 
-
+//uartlib.h
 
 #ifndef UARTLIB_H_
 #define UARTLIB_H_

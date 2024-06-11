@@ -36,7 +36,8 @@ int main(void)
 			}
 			else if (comm == '2')
 			{
-				twi_master_tx_rx(0x44, sendData, 2, data, 6);
+				//twi_master_tx_rx(0x44, sendData, 2, data, 6);
+				ReadTemp();
 				temp = (data[0] * 256 + data[1]);
 				itoa(temp, str, 10);
  				SendString(str);

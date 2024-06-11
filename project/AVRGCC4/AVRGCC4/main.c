@@ -29,7 +29,6 @@ void SwitchACPMode(int mode);
 unsigned char DecToDigit(unsigned char Dec);
 void NumToArr(int numbr);
 
-/*int num = 0;*/
 int wait = 0;
 
 int enACP = 0;
@@ -54,21 +53,12 @@ int main(void)
 		
  	TimerInit();
  	ACPInit();
-	
-// 	ADMUX |= (1<<REFS0) | (1<<MUX1); 
-// 	ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
 
 	sei();
 	
 	while(1)
 	{	
-//		NumToArr(res);
 		
-//		ToggleACP(enACP);
-//		SwitchACPMode(modeACP);		
-		
-//  		volt = (float)((0.5 * res) / 1024) * 10000;
-//   		NumToArr(volt);
 	}		
 
 }
@@ -78,17 +68,10 @@ void TimerInit()
 	MCUCR = 0x0F;
 	GICR = 0xC0;
 	
-	//TIMER0
-// 	TCCR0 |= (1 << WGM01) | (1 << CS01) | (1 << CS00);
-// 	OCR0 = 20;
-//  TIMSK |= (1 << OCIE0);
-
 	//TIMER1
 	TCCR1A |= (1<<COM1A1) | (1<<COM1B1) | (1<<WGM10);
 	TCCR1B |= (1<<WGM12) | (1<<CS10);
 	OCR1A = 4;
-//	TIMSK |= (1 << OCIE1A);	
-//	TIMSK |= (1 << TOIE1);
 	TIFR |= (1 << TOV1);
 	
 	//TIMER2
@@ -120,25 +103,10 @@ ISR(ADC_vect)
 	}	
 }
 
-// ISR(TIMER1_OVF_vect)
-// {
-// 	if (enACP == 0)
-// 	{
-// 		res = 0;
-// 		volt = 0;
-// 	}
-// 	else 
-// 	{
-// 		res = ADCL;
-// 		res |= (ADCH << 8);
-// 	}
-// }
-
 ISR(TIMER2_COMP_vect)
 {	
 	PORTC = 0x00;
-	PORTA = 0x00;
-	//DDRD = 0xB0;
+	PORTA = 0x00;	
 	
 	if (modeACP != 0)
 	{
@@ -187,38 +155,17 @@ ISR(INT1_vect)
 }
 
 void ToggleACP(int en)
-{
-	//ADCSRA ^= (1<<ADEN);
-	
+{	
 	if (en == 0)
 	{
 		PORTD = RED;
-// 		res = 0;
-// 		volt = 0;
 		ADCSRA = (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
 	}
 	else if (en == 1)
 	{
 		PORTD = GREEN;	
 		ADCSRA = (1<<ADEN) | (1<<ADSC) | (1<<ADIE) | (1<<ADATE);
-	}
-
-// 	if (res != 0)
-// 	{
-// 		PORTD ^= RED;
-// 		PORTD ^= GREEN;
-// 	
-// 		ADCSRA ^= (1<<ADEN);
-// 	}
-// 	else 
-// 	{
-// 		ADCSRA |= (1<<ADEN);	
-// 	}
-	
-// 	PORTD ^= RED;
-// 	PORTD ^= GREEN;
-// 	
-// 	ADCSRA ^= (1<<ADEN);		 
+	} 
 }
 
 
@@ -243,19 +190,6 @@ void SwitchACPMode(int mode)
 			break;
 			
 	}
-	
-// 	if (mode == 0)
-// 	{
-// 		PORTC = 0x0;
-// 	}
-// 	else if (mode == 1)
-// 	{
-// 		
-// 	}
-// 	else if (mode == 1)
-// 	{
-// 		
-// 	}
 }
 
 void NumToArr(int numbr)
