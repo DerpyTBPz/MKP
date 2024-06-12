@@ -70,17 +70,17 @@ int main(void)
 	
 	while(1)
 	{
-		if ((segMode == 0) && (timeMode < 1))
+		if ((segMode == 0) && (timeMode < 1) && (flag != 0))
 		{
 			SendTime();
+			flag = 0;
 		}
-		else if ((segMode == 1) && (timeMode < 1))
+		else if ((segMode == 1) && (timeMode < 1) && (flag != 0))
 		{	
-			//TempToArr(temp);
 			ltoa((long int)(cTemp), tmpStr, 10);
 			TempToArr((long int)(cTemp));
 			SendTemperature();
-			//TempTo7Seg();					
+			flag = 0;				
 		}
 		
 		if (timeMode >= 1)
@@ -196,9 +196,7 @@ ISR(TIMER1_COMPA_vect)
 		time = (HH * 100) + MM;			
 		NumToArr(time);
 		
-// 		PORTC = 0x00;
-// 		PORTA = 0x00;
-// 		CalculateTemp();
+		flag = 1;
 		
 		if (segMode == 1)
 		{			

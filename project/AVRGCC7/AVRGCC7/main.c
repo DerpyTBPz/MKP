@@ -13,6 +13,7 @@
 char sendData[2] = {0x2C, 0x06};	
 char comm;
 int temp;
+int hum;
 char data[6] = {0};
 char str[8];
 
@@ -36,37 +37,24 @@ int main(void)
 			}
 			else if (comm == '2')
 			{
-				//twi_master_tx_rx(0x44, sendData, 2, data, 6);
-				ReadTemp();
+				twi_master_tx_rx(0x44, sendData, 2, data, 6);				
 				temp = (data[0] * 256 + data[1]);
 				itoa(temp, str, 10);
  				SendString(str);
+			}
+			else if (comm == '4')
+			{
+				twi_master_tx_rx(0x44, sendData, 2, data, 6);
+				hum = (data[3] * 256 + data[4]);
+				itoa(hum, str, 10);
+				SendString(str);
 			}
 			else if (comm == '3')
 			{
 				twi_shut();
 			}
+			comm = 0;
 		}
-		
-// 		twi_init(fast);
-// 		
-// //		ReadTemp(0x2C, 0x06, 0x44, data);
-// 		twi_master_tx_rx(0x44, sendData, 2, data, 6);
-// 		
-// 		int temp = (data[0] * 256 + data[1]);
-// 		float cTemp = -45 + (175 * temp / 65535.0);
-// 		float fTemp = -49 + (315 * temp / 65535.0);
-// 		float humidity = 100 * (data[3] * 256 + data[4]) / 65535.0;
-// 		
-// 		itoa(temp, str, 10);
-//  		SendString(str);
-// 		
-// 		twi_shut();
-// 		
-// 		
-// 
-// 		
-// 		_delay_ms(500);
     }
 }
 
